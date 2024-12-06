@@ -5,4 +5,3 @@ data class OtpState(
     val focusedIndex: Int? = null,
     val isValid: Boolean? = null
 )
-

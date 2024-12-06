@@ -142,7 +142,7 @@ val typography = Typography(
     ),
     titleLarge = TextStyle(
         fontFamily = Nunito,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Bold,
         fontSize = 18.sp
     ),
     titleMedium = TextStyle(

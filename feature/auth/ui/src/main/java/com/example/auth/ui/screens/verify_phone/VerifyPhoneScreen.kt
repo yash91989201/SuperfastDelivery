@@ -1,6 +1,5 @@
 package com.example.auth.ui.screens.verify_phone
 
-import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,7 +18,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -52,18 +50,21 @@ fun VerifyPhoneScreen(
     val focusManager = LocalFocusManager.current
     val keyboardManager = LocalSoftwareKeyboardController.current
 
-    LaunchedEffect(key1 = state.code, key2 = keyboardManager) {
-        val allNumbersEntered = state.code.none { it == null }
-        if (allNumbersEntered) {
-            focusRequesters.forEach { it.freeFocus() }
-            focusManager.clearFocus()
-            keyboardManager?.hide()
+    LaunchedEffect(state.focusedIndex) {
+        state.focusedIndex?.let { index ->
+            focusRequesters.getOrNull(index)?.requestFocus()
         }
     }
 
-    LaunchedEffect(key1 = state.focusedIndex) {
-        state.focusedIndex?.let { index ->
-            focusRequesters.getOrNull(index)?.requestFocus()
+    LaunchedEffect(state.code, keyboardManager) {
+        val allNumbersEntered = state.code.none { it == null }
+
+        if (allNumbersEntered) {
+            focusRequesters.forEach {
+                it.freeFocus()
+            }
+            focusManager.clearFocus()
+            keyboardManager?.hide()
         }
     }
 
@@ -128,7 +129,6 @@ fun VerifyPhoneScreen(
 
                     otpViewModel.onAction(action)
                 },
-                modifier = Modifier.padding(vertical = 48.dp)
             )
 
             Row(
@@ -158,7 +158,7 @@ fun VerifyPhoneScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(60.dp))
+            Spacer(modifier = Modifier.height(48.dp))
 
             Button(
                 onClick = {},

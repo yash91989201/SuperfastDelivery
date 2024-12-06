@@ -16,54 +16,58 @@ class OtpViewModel @Inject constructor() : ViewModel() {
     val state = _state.asStateFlow()
 
     fun onAction(action: OtpAction) {
-        when(action) {
+        when (action) {
             is OtpAction.OnChangeFieldFocused -> {
-                _state.update { it.copy(
-                    focusedIndex = action.index
-                ) }
+                _state.update {
+                    it.copy(
+                        focusedIndex = action.index
+                    )
+                }
             }
+
             is OtpAction.OnEnterNumber -> {
                 enterNumber(action.number, action.index)
             }
-            OtpAction.OnKeyboardBack -> {
-                val previousIndex = getPreviousFocusedIndex(state.value.focusedIndex)
-                _state.update { it.copy(
-                    code = it.code.mapIndexed { index, number ->
-                        if(index == previousIndex) {
-                            null
-                        } else {
-                            number
-                        }
-                    },
-                    focusedIndex = previousIndex
-                ) }
+
+                is OtpAction.OnKeyboardBack -> {
+                    val previousIndex = getPreviousFocusedIndex(state.value.focusedIndex)
+                    _state.update {
+                    it.copy(
+                        code = it.code.mapIndexed { index, number ->
+                            if (index == previousIndex) null else number
+                        },
+                        focusedIndex = previousIndex
+                    )
+                }
             }
         }
     }
 
     private fun enterNumber(number: Int?, index: Int) {
         val newCode = state.value.code.mapIndexed { currentIndex, currentNumber ->
-            if(currentIndex == index) {
+            if (currentIndex == index) {
                 number
             } else {
                 currentNumber
             }
         }
         val wasNumberRemoved = number == null
-        _state.update { it.copy(
-            code = newCode,
-            focusedIndex = if(wasNumberRemoved || it.code.getOrNull(index) != null) {
-                it.focusedIndex
-            } else {
-                getNextFocusedTextFieldIndex(
-                    currentCode = it.code,
-                    currentFocusedIndex = it.focusedIndex
-                )
-            },
-            isValid = if(newCode.none { it == null }) {
-                newCode.joinToString("") == VALID_OTP
-            } else null
-        ) }
+        _state.update {
+            it.copy(
+                code = newCode,
+                focusedIndex = if (wasNumberRemoved || it.code.getOrNull(index) != null) {
+                    it.focusedIndex
+                } else {
+                    getNextFocusedTextFieldIndex(
+                        currentCode = it.code,
+                        currentFocusedIndex = it.focusedIndex
+                    )
+                },
+                isValid = if (newCode.none { it == null }) {
+                    newCode.joinToString("") == VALID_OTP
+                } else null
+            )
+        }
     }
 
     private fun getPreviousFocusedIndex(currentIndex: Int?): Int? {
@@ -74,11 +78,11 @@ class OtpViewModel @Inject constructor() : ViewModel() {
         currentCode: List<Int?>,
         currentFocusedIndex: Int?
     ): Int? {
-        if(currentFocusedIndex == null) {
+        if (currentFocusedIndex == null) {
             return null
         }
 
-        if(currentFocusedIndex == 3) {
+        if (currentFocusedIndex == 3) {
             return currentFocusedIndex
         }
 
@@ -93,10 +97,10 @@ class OtpViewModel @Inject constructor() : ViewModel() {
         currentFocusedIndex: Int
     ): Int {
         code.forEachIndexed { index, number ->
-            if(index <= currentFocusedIndex) {
+            if (index <= currentFocusedIndex) {
                 return@forEachIndexed
             }
-            if(number == null) {
+            if (number == null) {
                 return index
             }
         }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -50,18 +51,21 @@ fun VerifyEmailScreen(
     val focusManager = LocalFocusManager.current
     val keyboardManager = LocalSoftwareKeyboardController.current
 
-    LaunchedEffect(key1 = state.code, key2 = keyboardManager) {
-        val allNumbersEntered = state.code.none { it == null }
-        if (allNumbersEntered) {
-            focusRequesters.forEach { it.freeFocus() }
-            focusManager.clearFocus()
-            keyboardManager?.hide()
+    LaunchedEffect(state.focusedIndex) {
+        state.focusedIndex?.let { index ->
+            focusRequesters.getOrNull(index)?.requestFocus()
         }
     }
 
-    LaunchedEffect(key1 = state.focusedIndex) {
-        state.focusedIndex?.let { index ->
-            focusRequesters.getOrNull(index)?.requestFocus()
+    LaunchedEffect(state.code, keyboardManager) {
+        val allNumbersEntered = state.code.none { it == null }
+
+        if (allNumbersEntered) {
+            focusRequesters.forEach {
+                it.freeFocus()
+            }
+            focusManager.clearFocus()
+            keyboardManager?.hide()
         }
     }
 
@@ -123,8 +127,8 @@ fun VerifyEmailScreen(
 
                         else -> Unit
                     }
+                    otpViewModel.onAction(action)
                 },
-                modifier = Modifier.padding(vertical = 24.dp)
             )
 
             Row(
@@ -154,7 +158,7 @@ fun VerifyEmailScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(60.dp))
+            Spacer(modifier = Modifier.height(48.dp))
 
             Button(
                 onClick = {},

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material3.Button
@@ -77,8 +76,12 @@ fun SignInScreen(
                 shape = AppTheme.shape.medium,
                 leadingIcon = {
                     Row(
+                        horizontalArrangement = Arrangement.spacedBy(
+                            8.dp,
+                            Alignment.CenterHorizontally
+                        ),
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(horizontal = 16.dp)
+                        modifier = Modifier.padding(start = 16.dp, end = 4.dp)
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.india_flag),
@@ -86,10 +89,9 @@ fun SignInScreen(
                             tint = Color.Unspecified,
                             modifier = Modifier.size(24.dp)
                         )
-                        Spacer(modifier = Modifier.width(12.dp))
                         Text(
                             text = "+91",
-                            style = AppTheme.typography.bodyMedium,
+                            style = AppTheme.typography.bodySmall,
                             fontWeight = FontWeight.SemiBold,
                             color = AppTheme.colorScheme.tertiary
                         )
@@ -98,7 +100,7 @@ fun SignInScreen(
                 placeholder = {
                     Text(
                         text = "8547 9621 584",
-                        style = AppTheme.typography.bodyMedium,
+                        style = AppTheme.typography.bodySmall,
                         color = AppTheme.colorScheme.tertiary,
                         fontWeight = FontWeight.SemiBold,
                     )
@@ -132,7 +134,7 @@ fun SignInScreen(
             ) {
                 Text(
                     text = "Continue",
-                    style = AppTheme.typography.titleLarge,
+                    style = AppTheme.typography.titleMedium,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(vertical = 8.dp)
@@ -151,27 +153,29 @@ fun SignInScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 HorizontalDivider(
-                    thickness = 1.5.dp,
+                    thickness = 1.25.dp,
                     color = AppTheme.colorScheme.tertiaryContainer,
                     modifier = Modifier.weight(1f)
                 )
                 Text(
-                    text = "Sign in with",
-                    style = AppTheme.typography.bodyMedium,
-                    color = AppTheme.colorScheme.onSurfaceVariant,
+                    text = "Or Sign in with",
+                    style = AppTheme.typography.titleSmall,
+                    color = Gray80,
                     fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    modifier = Modifier.padding(horizontal = 12.dp)
                 )
                 HorizontalDivider(
-                    thickness = 1.5.dp,
+                    thickness = 1.25.dp,
                     color = AppTheme.colorScheme.tertiaryContainer,
                     modifier = Modifier.weight(1f)
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            Row {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
+            ) {
                 Button(
                     elevation = ButtonDefaults.elevatedButtonElevation(
                         defaultElevation = 3.dp
@@ -189,15 +193,14 @@ fun SignInScreen(
                         painter = painterResource(R.drawable.google),
                         contentDescription = "Google",
                         tint = Color.Unspecified,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(20.dp)
                     )
                     Text(
                         text = "Google",
-                        style = AppTheme.typography.titleMedium,
+                        style = AppTheme.typography.titleSmall,
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
                     )
                 }
-                Spacer(modifier = Modifier.width(16.dp))
                 Button(
                     elevation = ButtonDefaults.elevatedButtonElevation(
                         defaultElevation = 3.dp
@@ -214,11 +217,11 @@ fun SignInScreen(
                     Icon(
                         imageVector = Icons.Rounded.Email,
                         contentDescription = "Google",
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(20.dp)
                     )
                     Text(
                         text = "E-mail",
-                        style = AppTheme.typography.titleMedium,
+                        style = AppTheme.typography.titleSmall,
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
                     )
                 }
