@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.superfastdelivery"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -32,6 +32,7 @@ android {
         }
     }
     compileOptions {
+//        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -47,6 +48,8 @@ dependencies {
     // module
     implementation(project(":common"))
     implementation(project(":feature:auth:ui"))
+    implementation(project(":feature:auth:domain"))
+    implementation(project(":feature:auth:data"))
     implementation(project(":feature:search:ui"))
     // splash screen
     implementation(libs.androidx.core.splashscreen)
@@ -57,6 +60,8 @@ dependencies {
     implementation(libs.navigation.compose)
     // serialization
     implementation(libs.kotlinx.serialization.json)
+    // core library desugaring required for apollo-adapters-kotlinx-datetime but for api level < 26
+//    coreLibraryDesugaring(libs.desugar.jdk.libs)
     //
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

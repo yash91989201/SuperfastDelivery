@@ -29,9 +29,9 @@ class OtpViewModel @Inject constructor() : ViewModel() {
                 enterNumber(action.number, action.index)
             }
 
-                is OtpAction.OnKeyboardBack -> {
-                    val previousIndex = getPreviousFocusedIndex(state.value.focusedIndex)
-                    _state.update {
+            is OtpAction.OnKeyboardBack -> {
+                val previousIndex = getPreviousFocusedIndex(state.value.focusedIndex)
+                _state.update {
                     it.copy(
                         code = it.code.mapIndexed { index, number ->
                             if (index == previousIndex) null else number
@@ -43,6 +43,15 @@ class OtpViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    fun getOtp(): String? {
+        val code = _state.value.code
+        return if (code.all { it != null }) {
+            code.joinToString("") { it.toString() }
+        } else {
+            null
+        }
+    }
+
     private fun enterNumber(number: Int?, index: Int) {
         val newCode = state.value.code.mapIndexed { currentIndex, currentNumber ->
             if (currentIndex == index) {
@@ -51,6 +60,7 @@ class OtpViewModel @Inject constructor() : ViewModel() {
                 currentNumber
             }
         }
+
         val wasNumberRemoved = number == null
         _state.update {
             it.copy(

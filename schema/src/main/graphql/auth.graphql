@@ -1,0 +1,80 @@
+mutation SignInWithEmail( $input: SignInWithEmailInput!){
+    SignInWithEmail( input: $input){
+        auth {
+            id
+            email
+            email_verified
+            phone
+            role
+            created_at
+            updated_at
+            deleted_at
+        }
+        profile {
+            id
+            name
+            image_url
+            gender
+            dob
+            anniversary
+            auth_id
+            created_at
+            updated_at
+        }
+        verify_otp
+    }
+}
+
+mutation SignInWithPhone( $input: SignInWithPhoneInput!){
+    SignInWithPhone( input: $input){
+        auth {
+            id
+            email
+            email_verified
+            phone
+            role
+            created_at
+            updated_at
+            deleted_at
+        }
+        profile {
+            id
+            name
+            image_url
+            gender
+            dob
+            anniversary
+            auth_id
+            created_at
+            updated_at
+        }
+        verify_otp
+    }
+}
+
+mutation SignInWithGoogle( $input: SignInWithGoogleInput!){
+    SignInWithGoogle( input: $input){
+        auth {
+            id
+            email
+            email_verified
+            phone
+            role
+            created_at
+            updated_at
+            deleted_at
+        }
+        profile {
+            id
+            name
+            image_url
+            gender
+            dob
+            anniversary
+            auth_id
+            created_at
+            updated_at
+        }
+        verify_otp
+    }
+}

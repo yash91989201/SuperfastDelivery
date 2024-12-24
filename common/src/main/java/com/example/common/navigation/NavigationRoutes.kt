@@ -24,11 +24,11 @@ sealed class NavigationSubGraphDest {
     data object EmailSignIn : NavigationSubGraphDest()
 
     @Serializable
-    data object VerifyEmail : NavigationSubGraphDest()
+    data class VerifyEmail(val email: String) : NavigationSubGraphDest()
 
     @Serializable
     data object VerifyPhone : NavigationSubGraphDest()
 
     @Serializable
-    data object Search: NavigationSubGraphDest()
+    data object Search : NavigationSubGraphDest()
 }

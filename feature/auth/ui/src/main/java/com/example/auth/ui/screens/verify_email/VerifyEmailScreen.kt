@@ -33,31 +33,53 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.flowWithLifecycle
 import com.example.auth.ui.components.otp_field.OtpAction
 import com.example.auth.ui.components.otp_field.OtpField
 import com.example.auth.ui.components.otp_field.OtpViewModel
 import com.example.common.ui.theme.AppTheme
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun VerifyEmailScreen(
-    onGoBack: () -> Unit
+    email: String,
+    viewModel: VerifyEmailViewModel,
+    onGoBack: () -> Unit,
+    onContinue: () -> Unit,
 ) {
 
+    val lifecycleOwner = LocalLifecycleOwner.current
     val otpViewModel = hiltViewModel<OtpViewModel>()
-    val state by otpViewModel.state.collectAsState()
+    val otpState by otpViewModel.state.collectAsState()
 
     val focusRequesters = remember { List(4) { FocusRequester() } }
     val focusManager = LocalFocusManager.current
     val keyboardManager = LocalSoftwareKeyboardController.current
 
-    LaunchedEffect(state.focusedIndex) {
-        state.focusedIndex?.let { index ->
+    LaunchedEffect(key1 = viewModel.navigation) {
+        viewModel.navigation.flowWithLifecycle(lifecycleOwner.lifecycle)
+            .collectLatest { navigation ->
+                when (navigation) {
+                    VerifyEmail.Navigation.GoToHomeScreen -> {
+                        onContinue()
+                    }
+
+                    VerifyEmail.Navigation.GoToProfileScreen -> {
+                        onContinue()
+                    }
+                }
+            }
+    }
+
+    LaunchedEffect(otpState.focusedIndex) {
+        otpState.focusedIndex?.let { index ->
             focusRequesters.getOrNull(index)?.requestFocus()
         }
     }
 
-    LaunchedEffect(state.code, keyboardManager) {
-        val allNumbersEntered = state.code.none { it == null }
+    LaunchedEffect(otpState.code, keyboardManager) {
+        val allNumbersEntered = otpState.code.none { it == null }
 
         if (allNumbersEntered) {
             focusRequesters.forEach {
@@ -114,7 +136,7 @@ fun VerifyEmailScreen(
             )
 
             OtpField(
-                state = state,
+                state = otpState,
                 focusRequesters = focusRequesters,
                 onAction = { action ->
                     when (action) {
@@ -160,7 +182,10 @@ fun VerifyEmailScreen(
             Spacer(modifier = Modifier.height(48.dp))
 
             Button(
-                onClick = {},
+                onClick = {
+                    val otp = otpViewModel.getOtp() ?: return@Button
+                    viewModel.onEvent(VerifyEmail.Event.VerifyEmail(email = email, otp = otp))
+                },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
