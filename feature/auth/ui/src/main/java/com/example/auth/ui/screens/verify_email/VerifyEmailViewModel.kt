@@ -32,15 +32,15 @@ class VerifyEmailViewModel @Inject constructor(
 
     fun onEvent(event: VerifyEmail.Event) {
         when (event) {
-            VerifyEmail.Event.GoToHomeScreen -> {
+            VerifyEmail.Event.GoToSearchHomeScreen -> {
                 viewModelScope.launch {
-                    _navigation.send(VerifyEmail.Navigation.GoToHomeScreen)
+                    _navigation.send(VerifyEmail.Navigation.GoToSearchHomeScreen)
                 }
             }
 
-            VerifyEmail.Event.GoToProfileScreen -> {
+            is VerifyEmail.Event.GoToAccountProfileScreen -> {
                 viewModelScope.launch {
-                    _navigation.send(VerifyEmail.Navigation.GoToProfileScreen)
+                    _navigation.send(VerifyEmail.Navigation.GoToAccountProfileScreen)
                 }
             }
 
@@ -60,8 +60,8 @@ class VerifyEmailViewModel @Inject constructor(
                 is NetworkResult.Error -> {
                     _uiState.update {
                         it.copy(
-                            isLoading = false,
-                            error = UiText.RemoteString(result.message ?: "Unknown Error")
+                            isVerifyingOtp = false,
+                            verifyOtpError = UiText.RemoteString(result.message ?: "Unknown Error")
                         )
                     }
                 }
@@ -69,16 +69,57 @@ class VerifyEmailViewModel @Inject constructor(
                 is NetworkResult.Loading -> {
                     _uiState.update {
                         it.copy(
-                            isLoading = true
+                            isVerifyingOtp = true
                         )
                     }
                 }
 
                 is NetworkResult.Success -> {
+                    _uiState.update {
+                        it.copy(
+                            isVerifyingOtp = false
+                        )
+                    }
+
                     result.data?.let {
-                        if (it.profile == null) {
-                            _navigation.send(VerifyEmail.Navigation.GoToHomeScreen)
+                        if (it.createProfile) {
+                            _navigation.send(
+                                VerifyEmail.Navigation.GoToAccountProfileScreen
+                            )
                         }
+                    }
+                }
+            }
+        }
+            .launchIn(viewModelScope)
+    }
+
+    private fun resendEmail(email: String) {
+        signInWithEmailUseCase.invoke(email = email).onEach { result ->
+            when (result) {
+                is NetworkResult.Error -> {
+                    _uiState.update {
+                        it.copy(
+                            isResendingOtp = false,
+                            resendOtpError = UiText.RemoteString(result.message ?: "Unknown Error")
+                        )
+                    }
+                }
+
+                is NetworkResult.Loading -> {
+                    _uiState.update {
+                        it.copy(
+                            isResendingOtp = true
+                        )
+                    }
+                }
+
+                is NetworkResult.Success -> {
+                    _uiState.update {
+                        it.copy(
+                            isResendingOtp = false,
+                            data = result.data
+                        )
                     }
                 }
             }
@@ -86,22 +127,20 @@ class VerifyEmailViewModel @Inject constructor(
         }
             .launchIn(viewModelScope)
     }
-
-    private fun resendEmail(email: String) {
-
-    }
 }
 
 object VerifyEmail {
     data class UiState(
-        val isLoading: Boolean = false,
-        val error: UiText = UiText.Idle,
+        val isVerifyingOtp: Boolean = false,
+        val isResendingOtp: Boolean = false,
+        val verifyOtpError: UiText = UiText.Idle,
+        val resendOtpError: UiText = UiText.Idle,
         val data: SignInResponse? = null
     )
 
     sealed interface Navigation {
-        data object GoToHomeScreen : Navigation
-        data object GoToProfileScreen : Navigation
+        data object GoToSearchHomeScreen : Navigation
+        data object GoToAccountProfileScreen : Navigation
     }
 
     sealed interface Event {
@@ -109,8 +148,8 @@ object VerifyEmail {
         data class VerifyEmail(val email: String, val otp: String) : Event
 
         // navigation event
-        data object GoToHomeScreen : Event
-        data object GoToProfileScreen : Event
+        data object GoToSearchHomeScreen : Event
+        data object GoToAccountProfileScreen : Event
     }
 }
 

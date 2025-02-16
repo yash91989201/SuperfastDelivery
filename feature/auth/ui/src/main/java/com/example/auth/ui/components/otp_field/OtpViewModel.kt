@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
-private const val VALID_OTP = "1111"
 
 @HiltViewModel
 class OtpViewModel @Inject constructor() : ViewModel() {
@@ -43,7 +42,7 @@ class OtpViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun getOtp(): String? {
+    fun getOtpString(): String? {
         val code = _state.value.code
         return if (code.all { it != null }) {
             code.joinToString("") { it.toString() }
@@ -73,9 +72,6 @@ class OtpViewModel @Inject constructor() : ViewModel() {
                         currentFocusedIndex = it.focusedIndex
                     )
                 },
-                isValid = if (newCode.none { it == null }) {
-                    newCode.joinToString("") == VALID_OTP
-                } else null
             )
         }
     }
@@ -92,7 +88,7 @@ class OtpViewModel @Inject constructor() : ViewModel() {
             return null
         }
 
-        if (currentFocusedIndex == 3) {
+        if (currentFocusedIndex == OTP_LENGTH -1 ) {
             return currentFocusedIndex
         }
 

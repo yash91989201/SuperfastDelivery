@@ -116,6 +116,7 @@ fun EmailSignInScreen(
                 onValueChange = { emailValue = it },
                 singleLine = true,
                 shape = AppTheme.shape.medium,
+                textStyle = AppTheme.typography.bodyMedium,
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Rounded.Email,
@@ -126,7 +127,7 @@ fun EmailSignInScreen(
                 },
                 placeholder = {
                     Text(
-                        text = "example@gmail.com",
+                        text = "abc@xyz.com",
                         style = AppTheme.typography.bodyMedium,
                         color = AppTheme.colorScheme.tertiary,
                         fontWeight = FontWeight.SemiBold,
@@ -217,7 +218,6 @@ fun EmailSignInScreen(
                     }
                 }
             }
-
         }
     }
 }

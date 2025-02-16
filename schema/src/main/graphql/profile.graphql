@@ -1,0 +1,21 @@
+mutation CreateProfileMutation( $input: CreateProfileInput!){
+    CreateProfile(input: $input){
+        name
+        image_url
+        dob
+        anniversary
+        gender
+        auth_id
+    }
+}
+
+mutation UpdateProfileMutation( $input: UpdateProfileInput!){
+    UpdateProfile(input: $input){
+        name
+        image_url
+        dob
+        anniversary
+        gender
+        auth_id
+    }
+}

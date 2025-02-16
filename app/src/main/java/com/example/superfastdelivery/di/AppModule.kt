@@ -1,5 +1,6 @@
 package com.example.superfastdelivery.di
 
+import com.example.account.ui.navigation.AccountFeature
 import com.example.auth.ui.navigation.AuthFeature
 import com.example.common.navigation.Feature
 import com.example.search.ui.navigation.SearchFeature
@@ -16,8 +17,9 @@ object AppModule {
     @Provides
     fun providesNavigationRoutes(
         authFeature: AuthFeature,
-        searchFeature: SearchFeature
+        searchFeature: SearchFeature,
+        accountFeature: AccountFeature
     ): NavigationRoutes {
-        return NavigationRoutes(authFeature, searchFeature)
+        return NavigationRoutes(authFeature, searchFeature, accountFeature)
     }
 }

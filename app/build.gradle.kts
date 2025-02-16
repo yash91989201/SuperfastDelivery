@@ -32,7 +32,6 @@ android {
         }
     }
     compileOptions {
-//        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -51,6 +50,7 @@ dependencies {
     implementation(project(":feature:auth:domain"))
     implementation(project(":feature:auth:data"))
     implementation(project(":feature:search:ui"))
+    implementation(project(":feature:account:ui"))
     // splash screen
     implementation(libs.androidx.core.splashscreen)
     // hilt
@@ -60,8 +60,6 @@ dependencies {
     implementation(libs.navigation.compose)
     // serialization
     implementation(libs.kotlinx.serialization.json)
-    // core library desugaring required for apollo-adapters-kotlinx-datetime but for api level < 26
-//    coreLibraryDesugaring(libs.desugar.jdk.libs)
     //
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

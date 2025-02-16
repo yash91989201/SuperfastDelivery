@@ -6,9 +6,6 @@ mutation SignInWithEmail( $input: SignInWithEmailInput!){
             email_verified
             phone
             role
-            created_at
-            updated_at
-            deleted_at
         }
         profile {
             id
@@ -18,10 +15,9 @@ mutation SignInWithEmail( $input: SignInWithEmailInput!){
             dob
             anniversary
             auth_id
-            created_at
-            updated_at
         }
         verify_otp
+        create_profile
     }
 }
 
@@ -33,9 +29,6 @@ mutation SignInWithPhone( $input: SignInWithPhoneInput!){
             email_verified
             phone
             role
-            created_at
-            updated_at
-            deleted_at
         }
         profile {
             id
@@ -45,10 +38,9 @@ mutation SignInWithPhone( $input: SignInWithPhoneInput!){
             dob
             anniversary
             auth_id
-            created_at
-            updated_at
         }
         verify_otp
+        create_profile
     }
 }
 
@@ -60,9 +52,6 @@ mutation SignInWithGoogle( $input: SignInWithGoogleInput!){
             email_verified
             phone
             role
-            created_at
-            updated_at
-            deleted_at
         }
         profile {
             id
@@ -72,9 +61,6 @@ mutation SignInWithGoogle( $input: SignInWithGoogleInput!){
             dob
             anniversary
             auth_id
-            created_at
-            updated_at
         }
-        verify_otp
     }
 }

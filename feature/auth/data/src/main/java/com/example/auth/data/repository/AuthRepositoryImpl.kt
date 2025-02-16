@@ -12,6 +12,7 @@ class AuthRepositoryImpl(private val authGraphqlService: AuthGraphQLService) : A
     ): Result<SignInResponse> {
         return try {
             val response = authGraphqlService.signInWithEmail(email, otp)
+            print(response)
             if (response.exception == null) {
                 response.data?.SignInWithEmail?.let {
                     Result.success(it.toDomain())

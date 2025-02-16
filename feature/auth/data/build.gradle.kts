@@ -44,10 +44,9 @@ dependencies {
     ksp(libs.hilt.android.compiler)
     // apollo
     implementation(libs.apollo.runtime)
+    implementation(libs.apollo.adapters.core)
     // logging interceptor
     implementation(libs.logging.interceptor)
-//    implementation(libs.apollo.adapters.core)
-//    implementation(libs.apollo.adapters.kotlinx.datetime)
     //
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

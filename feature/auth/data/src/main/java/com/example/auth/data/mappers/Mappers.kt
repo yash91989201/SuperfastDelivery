@@ -6,8 +6,6 @@ import com.example.schema.SignInWithPhoneMutation
 import com.example.schema.SignInWithGoogleMutation
 import com.example.schema.type.AuthRole
 import com.example.schema.type.Gender
-import java.time.LocalDate
-import java.time.LocalDateTime
 
 fun AuthRole.toDomain(): com.example.auth.domain.model.AuthRole {
     return when (this) {
@@ -37,13 +35,6 @@ fun SignInWithEmailMutation.Auth.toDomain(): com.example.auth.domain.model.Auth 
         emailVerified = this.email_verified,
         phone = this.phone,
         role = this.role.toDomain(),
-        createdAt = LocalDateTime.parse(""),
-        updatedAt = LocalDateTime.parse(""),
-        deletedAt = null
-
-//        createdAt = LocalDateTime.parse(this.created_at.toString()),
-//        updatedAt = LocalDateTime.parse(this.updated_at.toString()),
-//        deletedAt = if (this.deleted_at == null) null else LocalDateTime.parse(this.deleted_at.toString())
     )
 }
 
@@ -53,14 +44,10 @@ fun SignInWithEmailMutation.Profile.toDomain(): com.example.auth.domain.model.Pr
         id = this.id,
         name = this.name,
         imageUrl = this.image_url,
-        dob = LocalDate.parse(this.dob.toString()),
-        anniversary = LocalDate.parse(this.anniversary.toString()),
+        dob = this.dob,
+        anniversary = this.anniversary,
         gender = this.gender?.toDomain(),
         authId = this.auth_id,
-//        createdAt = LocalDateTime.parse(this.created_at.toString()),
-//        updatedAt = LocalDateTime.parse(this.updated_at.toString())
-        createdAt = LocalDateTime.parse(""),
-        updatedAt = LocalDateTime.parse(""),
     )
 }
 
@@ -68,7 +55,8 @@ fun SignInWithEmailMutation.SignInWithEmail.toDomain(): SignInResponse {
     return SignInResponse(
         auth = this.auth?.toDomain(),
         profile = this.profile?.toDomain(),
-        verityOtp = this.verify_otp
+        verityOtp = this.verify_otp,
+        createProfile = this.create_profile
     )
 }
 
@@ -79,13 +67,6 @@ fun SignInWithPhoneMutation.Auth.toDomain(): com.example.auth.domain.model.Auth 
         emailVerified = this.email_verified,
         phone = this.phone,
         role = this.role.toDomain(),
-        createdAt = LocalDateTime.parse(""),
-        updatedAt = LocalDateTime.parse(""),
-        deletedAt = null
-
-//        createdAt = LocalDateTime.parse(this.created_at.toString()),
-//        updatedAt = LocalDateTime.parse(this.updated_at.toString()),
-//        deletedAt = if (this.deleted_at == null) null else LocalDateTime.parse(this.deleted_at.toString())
     )
 }
 
@@ -95,14 +76,10 @@ fun SignInWithPhoneMutation.Profile.toDomain(): com.example.auth.domain.model.Pr
         id = this.id,
         name = this.name,
         imageUrl = this.image_url,
-        dob = LocalDate.parse(this.dob.toString()),
-        anniversary = LocalDate.parse(this.anniversary.toString()),
+        dob = this.dob,
+        anniversary = this.anniversary,
         gender = this.gender?.toDomain(),
         authId = this.auth_id,
-//        createdAt = LocalDateTime.parse(this.created_at.toString()),
-//        updatedAt = LocalDateTime.parse(this.updated_at.toString())
-        createdAt = LocalDateTime.parse(""),
-        updatedAt = LocalDateTime.parse(""),
     )
 }
 
@@ -110,7 +87,8 @@ fun SignInWithPhoneMutation.SignInWithPhone.toDomain(): SignInResponse {
     return SignInResponse(
         auth = this.auth?.toDomain(),
         profile = this.profile?.toDomain(),
-        verityOtp = this.verify_otp
+        verityOtp = this.verify_otp,
+        createProfile = this.create_profile
     )
 }
 
@@ -120,14 +98,7 @@ fun SignInWithGoogleMutation.Auth.toDomain(): com.example.auth.domain.model.Auth
         email = this.email,
         emailVerified = this.email_verified,
         phone = this.phone,
-        role = this.role.toDomain(),
-        createdAt = LocalDateTime.parse(""),
-        updatedAt = LocalDateTime.parse(""),
-        deletedAt = null
-
-//        createdAt = LocalDateTime.parse(this.created_at.toString()),
-//        updatedAt = LocalDateTime.parse(this.updated_at.toString()),
-//        deletedAt = if (this.deleted_at == null) null else LocalDateTime.parse(this.deleted_at.toString())
+        role = this.role.toDomain()
     )
 }
 
@@ -137,14 +108,10 @@ fun SignInWithGoogleMutation.Profile.toDomain(): com.example.auth.domain.model.P
         id = this.id,
         name = this.name,
         imageUrl = this.image_url,
-        dob = LocalDate.parse(this.dob.toString()),
-        anniversary = LocalDate.parse(this.anniversary.toString()),
+        dob = this.dob,
+        anniversary = this.anniversary,
         gender = this.gender?.toDomain(),
         authId = this.auth_id,
-//        createdAt = LocalDateTime.parse(this.created_at.toString()),
-//        updatedAt = LocalDateTime.parse(this.updated_at.toString())
-        createdAt = LocalDateTime.parse(""),
-        updatedAt = LocalDateTime.parse(""),
     )
 }
 
@@ -152,6 +119,7 @@ fun SignInWithGoogleMutation.SignInWithGoogle.toDomain(): SignInResponse {
     return SignInResponse(
         auth = this.auth?.toDomain(),
         profile = this.profile?.toDomain(),
-        verityOtp = this.verify_otp
+        verityOtp = false,
+        createProfile = false,
     )
 }

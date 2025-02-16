@@ -157,7 +157,7 @@ val typography = Typography(
     ),
     bodyLarge = TextStyle(
         fontFamily = Nunito,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Medium,
         fontSize = 20.sp
     ),
     bodyMedium = TextStyle(

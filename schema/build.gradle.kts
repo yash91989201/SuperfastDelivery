@@ -36,8 +36,7 @@ android {
 dependencies {
     // apollo
     implementation(libs.apollo.runtime)
-//    implementation(libs.apollo.adapters.core)
-//    implementation(libs.apollo.adapters.kotlinx.datetime)
+    implementation(libs.apollo.adapters.core)
     //
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -51,13 +50,12 @@ apollo {
     service("service") {
         packageName.set("com.example.schema")
         schemaFile.set(file("src/main/graphql/schema.graphqls"))
+        mapScalar("Date","java.time.LocalDate","com.apollographql.adapter.core.JavaLocalDateAdapter")
         generateKotlinModels.set(true)
         generateApolloMetadata.set(true)
-//        mapScalar("DateTime", "com.apollographql.adapter.datetime.KotlinxLocalTimeAdapter")
-//        mapScalar("Date", "com.apollographql.adapter.datetime.KotlinxLocalDateAdapter")
 
         introspection {
-            endpointUrl.set("http://54.87.20.16:8081/graphql")
+            endpointUrl.set("http://54.237.109.222:8081/graphql")
             schemaFile.set(file("src/main/graphql/schema.graphqls"))
         }
     }

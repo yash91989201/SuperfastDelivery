@@ -22,7 +22,7 @@ object AuthDataModule {
     @Singleton
     fun provideApolloClient(okHttpClient: OkHttpClient): ApolloClient{
         return ApolloClient.Builder()
-            .serverUrl("http://54.87.20.16:8081/graphql")
+            .serverUrl("http://54.237.109.222:8081/graphql")
             .okHttpClient(okHttpClient)
             .build()
     }

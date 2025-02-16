@@ -32,6 +32,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
 import com.example.common.ui.theme.AppTheme
 
@@ -64,17 +65,18 @@ fun OtpInput(
             .border(
                 width = 1.dp,
                 color = if (isFocused) AppTheme.colorScheme.primary else AppTheme.colorScheme.outlineVariant,
-                shape = AppTheme.shape.medium
+                shape = AppTheme.shape.small
             )
-            .clip(AppTheme.shape.medium)
+            .clip(AppTheme.shape.small)
             .background(color = if (isFocused) Color.Transparent else AppTheme.colorScheme.surfaceVariant)
     ) {
         BasicTextField(
             value = text,
             singleLine = true,
-            textStyle = AppTheme.typography.headlineSmall.copy(
-                fontWeight = FontWeight.SemiBold,
+            textStyle = AppTheme.typography.bodyLarge.copy(
+                fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center,
+                fontSize = 18.sp,
                 color = AppTheme.colorScheme.primary
             ),
             cursorBrush = SolidColor(AppTheme.colorScheme.primary),

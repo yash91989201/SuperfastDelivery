@@ -2,17 +2,22 @@ package com.example.auth.ui.screens.verify_email
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -32,13 +37,16 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
+import com.example.auth.ui.components.otp_field.OTP_LENGTH
 import com.example.auth.ui.components.otp_field.OtpAction
 import com.example.auth.ui.components.otp_field.OtpField
 import com.example.auth.ui.components.otp_field.OtpViewModel
 import com.example.common.ui.theme.AppTheme
+import com.example.common.utils.UiText
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -46,27 +54,30 @@ fun VerifyEmailScreen(
     email: String,
     viewModel: VerifyEmailViewModel,
     onGoBack: () -> Unit,
-    onContinue: () -> Unit,
+    goToSearchHomeScreen: () -> Unit,
+    goToAccountProfileScreen: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    val focusManager = LocalFocusManager.current
+    val keyboardManager = LocalSoftwareKeyboardController.current
+    val focusRequesters = remember { List(OTP_LENGTH) { FocusRequester() } }
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val otpViewModel = hiltViewModel<OtpViewModel>()
     val otpState by otpViewModel.state.collectAsState()
 
-    val focusRequesters = remember { List(4) { FocusRequester() } }
-    val focusManager = LocalFocusManager.current
-    val keyboardManager = LocalSoftwareKeyboardController.current
-
     LaunchedEffect(key1 = viewModel.navigation) {
         viewModel.navigation.flowWithLifecycle(lifecycleOwner.lifecycle)
             .collectLatest { navigation ->
                 when (navigation) {
-                    VerifyEmail.Navigation.GoToHomeScreen -> {
-                        onContinue()
+                    VerifyEmail.Navigation.GoToSearchHomeScreen -> {
+                        goToSearchHomeScreen()
                     }
 
-                    VerifyEmail.Navigation.GoToProfileScreen -> {
-                        onContinue()
+                    is VerifyEmail.Navigation.GoToAccountProfileScreen -> {
+                        goToAccountProfileScreen()
                     }
                 }
             }
@@ -87,20 +98,24 @@ fun VerifyEmailScreen(
             }
             focusManager.clearFocus()
             keyboardManager?.hide()
+
+            val otp = otpViewModel.getOtpString()
+            if (otp !== null) {
+                viewModel.onEvent(VerifyEmail.Event.VerifyEmail(email = email, otp = otp))
+            }
         }
     }
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .padding(vertical = 16.dp, horizontal = 8.dp)
+    Box(
+        modifier = modifier.fillMaxSize()
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth(0.85f)
-                .weight(1f)
-                .padding(vertical = 24.dp)
+                .fillMaxHeight()
+                .padding(vertical = 32.dp)
+                .align(Alignment.Center)
         ) {
             IconButton(
                 onClick = onGoBack,
@@ -128,7 +143,7 @@ fun VerifyEmailScreen(
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             Text(
-                text = "Code has been sent to example@gmail.com",
+                text = "Code has been sent to $email",
                 fontWeight = FontWeight.Bold,
                 color = AppTheme.colorScheme.onSurfaceVariant,
                 style = AppTheme.typography.titleSmall,
@@ -152,6 +167,19 @@ fun VerifyEmailScreen(
                 },
             )
 
+            if (uiState.verifyOtpError !is UiText.Idle) {
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Text(
+                    text = uiState.verifyOtpError.getString(),
+                    color = AppTheme.colorScheme.error,
+                    style = AppTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 16.sp,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -159,7 +187,7 @@ fun VerifyEmailScreen(
             ) {
                 Text(
                     text = "Didn't get e-mail?",
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.SemiBold,
                     color = AppTheme.colorScheme.onSurfaceVariant,
                     style = AppTheme.typography.titleMedium,
                 )
@@ -179,11 +207,24 @@ fun VerifyEmailScreen(
                 }
             }
 
+            if (uiState.resendOtpError !is UiText.Idle) {
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Text(
+                    text = uiState.resendOtpError.getString(),
+                    color = AppTheme.colorScheme.error,
+                    style = AppTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 16.sp,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
             Spacer(modifier = Modifier.height(48.dp))
 
             Button(
                 onClick = {
-                    val otp = otpViewModel.getOtp() ?: return@Button
+                    val otp = otpViewModel.getOtpString() ?: return@Button
                     viewModel.onEvent(VerifyEmail.Event.VerifyEmail(email = email, otp = otp))
                 },
                 modifier = Modifier.fillMaxWidth()
@@ -195,6 +236,45 @@ fun VerifyEmailScreen(
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(vertical = 6.dp)
                 )
+            }
+        }
+
+        if (uiState.isVerifyingOtp) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        color = AppTheme.colorScheme.onSurface.copy(alpha = 0.25f)
+                    ),
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(0.85f)
+                        .height(96.dp)
+                        .background(
+                            color = Color.White,
+                            shape = AppTheme.shape.extraSmall
+                        )
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(24.dp),
+                    ) {
+                        CircularProgressIndicator(modifier = Modifier.size(36.dp))
+
+                        Spacer(Modifier.width(24.dp))
+
+                        Text(
+                            text = "Verifying OTP",
+                            style = AppTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 16.sp
+                        )
+                    }
+                }
             }
         }
     }

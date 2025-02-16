@@ -40,7 +40,7 @@ fun SplashScreen(navHost: NavHostController) {
         delay(2000)
         navHost.popBackStack()
         if (isOnboardingFinished(context)) {
-            navHost.navigate(NavigationSubGraphDest.SignIn)
+            navHost.navigate(NavigationSubGraphDest.AuthSignIn)
         } else {
             navHost.navigate(NavigationSubGraph.Onboarding)
         }

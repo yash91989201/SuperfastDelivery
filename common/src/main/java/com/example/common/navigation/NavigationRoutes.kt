@@ -14,21 +14,30 @@ sealed class NavigationSubGraph {
 
     @Serializable
     data object Search : NavigationSubGraph()
+
+    @Serializable
+    data object Account : NavigationSubGraph()
 }
 
 sealed class NavigationSubGraphDest {
     @Serializable
-    data object SignIn : NavigationSubGraphDest()
+    data object AuthSignIn : NavigationSubGraphDest()
 
     @Serializable
-    data object EmailSignIn : NavigationSubGraphDest()
+    data object AuthEmailSignIn : NavigationSubGraphDest()
 
     @Serializable
-    data class VerifyEmail(val email: String) : NavigationSubGraphDest()
+    data class AuthVerifyEmail(val email: String) : NavigationSubGraphDest()
 
     @Serializable
-    data object VerifyPhone : NavigationSubGraphDest()
+    data object AuthVerifyPhone : NavigationSubGraphDest()
 
     @Serializable
-    data object Search : NavigationSubGraphDest()
+    data object SearchHome : NavigationSubGraphDest()
+
+    @Serializable
+    data object AccountHome : NavigationSubGraphDest()
+
+    @Serializable
+    data object AccountProfile : NavigationSubGraphDest()
 }

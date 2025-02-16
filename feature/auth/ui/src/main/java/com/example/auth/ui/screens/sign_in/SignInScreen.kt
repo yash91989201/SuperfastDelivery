@@ -187,17 +187,19 @@ fun SignInScreen(
                     onClick = {},
                     modifier = Modifier
                         .weight(1f)
-                        .padding(vertical = 6.dp)
+                        .padding(vertical = 8.dp, horizontal = 4.dp)
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.google),
-                        contentDescription = "Google",
+                        contentDescription = "Google Icon",
                         tint = Color.Unspecified,
                         modifier = Modifier.size(20.dp)
                     )
                     Text(
                         text = "Google",
-                        style = AppTheme.typography.titleSmall,
+                        style = AppTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Medium
+                        ),
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
                     )
                 }
@@ -212,16 +214,18 @@ fun SignInScreen(
                     onClick = onEmailSignIn,
                     modifier = Modifier
                         .weight(1f)
-                        .padding(6.dp)
+                        .padding(vertical = 8.dp, horizontal = 4.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Email,
-                        contentDescription = "Google",
+                        contentDescription = "Email Icon",
                         modifier = Modifier.size(20.dp)
                     )
                     Text(
                         text = "E-mail",
-                        style = AppTheme.typography.titleSmall,
+                        style = AppTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Medium
+                        ),
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
                     )
                 }

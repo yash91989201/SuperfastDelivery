@@ -27,7 +27,7 @@ fun AppNavigationRoot(navigationRoutes: NavigationRoutes) {
             OnboardingScreen(
                 onSignInClick = {
                     navHost.popBackStack()
-                    navHost.navigate(NavigationSubGraphDest.SignIn)
+                    navHost.navigate(NavigationSubGraphDest.AuthSignIn)
                 }
             )
         }
@@ -38,6 +38,11 @@ fun AppNavigationRoot(navigationRoutes: NavigationRoutes) {
         )
 
         navigationRoutes.searchFeature.registerGraph(
+            navHostController = navHost,
+            navGraphBuilder = this
+        )
+
+        navigationRoutes.accountFeature.registerGraph(
             navHostController = navHost,
             navGraphBuilder = this
         )

@@ -1,7 +1,6 @@
 package com.example.auth.domain.model
 
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 enum class AuthRole{
     CUSTOMER, DELIVERY_PARTNER, VENDOR, ADMIN
@@ -17,9 +16,6 @@ data class Auth(
     val emailVerified:Boolean,
     val phone:String?,
     val role: AuthRole,
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime,
-    val deletedAt: LocalDateTime?
 )
 
 data class Profile(
@@ -30,12 +26,11 @@ data class Profile(
     val anniversary: LocalDate?,
     val gender: Gender?,
     val authId: String,
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime
 )
 
 data class SignInResponse(
     val auth:Auth?,
     val profile:Profile?,
+    val createProfile:Boolean,
     val verityOtp:Boolean,
 )
