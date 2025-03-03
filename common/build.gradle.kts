@@ -4,6 +4,9 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.apollo)
 }
 
 android {
@@ -42,6 +45,14 @@ dependencies {
     implementation(libs.navigation.compose)
     // serialization
     implementation(libs.kotlinx.serialization.json)
+    // dagger hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    // apollo
+    implementation(libs.apollo.runtime)
+    implementation(libs.apollo.adapters.core)
+    // logging interceptor
+    implementation(libs.logging.interceptor)
     //
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

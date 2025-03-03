@@ -49,8 +49,10 @@ dependencies {
     implementation(project(":feature:auth:ui"))
     implementation(project(":feature:auth:domain"))
     implementation(project(":feature:auth:data"))
-    implementation(project(":feature:search:ui"))
     implementation(project(":feature:account:ui"))
+    implementation(project(":feature:account:domain"))
+    implementation(project(":feature:account:data"))
+    implementation(project(":feature:search:ui"))
     // splash screen
     implementation(libs.androidx.core.splashscreen)
     // hilt

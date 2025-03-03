@@ -1,3 +1,15 @@
+type AddonStock {
+  id: ID!
+
+  addon_id: ID!
+
+  quantity: Int!
+
+  restock_qty: Int!
+
+  updated_at: DateTime!
+}
+
 type Auth {
   id: String!
 
@@ -7,7 +19,7 @@ type Auth {
 
   phone: String
 
-  role: AuthRole!
+  auth_role: AuthRole!
 
   created_at: DateTime!
 
@@ -26,6 +38,68 @@ enum AuthRole {
   ADMIN
 }
 
+input CreateAddonStockInput {
+  addon_id: ID!
+
+  quantity: Int!
+}
+
+input CreateItemAddonInput {
+  addon_name: String!
+
+  addon_price: Float!
+
+  description: String
+
+  item_id: ID!
+}
+
+input CreateItemStockInput {
+  item_id: ID!
+
+  quantity: Int!
+}
+
+input CreateItemVariantInput {
+  variant_name: String!
+
+  relative_price: Float!
+
+  relative_pricing: Boolean!
+
+  price: Float!
+
+  description: String
+
+  item_id: ID!
+}
+
+input CreateMedicineCategoryInput {
+  category_name: String!
+
+  shop_id: String!
+}
+
+input CreateMedicineItemInput {
+  name: String!
+
+  price: Float!
+
+  description: String!
+
+  category_id: String!
+}
+
+input CreateMenuItemInput {
+  name: String!
+
+  description: String!
+
+  price: Float!
+
+  menu_id: ID!
+}
+
 input CreateProfileInput {
   name: String!
 
@@ -40,9 +114,119 @@ input CreateProfileInput {
   auth_id: String!
 }
 
+input CreateRestaurantMenuInput {
+  menu_name: String!
+
+  shop_id: String!
+}
+
+input CreateRetailCategoryInput {
+  category_name: String!
+
+  shop_id: String!
+}
+
+input CreateRetailItemInput {
+  name: String!
+
+  description: String!
+
+  price: Float!
+
+  category_id: String!
+}
+
+input CreateShopAddressInput {
+  address1: String!
+
+  address2: String
+
+  longitude: Float!
+
+  latitude: Float!
+
+  nearby_landmark: String!
+
+  city: String!
+
+  state: String!
+
+  pincode: String!
+
+  country: String!
+}
+
+input CreateShopContactInput {
+  name: String!
+
+  phone_number: String!
+
+  email: String!
+}
+
+input CreateShopImageInput {
+  image_url: String!
+
+  description: String!
+}
+
+input CreateShopInput {
+  name: String!
+
+  shop_type: ShopType!
+
+  shop_status: ShopStatus!
+
+  owner_auth_id: ID!
+
+  address: CreateShopAddressInput!
+
+  contact: CreateShopContactInput!
+
+  images: [CreateShopImageInput!]
+
+  timings: [CreateShopTimingInput!]
+}
+
+type CreateShopOutput {
+  id: ID!
+
+  message: String!
+}
+
+input CreateShopTimingInput {
+  day: DayOfWeek!
+
+  opens_at: Time!
+
+  closes_at: Time!
+}
+
+input CreateVariantStockInput {
+  variant_id: ID!
+
+  quantity: Int!
+}
+
 scalar Date
 
 scalar DateTime
+
+enum DayOfWeek {
+  MONDAY
+
+  TUESDAY
+
+  WEDNESDAY
+
+  THURSDAY
+
+  FRIDAY
+
+  SATURDAY
+
+  SUNDAY
+}
 
 enum Gender {
   MALE
@@ -64,8 +248,166 @@ input GetAuthInput {
   phone: String
 }
 
+type GetItemAddonsOutput {
+  addons: [ItemAddon!]!
+
+  total_addons: Int!
+}
+
+type GetItemVariantsOutput {
+  variants: [ItemVariant!]!
+
+  total_variants: Int!
+}
+
 input GetProfileInput {
   auth_id: String!
+}
+
+type ItemAddon {
+  id: ID!
+
+  addon_name: String!
+
+  addon_price: Float!
+
+  description: String
+
+  item_id: String!
+}
+
+type ItemStock {
+  id: ID!
+
+  item_id: ID!
+
+  quantity: Int!
+
+  restock_qty: Int!
+
+  updated_at: DateTime!
+}
+
+type ItemVariant {
+  id: ID!
+
+  variant_name: String!
+
+  relative_price: Float!
+
+  relative_pricing: Boolean!
+
+  price: Float!
+
+  description: String
+
+  item_id: String!
+}
+
+type LatLng {
+  lat: Float!
+
+  lng: Float!
+}
+
+input LatLngInput {
+  lat: Float!
+
+  lng: Float!
+}
+
+type ListMedicineCategoryOutput {
+  medicine_category_list: [MedicineCategory!]!
+
+  total_category: Int!
+}
+
+type ListRestaurantMenuOutput {
+  restaurant_menu_list: [RestaurantMenu!]!
+
+  total_menu: Int!
+}
+
+type ListRetailCategoryOutput {
+  retail_category_list: [RetailCategory!]!
+
+  total_category: Int!
+}
+
+input ListShopsInput {
+  name: String
+
+  shop_type: ShopType
+
+  shop_status: ShopStatus
+
+  order_by: OrderBy
+
+  limit: Int
+
+  offset: Int
+}
+
+type ListShopsOutput {
+  shops: [Shop!]
+
+  total: Int!
+}
+
+type MedicineCategory {
+  id: ID!
+
+  category_name: String!
+
+  shop_id: String!
+
+  medicine_items: [MedicineItem]!
+
+  created_at: DateTime!
+
+  updated_at: DateTime!
+
+  deleted_at: DateTime
+}
+
+type MedicineItem {
+  id: ID!
+
+  name: String!
+
+  price: Float!
+
+  description: String!
+
+  category_id: String!
+
+  created_at: DateTime!
+
+  updated_at: DateTime!
+
+  deleted_at: DateTime
+}
+
+type MenuItem {
+  id: ID!
+
+  name: String!
+
+  description: String
+
+  price: Float!
+
+  menu_id: String!
+
+  variants: [ItemVariant]!
+
+  addons: [ItemAddon]!
+
+  created_at: DateTime!
+
+  updated_at: DateTime!
+
+  deleted_at: DateTime
 }
 
 type Mutation {
@@ -75,9 +417,55 @@ type Mutation {
 
   SignInWithGoogle(input: SignInWithGoogleInput!): SignInOutput!
 
+  RefreshToken(session_id: String!): SignInOutput!
+
+  LogOut(session_id: String!): SignInOutput!
+
   CreateProfile(input: CreateProfileInput!): Profile!
 
   UpdateProfile(input: UpdateProfileInput!): Profile!
+
+  CreateShop(input: CreateShopInput!): CreateShopOutput!
+
+  UpdateShop(input: UpdateShopInput!): UpdateShopOutput!
+
+  UpdateShopAddress(input: UpdateShopAddressInput!): UpdateShopOutput!
+
+  UpdateShopContact(input: UpdateShopContactInput!): UpdateShopOutput!
+
+  UpdateShopImages(input: [UpdateShopImageInput!]!): UpdateShopOutput!
+
+  UpdateShopTimings(input: [UpdateShopTimingInput!]!): UpdateShopOutput!
+
+  DeleteShop(id: ID!): UpdateShopOutput!
+
+  CreateItemVariant(input: CreateItemVariantInput!): ItemVariant!
+
+  CreateItemAddon(input: CreateItemAddonInput!): ItemAddon!
+
+  CreateRestaurantMenu(input: CreateRestaurantMenuInput!): RestaurantMenu!
+
+  CreateMenuItem(input: CreateMenuItemInput!): MenuItem!
+
+  CreateRetailCategory(input: CreateRetailCategoryInput!): RetailCategory!
+
+  CreateRetailItem(input: CreateRetailItemInput!): RetailItem!
+
+  CreateMedicineCategory(input: CreateMedicineCategoryInput!): MedicineCategory!
+
+  CreateMedicineItem(input: CreateMedicineItemInput!): MedicineItem!
+
+  CreateItemStock(input: CreateItemStockInput!): ItemStock!
+
+  CreateVariantStock(input: CreateVariantStockInput!): VariantStock!
+
+  CreateAddonStock(input: CreateAddonStockInput!): AddonStock!
+}
+
+enum OrderBy {
+  ASC
+
+  DESC
 }
 
 type Profile {
@@ -101,17 +489,211 @@ type Profile {
 }
 
 type Query {
-  authById(input: GetAuthByIdInput!): Auth
+  AuthById(input: GetAuthByIdInput!): Auth
 
-  auth(input: GetAuthInput!): Auth
+  Auth(input: GetAuthInput!): Auth
 
-  profile(input: GetProfileInput!): Profile
+  Profile(input: GetProfileInput!): Profile
+
+  GetShop(id: ID!): Shop!
+
+  ListShops(input: ListShopsInput): ListShopsOutput!
+
+  GetItemVariant(id: ID!): ItemVariant!
+
+  GetItemAddon(id: ID!): ItemAddon!
+
+  GetItemVariants(itemId: ID!): GetItemVariantsOutput!
+
+  GetItemAddons(itemId: ID!): GetItemAddonsOutput!
+
+  GetRestaurantMenu(id: ID!): RestaurantMenu!
+
+  ListRestaurantMenu(shopId: ID!): ListRestaurantMenuOutput!
+
+  GetRetailCategory(id: ID!): RetailCategory!
+
+  ListRetailCategory(shopId: ID!): ListRetailCategoryOutput
+
+  GetMedicineCategory(id: ID!): MedicineCategory!
+
+  ListMedicineCategory(shopId: ID!): ListMedicineCategoryOutput
+}
+
+type RestaurantMenu {
+  id: ID!
+
+  menu_name: String!
+
+  shop_id: String!
+
+  menu_items: [MenuItem]!
+
+  created_at: DateTime!
+
+  updated_at: DateTime!
+
+  deleted_at: DateTime
+}
+
+type RetailCategory {
+  id: ID!
+
+  category_name: String!
+
+  shop_id: String!
+
+  retail_items: [RetailItem]!
+
+  created_at: DateTime!
+
+  updated_at: DateTime!
+
+  deleted_at: DateTime
+}
+
+type RetailItem {
+  id: ID!
+
+  name: String!
+
+  description: String!
+
+  price: Float!
+
+  category_id: String!
+
+  variants: [ItemVariant]!
+
+  addons: [ItemAddon]!
+
+  created_at: DateTime!
+
+  updated_at: DateTime!
+
+  deleted_at: DateTime
+}
+
+type Shop {
+  id: ID!
+
+  name: String!
+
+  shop_type: ShopType!
+
+  shop_status: ShopStatus!
+
+  owner_auth_id: ID!
+
+  created_at: String!
+
+  updated_at: String!
+
+  deleted_at: String
+
+  contact: ShopContact!
+
+  address: ShopAddress!
+
+  timings: [ShopTiming!]
+
+  images: [ShopImage!]
+}
+
+type ShopAddress {
+  id: ID!
+
+  address1: String!
+
+  address2: String!
+
+  longitude: Float!
+
+  latitude: Float!
+
+  nearby_landmark: String!
+
+  city: String!
+
+  state: String!
+
+  pincode: String!
+
+  country: String!
+
+  shop_id: ID!
+
+  created_at: String!
+}
+
+type ShopContact {
+  id: ID!
+
+  name: String!
+
+  phone_number: String!
+
+  email: String!
+
+  shop_id: ID!
+
+  created_at: String!
+}
+
+type ShopImage {
+  id: ID!
+
+  image_url: String!
+
+  description: String!
+
+  shop_id: ID!
+
+  created_at: String!
+
+  updated_at: String!
+}
+
+enum ShopStatus {
+  OPEN
+
+  CLOSED
+}
+
+type ShopTiming {
+  id: ID!
+
+  day: DayOfWeek!
+
+  opens_at: Time!
+
+  closes_at: Time!
+
+  shop_id: ID!
+
+  created_at: String!
+
+  updated_at: String!
+}
+
+enum ShopType {
+  RESTAURANT
+
+  GROCERY
+
+  PHARMACEUTICAL
 }
 
 type SignInOutput {
   auth: Auth
 
   profile: Profile
+
+  session_id: String
+
+  access_token: String
+
+  access_token_expires_at: DateTime
 
   create_profile: Boolean!
 
@@ -134,6 +716,8 @@ input SignInWithPhoneInput {
   otp: String
 }
 
+scalar Time
+
 input UpdateProfileInput {
   id: String
 
@@ -150,6 +734,80 @@ input UpdateProfileInput {
   auth_id: String!
 }
 
+input UpdateShopAddressInput {
+  id: ID!
+
+  address1: String
+
+  address2: String
+
+  location: LatLngInput
+
+  nearby_landmark: String
+
+  city: String
+
+  state: String
+
+  pincode: String
+
+  country: String
+}
+
+input UpdateShopContactInput {
+  id: ID!
+
+  name: String
+
+  phone_number: String
+
+  email: String
+}
+
+input UpdateShopImageInput {
+  id: ID!
+
+  image_url: String
+
+  description: String
+}
+
+input UpdateShopInput {
+  id: ID!
+
+  name: String
+
+  shop_type: ShopType
+
+  shop_status: ShopStatus
+}
+
+type UpdateShopOutput {
+  message: String!
+}
+
+input UpdateShopTimingInput {
+  id: ID!
+
+  day: DayOfWeek
+
+  opens_at: Time
+
+  closes_at: Time
+}
+
+type VariantStock {
+  id: ID!
+
+  variant_id: ID!
+
+  quantity: Int!
+
+  restock_qty: Int!
+
+  updated_at: DateTime!
+}
+
 type __Directive {
   name: String!
 
@@ -157,7 +815,7 @@ type __Directive {
 
   locations: [__DirectiveLocation!]!
 
-  args: [__InputValue!]!
+  args(includeDeprecated: Boolean = false): [__InputValue!]!
 
   isRepeatable: Boolean!
 }
@@ -217,7 +875,7 @@ type __Field {
 
   description: String
 
-  args: [__InputValue!]!
+  args(includeDeprecated: Boolean = false): [__InputValue!]!
 
   type: __Type!
 
@@ -234,6 +892,10 @@ type __InputValue {
   type: __Type!
 
   defaultValue: String
+
+  isDeprecated: Boolean!
+
+  deprecationReason: String
 }
 
 type __Schema {
@@ -265,11 +927,13 @@ type __Type {
 
   enumValues(includeDeprecated: Boolean = false): [__EnumValue!]
 
-  inputFields: [__InputValue!]
+  inputFields(includeDeprecated: Boolean = false): [__InputValue!]
 
   ofType: __Type
 
   specifiedByURL: String
+
+  isOneOf: Boolean
 }
 
 enum __TypeKind {
@@ -304,6 +968,11 @@ directive @deprecated (reason: String = "No longer supported") on FIELD_DEFINITI
 The @include directive may be provided for fields, fragment spreads, and inline fragments, and allows for conditional inclusion during execution as described by the if argument.
 """
 directive @include (if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+"""
+The `@oneOf` _built-in directive_ is used within the type system definition language to indicate an Input Object is a OneOf Input Object.
+"""
+directive @oneOf on INPUT_OBJECT
 
 """
 The @skip directive may be provided for fields, fragment spreads, and inline fragments, and allows for conditional exclusion during execution as described by the if argument.

@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.example.account.ui"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -40,6 +40,7 @@ android {
 dependencies {
     // module
     implementation(project(":common"))
+    implementation(project(":feature:account:domain"))
     // hilt
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
@@ -48,6 +49,9 @@ dependencies {
     implementation(libs.navigation.compose)
     // serialization
     implementation(libs.kotlinx.serialization.json)
+    // coil
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
     //
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

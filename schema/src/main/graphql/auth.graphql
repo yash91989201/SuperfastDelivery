@@ -5,7 +5,7 @@ mutation SignInWithEmail( $input: SignInWithEmailInput!){
             email
             email_verified
             phone
-            role
+            auth_role
         }
         profile {
             id
@@ -28,7 +28,7 @@ mutation SignInWithPhone( $input: SignInWithPhoneInput!){
             email
             email_verified
             phone
-            role
+            auth_role
         }
         profile {
             id
@@ -51,7 +51,7 @@ mutation SignInWithGoogle( $input: SignInWithGoogleInput!){
             email
             email_verified
             phone
-            role
+            auth_role
         }
         profile {
             id

@@ -55,7 +55,7 @@ fun VerifyEmailScreen(
     viewModel: VerifyEmailViewModel,
     onGoBack: () -> Unit,
     goToSearchHomeScreen: () -> Unit,
-    goToAccountProfileScreen: () -> Unit,
+    goToAccountCreateProfileScreen: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -76,8 +76,8 @@ fun VerifyEmailScreen(
                         goToSearchHomeScreen()
                     }
 
-                    is VerifyEmail.Navigation.GoToAccountProfileScreen -> {
-                        goToAccountProfileScreen()
+                    is VerifyEmail.Navigation.GoToAccountCreateProfileScreen -> {
+                        goToAccountCreateProfileScreen()
                     }
                 }
             }

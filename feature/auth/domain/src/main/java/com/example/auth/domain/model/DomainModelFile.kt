@@ -15,7 +15,7 @@ data class Auth(
     val email:String?,
     val emailVerified:Boolean,
     val phone:String?,
-    val role: AuthRole,
+    val authRole: AuthRole,
 )
 
 data class Profile(

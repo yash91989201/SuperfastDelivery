@@ -60,8 +60,8 @@ class AuthFeatureImpl : AuthFeature {
                     goToSearchHomeScreen = {
                         navHostController.navigate(NavigationSubGraphDest.SearchHome)
                     },
-                    goToAccountProfileScreen = {
-                        navHostController.navigate(NavigationSubGraphDest.AccountProfile)
+                    goToAccountCreateProfileScreen = {
+                        navHostController.navigate(NavigationSubGraphDest.AccountCreateProfile)
                     }
                 )
             }

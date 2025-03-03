@@ -38,9 +38,9 @@ class VerifyEmailViewModel @Inject constructor(
                 }
             }
 
-            is VerifyEmail.Event.GoToAccountProfileScreen -> {
+            is VerifyEmail.Event.GoToAccountCreateProfileScreen -> {
                 viewModelScope.launch {
-                    _navigation.send(VerifyEmail.Navigation.GoToAccountProfileScreen)
+                    _navigation.send(VerifyEmail.Navigation.GoToAccountCreateProfileScreen)
                 }
             }
 
@@ -84,7 +84,11 @@ class VerifyEmailViewModel @Inject constructor(
                     result.data?.let {
                         if (it.createProfile) {
                             _navigation.send(
-                                VerifyEmail.Navigation.GoToAccountProfileScreen
+                                VerifyEmail.Navigation.GoToAccountCreateProfileScreen
+                            )
+                        }else{
+                            _navigation.send(
+                                VerifyEmail.Navigation.GoToSearchHomeScreen
                             )
                         }
                     }
@@ -140,7 +144,7 @@ object VerifyEmail {
 
     sealed interface Navigation {
         data object GoToSearchHomeScreen : Navigation
-        data object GoToAccountProfileScreen : Navigation
+        data object GoToAccountCreateProfileScreen : Navigation
     }
 
     sealed interface Event {
@@ -149,7 +153,7 @@ object VerifyEmail {
 
         // navigation event
         data object GoToSearchHomeScreen : Event
-        data object GoToAccountProfileScreen : Event
+        data object GoToAccountCreateProfileScreen : Event
     }
 }
 

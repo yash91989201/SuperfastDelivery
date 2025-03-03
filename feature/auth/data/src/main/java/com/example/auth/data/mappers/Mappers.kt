@@ -34,7 +34,7 @@ fun SignInWithEmailMutation.Auth.toDomain(): com.example.auth.domain.model.Auth 
         email = this.email,
         emailVerified = this.email_verified,
         phone = this.phone,
-        role = this.role.toDomain(),
+        authRole = this.auth_role.toDomain(),
     )
 }
 
@@ -66,7 +66,7 @@ fun SignInWithPhoneMutation.Auth.toDomain(): com.example.auth.domain.model.Auth 
         email = this.email,
         emailVerified = this.email_verified,
         phone = this.phone,
-        role = this.role.toDomain(),
+        authRole = this.auth_role.toDomain(),
     )
 }
 
@@ -98,7 +98,7 @@ fun SignInWithGoogleMutation.Auth.toDomain(): com.example.auth.domain.model.Auth
         email = this.email,
         emailVerified = this.email_verified,
         phone = this.phone,
-        role = this.role.toDomain()
+        authRole = this.auth_role.toDomain()
     )
 }
 

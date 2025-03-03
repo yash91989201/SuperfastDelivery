@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.schema"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -55,7 +55,7 @@ apollo {
         generateApolloMetadata.set(true)
 
         introspection {
-            endpointUrl.set("http://54.237.109.222:8081/graphql")
+            endpointUrl.set("http://172.25.160.1:8081/graphql")
             schemaFile.set(file("src/main/graphql/schema.graphqls"))
         }
     }

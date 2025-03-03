@@ -1,6 +1,5 @@
 package com.example.auth.domain.use_cases
 
-import android.util.Log
 import com.example.auth.domain.model.SignInResponse
 import com.example.auth.domain.repository.AuthRepository
 import com.example.common.utils.NetworkResult

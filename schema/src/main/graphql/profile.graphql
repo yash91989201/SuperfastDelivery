@@ -1,5 +1,6 @@
 mutation CreateProfileMutation( $input: CreateProfileInput!){
     CreateProfile(input: $input){
+        id
         name
         image_url
         dob

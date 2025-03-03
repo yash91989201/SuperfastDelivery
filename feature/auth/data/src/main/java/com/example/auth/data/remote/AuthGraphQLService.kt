@@ -18,7 +18,7 @@ interface AuthGraphQLService {
     ): ApolloResponse<SignInWithEmailMutation.Data>
 
     suspend fun signInWithPhone(
-        email: String,
+        phone: String,
         otp: String? = null
     ): ApolloResponse<SignInWithPhoneMutation.Data>
 
@@ -30,7 +30,7 @@ class AuthGraphQLServiceImpl(private val apolloClient: ApolloClient) : AuthGraph
         email: String,
         otp: String?
     ): ApolloResponse<SignInWithEmailMutation.Data> {
-        val optionalOtp = Optional<String>.presentIfNotNull(otp)
+        val optionalOtp = Optional.presentIfNotNull(otp)
         val response = apolloClient.mutation(
             SignInWithEmailMutation(
                 SignInWithEmailInput(
@@ -47,7 +47,7 @@ class AuthGraphQLServiceImpl(private val apolloClient: ApolloClient) : AuthGraph
         phone: String,
         otp: String?
     ): ApolloResponse<SignInWithPhoneMutation.Data> {
-        val optionalOtp = Optional<String>.presentIfNotNull(otp)
+        val optionalOtp = Optional.presentIfNotNull(otp)
         val response = apolloClient.mutation(
             SignInWithPhoneMutation(
                 SignInWithPhoneInput(
