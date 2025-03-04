@@ -1,29 +1,29 @@
 package com.example.account.ui.screens.create_profile
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.account.domain.model.CreateProfileInput
-import com.example.account.domain.model.Gender
 import com.example.account.domain.model.Profile
-import javax.inject.Inject
 import com.example.account.domain.use_cases.CreateProfileUseCase
 import com.example.common.utils.NetworkResult
 import com.example.common.utils.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class CreateProfileViewModel @Inject constructor(private val createProfileUseCase: CreateProfileUseCase):ViewModel() {
+class CreateProfileViewModel @Inject constructor(
+    private val createProfileUseCase: CreateProfileUseCase,
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CreateProfile.UIState())
     val uiState: StateFlow<CreateProfile.UIState> get() = _uiState.asStateFlow()
@@ -31,11 +31,12 @@ class CreateProfileViewModel @Inject constructor(private val createProfileUseCas
     private val _navigation = Channel<CreateProfile.Navigation>()
     val navigation: Flow<CreateProfile.Navigation> get() = _navigation.receiveAsFlow()
 
-    fun onEvent(event: CreateProfile.Event){
-        when(event){
+    fun onEvent(event: CreateProfile.Event) {
+        when (event) {
             is CreateProfile.Event.CreateProfile -> {
                 createProfile(event.newProfile)
             }
+
             CreateProfile.Event.GoToSearchScreen -> {
                 viewModelScope.launch {
                     _navigation.send(CreateProfile.Navigation.GoToSearchScreen)
@@ -44,9 +45,9 @@ class CreateProfileViewModel @Inject constructor(private val createProfileUseCas
         }
     }
 
-    private fun createProfile(newProfile: CreateProfileInput){
-        createProfileUseCase.invoke(newProfile).onEach { result->
-            when(result){
+    private fun createProfile(newProfile: CreateProfileInput) {
+        createProfileUseCase.invoke(newProfile).onEach { result ->
+            when (result) {
                 is NetworkResult.Error -> {
                     _uiState.update {
                         it.copy(
@@ -72,20 +73,21 @@ class CreateProfileViewModel @Inject constructor(private val createProfileUseCas
     }
 }
 
-object CreateProfile{
+object CreateProfile {
     data class UIState(
         val isLoading: Boolean = false,
         val error: UiText = UiText.Idle,
         val data: Profile? = null
     )
 
-    sealed interface Navigation{
-     data object  GoToSearchScreen: Navigation
+    sealed interface Navigation {
+        data object GoToSearchScreen : Navigation
     }
 
-    sealed interface Event{
-        data class CreateProfile(val newProfile: CreateProfileInput):Event
+    sealed interface Event {
+        data class CreateProfile(val newProfile: CreateProfileInput) : Event
+
         // navigation events
-        data object GoToSearchScreen: Event
+        data object GoToSearchScreen : Event
     }
 }

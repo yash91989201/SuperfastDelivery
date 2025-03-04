@@ -1,8 +1,8 @@
 package com.example.auth.data.session_state_holder
 
-import com.example.auth.data.data_store_manager.SessionDataStoreManager
-import com.example.auth.domain.model.SessionData
-import com.example.auth.domain.session_state_holder.SessionStateHolder
+import com.example.common.application_state_store.SessionDataStore
+import com.example.common.application_state_store.SessionStateHolder
+import com.example.common.models.SessionData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SessionStateHolderImpl @Inject constructor(private val sessionDataStoreManager: SessionDataStoreManager) :
+class SessionStateHolderImpl @Inject constructor(private val sessionDataStore: SessionDataStore) :
     SessionStateHolder {
     private val _session = MutableStateFlow<SessionData?>(null)
     override val session: StateFlow<SessionData?>
@@ -27,14 +27,14 @@ class SessionStateHolderImpl @Inject constructor(private val sessionDataStoreMan
 
     private fun loadSession() {
         coroutineScope.launch {
-            sessionDataStoreManager.getSession().collect { _session.value = it }
+            sessionDataStore.getSession().collect { _session.value = it }
         }
     }
 
     override fun updateSession(sessionData: SessionData) {
         _session.value = sessionData
         coroutineScope.launch {
-            sessionDataStoreManager.saveSession(
+            sessionDataStore.saveSession(
                 sessionData.accessToken,
                 sessionData.accessTokenExpiresAt,
                 sessionData.sessionId
@@ -45,7 +45,7 @@ class SessionStateHolderImpl @Inject constructor(private val sessionDataStoreMan
     override fun clearSession() {
         _session.value = null
         coroutineScope.launch {
-            sessionDataStoreManager.clearSession()
+            sessionDataStore.clearSession()
         }
     }
 }

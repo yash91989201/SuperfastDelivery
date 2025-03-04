@@ -1,6 +1,6 @@
-package com.example.auth.domain.session_state_holder
+package com.example.common.application_state_store
 
-import com.example.auth.domain.model.SessionData
+import com.example.common.models.SessionData
 import kotlinx.coroutines.flow.StateFlow
 
 interface SessionStateHolder {

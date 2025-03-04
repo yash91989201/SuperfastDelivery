@@ -11,6 +11,7 @@ class AuthRepositoryImpl(private val authGraphqlService: AuthGraphQLService) : A
     ) = runCatching {
         val response = authGraphqlService.signInWithEmail(email, otp)
         response.exception?.let { throw Exception(it.toString()) }
+        response.errors?.firstOrNull()?.message?.let { throw Exception(it) }
         response.data?.SignInWithEmail?.toDomain() ?: throw Exception("No data returned")
     }
 
@@ -20,18 +21,21 @@ class AuthRepositoryImpl(private val authGraphqlService: AuthGraphQLService) : A
     ) = runCatching {
         val response = authGraphqlService.signInWithPhone(phone, otp)
         response.exception?.let { throw Exception(it.toString()) }
+        response.errors?.firstOrNull()?.message?.let { throw Exception(it) }
         response.data?.SignInWithPhone?.toDomain() ?: throw Exception("No Data returned")
     }
 
     override suspend fun signInWithGoogle(idToken: String) = runCatching {
         val response = authGraphqlService.signInWithGoogle(idToken = idToken)
         response.exception?.let { throw Exception(it.toString()) }
+        response.errors?.firstOrNull()?.message?.let { throw Exception(it) }
         response.data?.SignInWithGoogle?.toDomain() ?: throw Exception("No Data returned")
     }
 
     override suspend fun refreshToken(sessionId: String) = runCatching {
         val response = authGraphqlService.refreshToken(sessionId = sessionId)
         response.exception?.let { throw Exception(it.toString()) }
+        response.errors?.firstOrNull()?.message?.let { throw Exception(it) }
         response.data?.RefreshToken?.toDomain() ?: throw Exception("No Data returned")
     }
 }

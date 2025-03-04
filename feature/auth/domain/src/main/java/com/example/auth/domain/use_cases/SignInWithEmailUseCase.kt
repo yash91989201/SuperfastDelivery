@@ -14,6 +14,6 @@ class SignInWithEmailUseCase @Inject constructor(private val authRepository: Aut
 
         authRepository.signInWithEmail(email, otp)
             .onSuccess { emit(NetworkResult.Success(it)) }
-            .onFailure { emit(NetworkResult.Error(it.message)) }
+            .onFailure { emit(NetworkResult.Error(it.message ?: "Unknown Error occurred")) }
     }.flowOn(Dispatchers.IO)
 }

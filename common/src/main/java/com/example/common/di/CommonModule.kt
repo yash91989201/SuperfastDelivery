@@ -2,6 +2,9 @@ package com.example.common.di
 
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.network.okHttpClient
+import com.example.common.application_state_store.ApplicationStateStore
+import com.example.common.application_state_store.ApplicationStateStoreImpl
+import com.example.common.application_state_store.SessionStateHolder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +19,7 @@ object CommonModule {
 
     @Provides
     @Singleton
-    fun provideApolloClient(okHttpClient: OkHttpClient): ApolloClient{
+    fun provideApolloClient(okHttpClient: OkHttpClient): ApolloClient {
         return ApolloClient.Builder()
             .serverUrl("http://172.25.160.1:8081/graphql")
             .okHttpClient(okHttpClient)
@@ -25,7 +28,7 @@ object CommonModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient{
+    fun provideOkHttpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor()
         logging.level = (HttpLoggingInterceptor.Level.BODY)
         return OkHttpClient.Builder()
@@ -37,5 +40,13 @@ object CommonModule {
             }
             .addInterceptor(logging)
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideApplicationStateStore(
+        sessionStateHolder: SessionStateHolder
+    ): ApplicationStateStore {
+        return ApplicationStateStoreImpl(sessionStateHolder = sessionStateHolder)
     }
 }

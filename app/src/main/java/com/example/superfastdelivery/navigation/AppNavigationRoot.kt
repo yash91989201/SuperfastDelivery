@@ -1,6 +1,5 @@
 package com.example.superfastdelivery.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -8,9 +7,9 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.common.application_state_store.ApplicationStateStore
 import com.example.common.navigation.NavigationSubGraph
 import com.example.common.navigation.NavigationSubGraphDest
-import com.example.superfastdelivery.ApplicationStateStore
 import com.example.superfastdelivery.screens.onboarding.OnboardingScreen
 import com.example.superfastdelivery.screens.splash.SplashScreen
 

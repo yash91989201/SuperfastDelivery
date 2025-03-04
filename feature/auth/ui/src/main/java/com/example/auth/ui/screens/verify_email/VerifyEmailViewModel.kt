@@ -2,10 +2,10 @@ package com.example.auth.ui.screens.verify_email
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.auth.domain.model.SessionData
 import com.example.auth.domain.model.SignInResponse
-import com.example.auth.domain.session_state_holder.SessionStateHolder
 import com.example.auth.domain.use_cases.SignInWithEmailUseCase
+import com.example.common.application_state_store.SessionStateHolder
+import com.example.common.models.SessionData
 import com.example.common.utils.NetworkResult
 import com.example.common.utils.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel

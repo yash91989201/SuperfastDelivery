@@ -2,7 +2,6 @@ package com.example.auth.domain.model
 
 import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 enum class AuthRole {
     CUSTOMER, DELIVERY_PARTNER, VENDOR, ADMIN
@@ -38,10 +37,4 @@ data class SignInResponse(
     val accessTokenExpiresAt: Instant?,
     val createProfile: Boolean,
     val verityOtp: Boolean,
-)
-
-data class SessionData(
-    val accessToken: String,
-    val accessTokenExpiresAt: Instant,
-    val sessionId: String
 )

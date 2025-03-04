@@ -14,6 +14,7 @@ import com.example.common.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.example.common.application_state_store.ApplicationStateStore
 
 //const clientid="88877941192-vfsg71tlfla6npd089rh2hrvklbd856r.apps.googleusercontent.com"
 
