@@ -47,6 +47,8 @@ dependencies {
     implementation(libs.apollo.adapters.core)
     // logging interceptor
     implementation(libs.logging.interceptor)
+    // datastore preferences
+    implementation(libs.androidx.datastore.preferences)
     //
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

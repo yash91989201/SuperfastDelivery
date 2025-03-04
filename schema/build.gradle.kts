@@ -51,6 +51,7 @@ apollo {
         packageName.set("com.example.schema")
         schemaFile.set(file("src/main/graphql/schema.graphqls"))
         mapScalar("Date","java.time.LocalDate","com.apollographql.adapter.core.JavaLocalDateAdapter")
+        mapScalar("DateTime","java.time.Instant","com.apollographql.adapter.core.JavaInstantAdapter")
         generateKotlinModels.set(true)
         generateApolloMetadata.set(true)
 

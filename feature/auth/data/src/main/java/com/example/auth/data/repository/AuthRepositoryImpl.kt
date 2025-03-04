@@ -1,5 +1,6 @@
 package com.example.auth.data.repository
 
+import android.util.Log
 import com.example.auth.data.mappers.toDomain
 import com.example.auth.data.remote.AuthGraphQLService
 import com.example.auth.domain.model.SignInResponse
@@ -12,7 +13,7 @@ class AuthRepositoryImpl(private val authGraphqlService: AuthGraphQLService) : A
     ): Result<SignInResponse> {
         return try {
             val response = authGraphqlService.signInWithEmail(email, otp)
-            print(response)
+            Log.d("SignInWithEmailResponse","${response.exception}")
             if (response.exception == null) {
                 response.data?.SignInWithEmail?.let {
                     Result.success(it.toDomain())
@@ -23,6 +24,7 @@ class AuthRepositoryImpl(private val authGraphqlService: AuthGraphQLService) : A
                 Result.failure(Exception(response.exception.toString()))
             }
         } catch (e: Exception) {
+            Log.d("SignInWithEmailException","$e")
             Result.failure(e)
         }
     }

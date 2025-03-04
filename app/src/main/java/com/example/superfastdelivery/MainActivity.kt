@@ -23,6 +23,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var navigationRoutes: NavigationRoutes
 
+    @Inject
+    lateinit var applicationStateStore: ApplicationStateStore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -34,7 +37,10 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .systemBarsPadding()
                 ) {
-                    AppNavigationRoot(navigationRoutes = navigationRoutes)
+                    AppNavigationRoot(
+                        applicationStateStore = applicationStateStore,
+                        navigationRoutes = navigationRoutes
+                    )
                 }
             }
         }

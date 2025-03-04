@@ -2,7 +2,9 @@ package com.example.auth.ui.screens.verify_email
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.auth.domain.model.SessionData
 import com.example.auth.domain.model.SignInResponse
+import com.example.auth.domain.session_state_holder.SessionStateHolder
 import com.example.auth.domain.use_cases.SignInWithEmailUseCase
 import com.example.common.utils.NetworkResult
 import com.example.common.utils.UiText
@@ -17,11 +19,13 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
 class VerifyEmailViewModel @Inject constructor(
-    private val signInWithEmailUseCase: SignInWithEmailUseCase
+    private val signInWithEmailUseCase: SignInWithEmailUseCase,
+    private val sessionStateHolder: SessionStateHolder,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(VerifyEmail.UiState())
@@ -55,47 +59,57 @@ class VerifyEmailViewModel @Inject constructor(
     }
 
     private fun verifyEmail(email: String, otp: String) {
-        signInWithEmailUseCase.invoke(email = email, otp = otp).onEach { result ->
-            when (result) {
-                is NetworkResult.Error -> {
-                    _uiState.update {
-                        it.copy(
-                            isVerifyingOtp = false,
-                            verifyOtpError = UiText.RemoteString(result.message ?: "Unknown Error")
-                        )
-                    }
-                }
-
-                is NetworkResult.Loading -> {
-                    _uiState.update {
-                        it.copy(
-                            isVerifyingOtp = true
-                        )
-                    }
-                }
-
-                is NetworkResult.Success -> {
-                    _uiState.update {
-                        it.copy(
-                            isVerifyingOtp = false
-                        )
-                    }
-
-                    result.data?.let {
-                        if (it.createProfile) {
-                            _navigation.send(
-                                VerifyEmail.Navigation.GoToAccountCreateProfileScreen
+        viewModelScope.launch {
+            signInWithEmailUseCase(email, otp).collect { result ->
+                when (result) {
+                    is NetworkResult.Error -> {
+                        _uiState.update {
+                            it.copy(
+                                isVerifyingOtp = false,
+                                verifyOtpError = UiText.RemoteString(
+                                    result.message ?: "Unknown Error"
+                                )
                             )
-                        }else{
+                        }
+                    }
+
+                    is NetworkResult.Loading -> {
+                        _uiState.update {
+                            it.copy(isVerifyingOtp = true)
+                        }
+                    }
+
+                    is NetworkResult.Success -> {
+                        _uiState.update {
+                            it.copy(isVerifyingOtp = false)
+                        }
+
+                        result.data?.let { signInRes ->
+
+                            val sessionId = signInRes.sessionId
+                            val accessToken = signInRes.accessToken
+                            val accessTokenExpiresAt = signInRes.accessTokenExpiresAt
+                            if (sessionId != null && accessToken != null && accessTokenExpiresAt != null) {
+                                sessionStateHolder.updateSession(
+                                    SessionData(
+                                        sessionId = sessionId,
+                                        accessToken = accessToken,
+                                        accessTokenExpiresAt = accessTokenExpiresAt
+                                    )
+                                )
+                            }
+
                             _navigation.send(
-                                VerifyEmail.Navigation.GoToSearchHomeScreen
+                                if (signInRes.createProfile)
+                                    VerifyEmail.Navigation.GoToAccountCreateProfileScreen
+                                else
+                                    VerifyEmail.Navigation.GoToSearchHomeScreen
                             )
                         }
                     }
                 }
             }
         }
-            .launchIn(viewModelScope)
     }
 
     private fun resendEmail(email: String) {

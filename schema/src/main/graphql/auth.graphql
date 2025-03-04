@@ -16,6 +16,9 @@ mutation SignInWithEmail( $input: SignInWithEmailInput!){
             anniversary
             auth_id
         }
+        session_id
+        access_token
+        access_token_expires_at
         verify_otp
         create_profile
     }
@@ -39,6 +42,9 @@ mutation SignInWithPhone( $input: SignInWithPhoneInput!){
             anniversary
             auth_id
         }
+        session_id
+        access_token
+        access_token_expires_at
         verify_otp
         create_profile
     }
@@ -62,5 +68,8 @@ mutation SignInWithGoogle( $input: SignInWithGoogleInput!){
             anniversary
             auth_id
         }
+        session_id
+        access_token
+        access_token_expires_at
     }
 }

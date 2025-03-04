@@ -1,11 +1,14 @@
 package com.example.auth.data.mappers
 
+import com.example.auth.domain.model.Auth
+import com.example.auth.domain.model.Profile
 import com.example.auth.domain.model.SignInResponse
 import com.example.schema.SignInWithEmailMutation
 import com.example.schema.SignInWithPhoneMutation
 import com.example.schema.SignInWithGoogleMutation
 import com.example.schema.type.AuthRole
 import com.example.schema.type.Gender
+import java.time.ZoneOffset
 
 fun AuthRole.toDomain(): com.example.auth.domain.model.AuthRole {
     return when (this) {
@@ -27,9 +30,8 @@ fun Gender.toDomain(): com.example.auth.domain.model.Gender {
     }
 }
 
-
-fun SignInWithEmailMutation.Auth.toDomain(): com.example.auth.domain.model.Auth {
-    return com.example.auth.domain.model.Auth(
+fun SignInWithEmailMutation.Auth.toDomain(): Auth {
+    return Auth(
         id = this.id,
         email = this.email,
         emailVerified = this.email_verified,
@@ -38,9 +40,8 @@ fun SignInWithEmailMutation.Auth.toDomain(): com.example.auth.domain.model.Auth 
     )
 }
 
-
-fun SignInWithEmailMutation.Profile.toDomain(): com.example.auth.domain.model.Profile {
-    return com.example.auth.domain.model.Profile(
+fun SignInWithEmailMutation.Profile.toDomain(): Profile {
+    return Profile(
         id = this.id,
         name = this.name,
         imageUrl = this.image_url,
@@ -56,12 +57,15 @@ fun SignInWithEmailMutation.SignInWithEmail.toDomain(): SignInResponse {
         auth = this.auth?.toDomain(),
         profile = this.profile?.toDomain(),
         verityOtp = this.verify_otp,
-        createProfile = this.create_profile
+        createProfile = this.create_profile,
+        sessionId = this.session_id,
+        accessToken = this.access_token,
+        accessTokenExpiresAt = this.access_token_expires_at,
     )
 }
 
-fun SignInWithPhoneMutation.Auth.toDomain(): com.example.auth.domain.model.Auth {
-    return com.example.auth.domain.model.Auth(
+fun SignInWithPhoneMutation.Auth.toDomain(): Auth {
+    return Auth(
         id = this.id,
         email = this.email,
         emailVerified = this.email_verified,
@@ -70,9 +74,8 @@ fun SignInWithPhoneMutation.Auth.toDomain(): com.example.auth.domain.model.Auth 
     )
 }
 
-
-fun SignInWithPhoneMutation.Profile.toDomain(): com.example.auth.domain.model.Profile {
-    return com.example.auth.domain.model.Profile(
+fun SignInWithPhoneMutation.Profile.toDomain(): Profile {
+    return Profile(
         id = this.id,
         name = this.name,
         imageUrl = this.image_url,
@@ -88,12 +91,15 @@ fun SignInWithPhoneMutation.SignInWithPhone.toDomain(): SignInResponse {
         auth = this.auth?.toDomain(),
         profile = this.profile?.toDomain(),
         verityOtp = this.verify_otp,
-        createProfile = this.create_profile
-    )
+        createProfile = this.create_profile,
+        sessionId = this.session_id,
+        accessToken = this.access_token,
+        accessTokenExpiresAt = this.access_token_expires_at,
+        )
 }
 
-fun SignInWithGoogleMutation.Auth.toDomain(): com.example.auth.domain.model.Auth {
-    return com.example.auth.domain.model.Auth(
+fun SignInWithGoogleMutation.Auth.toDomain(): Auth {
+    return Auth(
         id = this.id,
         email = this.email,
         emailVerified = this.email_verified,
@@ -102,9 +108,8 @@ fun SignInWithGoogleMutation.Auth.toDomain(): com.example.auth.domain.model.Auth
     )
 }
 
-
-fun SignInWithGoogleMutation.Profile.toDomain(): com.example.auth.domain.model.Profile {
-    return com.example.auth.domain.model.Profile(
+fun SignInWithGoogleMutation.Profile.toDomain(): Profile {
+    return Profile(
         id = this.id,
         name = this.name,
         imageUrl = this.image_url,
@@ -121,5 +126,8 @@ fun SignInWithGoogleMutation.SignInWithGoogle.toDomain(): SignInResponse {
         profile = this.profile?.toDomain(),
         verityOtp = false,
         createProfile = false,
-    )
+        sessionId = this.session_id,
+        accessToken = this.access_token,
+        accessTokenExpiresAt = this.access_token_expires_at,
+        )
 }

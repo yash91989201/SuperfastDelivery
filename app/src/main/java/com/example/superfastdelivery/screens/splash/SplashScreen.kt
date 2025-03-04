@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,25 +25,42 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.auth.domain.model.SessionData
+import com.example.auth.domain.session_state_holder.SessionStateHolder
 import com.example.common.navigation.NavigationSubGraph
 import com.example.common.navigation.NavigationSubGraphDest
 import com.example.common.ui.theme.AppTheme
 import com.example.common.ui.theme.Orange100
+import com.example.superfastdelivery.ApplicationStateStore
 import com.example.superfastdelivery.R
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import androidx.compose.runtime.getValue
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
-fun SplashScreen(navHost: NavHostController) {
-
+fun SplashScreen(
+    navHost: NavHostController,
+    isLoggedIn: Boolean,
+) {
     val context = LocalContext.current
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(isLoggedIn) {
         delay(2000)
-        navHost.popBackStack()
-        if (isOnboardingFinished(context)) {
-            navHost.navigate(NavigationSubGraphDest.AuthSignIn)
-        } else {
-            navHost.navigate(NavigationSubGraph.Onboarding)
+
+        val isOnboardingCompleted = withContext(Dispatchers.IO) {
+            isOnboardingFinished(context)
+        }
+
+        val destination: NavigationSubGraph = when {
+            isLoggedIn -> NavigationSubGraph.Search
+            isOnboardingCompleted -> NavigationSubGraph.Auth
+            else -> NavigationSubGraph.Onboarding
+        }
+
+        navHost.navigate(destination) {
+            popUpTo(0) { inclusive = true }
         }
     }
 
@@ -70,6 +88,7 @@ fun SplashScreen(navHost: NavHostController) {
     }
 }
 
+// ✅ Move SharedPreferences to background thread
 private fun isOnboardingFinished(context: Context): Boolean {
     val sharedPreferences = context.getSharedPreferences("onboarding", Context.MODE_PRIVATE)
     return sharedPreferences.getBoolean("finished", false)
@@ -79,6 +98,9 @@ private fun isOnboardingFinished(context: Context): Boolean {
 @Composable
 fun SplashScreenPreview() {
     AppTheme {
-        SplashScreen(navHost = rememberNavController())
+        SplashScreen(
+            navHost = rememberNavController(),
+            isLoggedIn = false
+        )
     }
 }
