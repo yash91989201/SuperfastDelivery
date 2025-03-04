@@ -3,12 +3,12 @@ package com.example.auth.data.mappers
 import com.example.auth.domain.model.Auth
 import com.example.auth.domain.model.Profile
 import com.example.auth.domain.model.SignInResponse
+import com.example.schema.RefreshTokenMutation
 import com.example.schema.SignInWithEmailMutation
-import com.example.schema.SignInWithPhoneMutation
 import com.example.schema.SignInWithGoogleMutation
+import com.example.schema.SignInWithPhoneMutation
 import com.example.schema.type.AuthRole
 import com.example.schema.type.Gender
-import java.time.ZoneOffset
 
 fun AuthRole.toDomain(): com.example.auth.domain.model.AuthRole {
     return when (this) {
@@ -95,7 +95,7 @@ fun SignInWithPhoneMutation.SignInWithPhone.toDomain(): SignInResponse {
         sessionId = this.session_id,
         accessToken = this.access_token,
         accessTokenExpiresAt = this.access_token_expires_at,
-        )
+    )
 }
 
 fun SignInWithGoogleMutation.Auth.toDomain(): Auth {
@@ -129,5 +129,39 @@ fun SignInWithGoogleMutation.SignInWithGoogle.toDomain(): SignInResponse {
         sessionId = this.session_id,
         accessToken = this.access_token,
         accessTokenExpiresAt = this.access_token_expires_at,
-        )
+    )
+}
+
+fun RefreshTokenMutation.Auth.toDomain(): Auth {
+    return Auth(
+        id = this.id,
+        email = this.email,
+        emailVerified = this.email_verified,
+        phone = this.phone,
+        authRole = this.auth_role.toDomain(),
+    )
+}
+
+fun RefreshTokenMutation.Profile.toDomain(): Profile {
+    return Profile(
+        id = this.id,
+        name = this.name,
+        imageUrl = this.image_url,
+        dob = this.dob,
+        anniversary = this.anniversary,
+        gender = this.gender?.toDomain(),
+        authId = this.auth_id,
+    )
+}
+
+fun RefreshTokenMutation.RefreshToken.toDomain(): SignInResponse {
+    return SignInResponse(
+        auth = this.auth?.toDomain(),
+        profile = this.profile?.toDomain(),
+        verityOtp = false,
+        createProfile = false,
+        sessionId = this.session_id,
+        accessToken = this.access_token,
+        accessTokenExpiresAt = this.access_token_expires_at,
+    )
 }

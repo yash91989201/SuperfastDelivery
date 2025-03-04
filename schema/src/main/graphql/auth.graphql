@@ -73,3 +73,29 @@ mutation SignInWithGoogle( $input: SignInWithGoogleInput!){
         access_token_expires_at
     }
 }
+
+mutation RefreshToken( $sessionId: String!){
+    RefreshToken(session_id: $sessionId){
+        auth {
+            id
+            email
+            email_verified
+            phone
+            auth_role
+        }
+        profile {
+            id
+            name
+            image_url
+            gender
+            dob
+            anniversary
+            auth_id
+        }
+        session_id
+        access_token
+        access_token_expires_at
+        verify_otp
+        create_profile
+    }
+}

@@ -3,6 +3,7 @@ package com.example.auth.data.remote
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.ApolloResponse
 import com.apollographql.apollo.api.Optional
+import com.example.schema.RefreshTokenMutation
 import com.example.schema.SignInWithEmailMutation
 import com.example.schema.SignInWithGoogleMutation
 import com.example.schema.SignInWithPhoneMutation
@@ -23,6 +24,8 @@ interface AuthGraphQLService {
     ): ApolloResponse<SignInWithPhoneMutation.Data>
 
     suspend fun signInWithGoogle(idToken: String): ApolloResponse<SignInWithGoogleMutation.Data>
+
+    suspend fun refreshToken(sessionId: String): ApolloResponse<RefreshTokenMutation.Data>
 }
 
 class AuthGraphQLServiceImpl(private val apolloClient: ApolloClient) : AuthGraphQLService {
@@ -69,4 +72,13 @@ class AuthGraphQLServiceImpl(private val apolloClient: ApolloClient) : AuthGraph
         ).execute()
         return response
     }
+
+    override suspend fun refreshToken(sessionId: String): ApolloResponse<RefreshTokenMutation.Data> {
+        val response = apolloClient.mutation(
+            RefreshTokenMutation(sessionId = sessionId)
+        ).execute()
+
+        return response
+    }
+
 }
