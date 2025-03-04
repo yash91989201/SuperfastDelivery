@@ -20,7 +20,6 @@ class SessionStateHolderImpl @Inject constructor(private val sessionDataStore: S
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-
     init {
         loadSession()
     }
@@ -35,6 +34,7 @@ class SessionStateHolderImpl @Inject constructor(private val sessionDataStore: S
         _session.value = sessionData
         coroutineScope.launch {
             sessionDataStore.saveSession(
+                sessionData.authId,
                 sessionData.accessToken,
                 sessionData.accessTokenExpiresAt,
                 sessionData.sessionId

@@ -1,5 +1,6 @@
 package com.example.auth.ui.screens.verify_email
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.auth.domain.model.SignInResponse
@@ -85,12 +86,15 @@ class VerifyEmailViewModel @Inject constructor(
 
                         result.data?.let { signInRes ->
 
+                            val authId = signInRes.auth?.id
                             val sessionId = signInRes.sessionId
                             val accessToken = signInRes.accessToken
                             val accessTokenExpiresAt = signInRes.accessTokenExpiresAt
-                            if (sessionId != null && accessToken != null && accessTokenExpiresAt != null) {
+                            Log.d("signInRes", "response $signInRes")
+                            if (authId != null && sessionId != null && accessToken != null && accessTokenExpiresAt != null) {
                                 sessionStateHolder.updateSession(
                                     SessionData(
+                                        authId = authId,
                                         sessionId = sessionId,
                                         accessToken = accessToken,
                                         accessTokenExpiresAt = accessTokenExpiresAt

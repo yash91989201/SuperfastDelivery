@@ -12,6 +12,7 @@ import com.example.auth.ui.screens.sign_in.SignInScreen
 import com.example.auth.ui.screens.verify_email.VerifyEmailScreen
 import com.example.auth.ui.screens.verify_email.VerifyEmailViewModel
 import com.example.auth.ui.screens.verify_phone.VerifyPhoneScreen
+import com.example.common.application_state_store.ApplicationStateStore
 import com.example.common.navigation.Feature
 import com.example.common.navigation.NavigationSubGraphDest
 import com.example.common.navigation.NavigationSubGraph
@@ -21,7 +22,8 @@ interface AuthFeature : Feature
 class AuthFeatureImpl : AuthFeature {
     override fun registerGraph(
         navHostController: NavHostController,
-        navGraphBuilder: NavGraphBuilder
+        navGraphBuilder: NavGraphBuilder,
+        applicationStateStore: ApplicationStateStore,
     ) {
         navGraphBuilder.navigation<NavigationSubGraph.Auth>(startDestination = NavigationSubGraphDest.AuthSignIn) {
             composable<NavigationSubGraphDest.AuthSignIn> {

@@ -18,7 +18,6 @@ fun AppNavigationRoot(
     applicationStateStore: ApplicationStateStore,
     navigationRoutes: NavigationRoutes
 ) {
-
     val navHost = rememberNavController()
     val session by applicationStateStore.sessionStateHolder.session.collectAsState()
     val isLoggedIn = session != null
@@ -43,26 +42,20 @@ fun AppNavigationRoot(
 
         navigationRoutes.authFeature.registerGraph(
             navHostController = navHost,
-            navGraphBuilder = this
+            navGraphBuilder = this,
+            applicationStateStore = applicationStateStore,
         )
 
         navigationRoutes.searchFeature.registerGraph(
             navHostController = navHost,
-            navGraphBuilder = this
+            navGraphBuilder = this,
+            applicationStateStore = applicationStateStore,
         )
 
         navigationRoutes.accountFeature.registerGraph(
             navHostController = navHost,
-            navGraphBuilder = this
+            navGraphBuilder = this,
+            applicationStateStore = applicationStateStore
         )
     }
-
-    LaunchedEffect(session) {
-        if (session == null) {  // ✅ Only navigate if session is null (user logged out)
-            navHost.navigate(NavigationSubGraph.Auth) {
-                popUpTo(0) { inclusive = true }
-            }
-        }
-    }
-
 }

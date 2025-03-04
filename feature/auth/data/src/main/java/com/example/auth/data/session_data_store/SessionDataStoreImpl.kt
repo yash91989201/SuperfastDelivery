@@ -24,17 +24,20 @@ class SessionDataStoreImpl @Inject constructor(
     private val dataStore = context.sessionDataStore
 
     companion object {
+        private val AUTH_ID = stringPreferencesKey("auth_id")
+        private val SESSION_ID = stringPreferencesKey("session_id")
         private val ACCESS_TOKEN = stringPreferencesKey("access_token")
         private val ACCESS_TOKEN_EXPIRES_AT = longPreferencesKey("access_token_expires_at")
-        private val SESSION_ID = stringPreferencesKey("session_id")
     }
 
     override suspend fun saveSession(
+        authId: String,
         accessToken: String,
         accessTokenExpiresAt: Instant,
         sessionId: String
     ) {
         dataStore.edit { prefs ->
+            prefs[AUTH_ID] = authId
             prefs[ACCESS_TOKEN] = accessToken
             prefs[ACCESS_TOKEN_EXPIRES_AT] = accessTokenExpiresAt.epochSecond
             prefs[SESSION_ID] = sessionId
@@ -42,12 +45,14 @@ class SessionDataStoreImpl @Inject constructor(
     }
 
     override fun getSession(): Flow<SessionData?> = dataStore.data.map { prefs ->
+        val authId = prefs[AUTH_ID]
         val accessToken = prefs[ACCESS_TOKEN]
         val accessTokenExpiresAt = prefs[ACCESS_TOKEN_EXPIRES_AT]
         val sessionId = prefs[SESSION_ID]
 
-        if (accessToken != null && accessTokenExpiresAt != null && sessionId != null)
+        if (authId != null && accessToken != null && accessTokenExpiresAt != null && sessionId != null)
             SessionData(
+                authId = authId,
                 accessToken = accessToken,
                 accessTokenExpiresAt = Instant.ofEpochSecond(accessTokenExpiresAt),
                 sessionId = sessionId

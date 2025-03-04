@@ -1,5 +1,6 @@
 package com.example.account.ui.screens.create_profile
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -49,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.account.domain.model.CreateProfileInput
 import com.example.account.domain.model.Gender
+import com.example.common.application_state_store.ApplicationStateStore
 import com.example.common.utils.UiText
 import java.time.Instant
 import java.time.LocalDate
@@ -59,6 +61,7 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun CreateProfileScreen(
     viewModel: CreateProfileViewModel,
+    applicationStateStore: ApplicationStateStore,
     onNavigateToSearch: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -72,6 +75,10 @@ fun CreateProfileScreen(
 
     var showDobPicker by remember { mutableStateOf(false) }
     var showAnniversaryPicker by remember { mutableStateOf(false) }
+
+    val session by applicationStateStore.sessionStateHolder.session.collectAsState()
+    Log.d("session","Current session: $session")
+    val authId = session?.authId
 
     LaunchedEffect(Unit) {
         viewModel.navigation.collect { nav ->
@@ -131,18 +138,20 @@ fun CreateProfileScreen(
 
                 Button(
                     onClick = {
-                        viewModel.onEvent(
-                            CreateProfile.Event.CreateProfile(
-                                CreateProfileInput(
-                                    name = name,
-                                    imageUrl = imageUrl,
-                                    dob = dob,
-                                    anniversary = anniversary,
-                                    gender = gender ?: Gender.OTHERS,
-                                    authId = "culamzg0nhao3ufocwargza9" // Replace with actual auth ID
+                        if (authId != null) {
+                            viewModel.onEvent(
+                                CreateProfile.Event.CreateProfile(
+                                    CreateProfileInput(
+                                        name = name,
+                                        imageUrl = imageUrl,
+                                        dob = dob,
+                                        anniversary = anniversary,
+                                        gender = gender ?: Gender.OTHERS,
+                                        authId = authId
+                                    )
                                 )
                             )
-                        )
+                        }
                     },
                     modifier = Modifier.fillMaxWidth(),
                     enabled = name.isNotBlank() && gender != null

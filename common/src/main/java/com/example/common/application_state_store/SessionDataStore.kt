@@ -5,7 +5,13 @@ import kotlinx.coroutines.flow.Flow
 import java.time.Instant
 
 interface SessionDataStore {
-    suspend fun saveSession(accessToken: String, accessTokenExpiresAt: Instant, sessionId: String)
+    suspend fun saveSession(
+        authId: String,
+        accessToken: String,
+        accessTokenExpiresAt: Instant,
+        sessionId: String
+    )
+
     fun getSession(): Flow<SessionData?>
     suspend fun clearSession()
 }
