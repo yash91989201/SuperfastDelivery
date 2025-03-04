@@ -100,7 +100,6 @@ fun CreateProfileScreen(
 
                 Button(
                     onClick = {
-                        Log.d("CreateProfile", "Create Profile Button Clicked")
                         viewModel.onEvent(
                             CreateProfile.Event.CreateProfile(
                                 CreateProfileInput(
