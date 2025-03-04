@@ -45,7 +45,7 @@ class EmailSignInViewModel @Inject constructor(
     }
 
     private fun signInWithEmail(email: String) {
-        signInWithEmailUseCase.invoke(email).onEach { result ->
+        signInWithEmailUseCase(email).onEach { result ->
             when (result) {
                 is NetworkResult.Error -> {
                     _uiState.update {

@@ -116,7 +116,7 @@ class VerifyEmailViewModel @Inject constructor(
     }
 
     private fun resendEmail(email: String) {
-        signInWithEmailUseCase.invoke(email = email).onEach { result ->
+        signInWithEmailUseCase(email = email).onEach { result ->
             when (result) {
                 is NetworkResult.Error -> {
                     _uiState.update {

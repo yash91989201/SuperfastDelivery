@@ -46,7 +46,7 @@ class CreateProfileViewModel @Inject constructor(
     }
 
     private fun createProfile(newProfile: CreateProfileInput) {
-        createProfileUseCase.invoke(newProfile).onEach { result ->
+        createProfileUseCase(newProfile).onEach { result ->
             when (result) {
                 is NetworkResult.Error -> {
                     _uiState.update {
