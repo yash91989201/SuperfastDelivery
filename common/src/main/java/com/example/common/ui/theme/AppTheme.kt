@@ -40,7 +40,7 @@ val darkColorScheme = darkColorScheme(
     inverseOnSurface = Dark100,
     error = Color.Red,
     onError = Color.White,
-    errorContainer = Color(0xFF3700B3), // Custom deep red for dark theme
+    errorContainer = Color(0xFF3700B3),
     onErrorContainer = Dark20,
     outline = Gray80,
     outlineVariant = Gray50,
@@ -79,7 +79,7 @@ val lightColorScheme = lightColorScheme(
     inverseOnSurface = Color.White,
     error = Color.Red,
     onError = Color.White,
-    errorContainer = Color(0xFFFFCDD2), // Custom light red for light theme
+    errorContainer = Color(0xFFFFCDD2),
     onErrorContainer = Color.Black,
     outline = Gray50,
     outlineVariant = Gray20,
@@ -93,57 +93,56 @@ val lightColorScheme = lightColorScheme(
     surfaceDim = Gray50
 )
 
-
 val typography = Typography(
     displayLarge = TextStyle(
         fontFamily = Nunito,
         fontWeight = FontWeight.ExtraBold,
-        fontSize = 64.sp
+        fontSize = 32.sp
     ),
     displayMedium = TextStyle(
         fontFamily = Nunito,
         fontWeight = FontWeight.Bold,
-        fontSize = 56.sp
+        fontSize = 28.sp
     ),
     displaySmall = TextStyle(
         fontFamily = Nunito,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 48.sp
+        fontSize = 24.sp
     ),
     headlineLarge = TextStyle(
         fontFamily = Nunito,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 40.sp
+        fontSize = 22.sp
     ),
     headlineMedium = TextStyle(
         fontFamily = Nunito,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 32.sp
+        fontSize = 20.sp
     ),
     headlineSmall = TextStyle(
         fontFamily = Nunito,
         fontWeight = FontWeight.Normal,
-        fontSize = 24.sp
+        fontSize = 18.sp
     ),
     labelLarge = TextStyle(
         fontFamily = Nunito,
         fontWeight = FontWeight.Bold,
-        fontSize = 24.sp
+        fontSize = 16.sp
     ),
     labelMedium = TextStyle(
         fontFamily = Nunito,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 18.sp
+        fontSize = 14.sp
     ),
     labelSmall = TextStyle(
         fontFamily = Nunito,
         fontWeight = FontWeight.Medium,
-        fontSize = 14.sp
+        fontSize = 12.sp
     ),
     titleLarge = TextStyle(
         fontFamily = Nunito,
         fontWeight = FontWeight.Bold,
-        fontSize = 18.sp
+        fontSize = 16.sp
     ),
     titleMedium = TextStyle(
         fontFamily = Nunito,
@@ -158,17 +157,17 @@ val typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = Nunito,
         fontWeight = FontWeight.Medium,
-        fontSize = 20.sp
+        fontSize = 16.sp
     ),
     bodyMedium = TextStyle(
         fontFamily = Nunito,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
+        fontSize = 14.sp
     ),
     bodySmall = TextStyle(
         fontFamily = Nunito,
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp
+        fontSize = 12.sp
     ),
 )
 

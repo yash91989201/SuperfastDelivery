@@ -3,6 +3,7 @@ package com.example.account.ui.screens.create_profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.account.domain.model.CreateProfileInput
+import com.example.account.domain.model.Gender
 import com.example.account.domain.model.Profile
 import com.example.account.domain.use_cases.CreateProfileUseCase
 import com.example.common.utils.NetworkResult
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,11 +27,46 @@ class CreateProfileViewModel @Inject constructor(
     private val createProfileUseCase: CreateProfileUseCase,
 ) : ViewModel() {
 
+    private val _name = MutableStateFlow("")
+    val name: StateFlow<String> = _name.asStateFlow()
+
+    private val _gender = MutableStateFlow<Gender?>(null)
+    val gender: StateFlow<Gender?> = _gender.asStateFlow()
+
+    private val _dob = MutableStateFlow<LocalDate?>(null)
+    val dob: StateFlow<LocalDate?> = _dob.asStateFlow()
+
+    private val _anniversary = MutableStateFlow<LocalDate?>(null)
+    val anniversary: StateFlow<LocalDate?> = _anniversary.asStateFlow()
+
+    private val _imageUrl = MutableStateFlow<String?>(null)
+    val imageUrl: StateFlow<String?> = _imageUrl.asStateFlow()
+
     private val _uiState = MutableStateFlow(CreateProfile.UIState())
-    val uiState: StateFlow<CreateProfile.UIState> get() = _uiState.asStateFlow()
+    val uiState: StateFlow<CreateProfile.UIState> = _uiState.asStateFlow()
 
     private val _navigation = Channel<CreateProfile.Navigation>()
-    val navigation: Flow<CreateProfile.Navigation> get() = _navigation.receiveAsFlow()
+    val navigation: Flow<CreateProfile.Navigation> = _navigation.receiveAsFlow()
+
+    fun updateName(value: String) {
+        _name.value = value
+    }
+
+    fun updateGender(value: Gender?) {
+        _gender.value = value
+    }
+
+    fun updateDob(value: LocalDate?) {
+        _dob.value = value
+    }
+
+    fun updateAnniversary(value: LocalDate?) {
+        _anniversary.value = value
+    }
+
+    fun updateImageUrl(value: String?) {
+        _imageUrl.value = value
+    }
 
     fun onEvent(event: CreateProfile.Event) {
         when (event) {
@@ -58,11 +95,7 @@ class CreateProfileViewModel @Inject constructor(
                 }
 
                 is NetworkResult.Loading -> {
-                    _uiState.update {
-                        it.copy(
-                            isLoading = true
-                        )
-                    }
+                    _uiState.update { it.copy(isLoading = true) }
                 }
 
                 is NetworkResult.Success -> {
