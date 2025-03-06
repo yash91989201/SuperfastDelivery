@@ -3,8 +3,6 @@ package com.example.search.ui.components.sections
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -15,6 +13,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.composables.icons.lucide.Filter
+import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.Search
 import com.example.common.ui.theme.AppTheme
 import com.example.common.ui.theme.Gray80
 
@@ -28,10 +29,10 @@ fun SearchBar(query: String, onQueryChange: (String) -> Unit) {
         textStyle = AppTheme.typography.bodyMedium,
         leadingIcon = {
             Icon(
-                imageVector = Icons.Rounded.Search,
+                imageVector = Lucide.Search,
                 contentDescription = "Search items here",
                 tint = AppTheme.colorScheme.scrim,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(20.dp)
             )
         },
         placeholder = {
@@ -40,6 +41,13 @@ fun SearchBar(query: String, onQueryChange: (String) -> Unit) {
                 style = AppTheme.typography.bodyLarge,
                 color = AppTheme.colorScheme.tertiary,
                 fontWeight = FontWeight.SemiBold,
+            )
+        },
+        trailingIcon = {
+            Icon(
+                imageVector = Lucide.Filter,
+                contentDescription = "Apply filters",
+                modifier = Modifier.size(20.dp)
             )
         },
         colors = TextFieldDefaults.colors(

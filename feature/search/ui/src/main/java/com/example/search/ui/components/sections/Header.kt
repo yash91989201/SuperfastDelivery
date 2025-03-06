@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -23,6 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.composables.icons.lucide.CircleUserRound
+import com.composables.icons.lucide.Lucide
 import com.example.common.ui.theme.AppTheme
 
 @Composable
@@ -63,10 +64,9 @@ fun Header() {
                 .clip(CircleShape)
         ) {
             Icon(
-                imageVector = Icons.Default.AccountCircle,
+                imageVector = Lucide.CircleUserRound,
                 contentDescription = "Profile",
-                tint = Color.Black,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(20.dp)
             )
         }
     }

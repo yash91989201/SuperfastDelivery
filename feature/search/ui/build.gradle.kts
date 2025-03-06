@@ -49,6 +49,8 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     // compose foundation
     implementation(libs.androidx.compose.foundation)
+    // lucide icons
+    implementation(libs.lucide)
     //
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
