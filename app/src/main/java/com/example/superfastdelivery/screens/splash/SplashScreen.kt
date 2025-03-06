@@ -81,7 +81,6 @@ fun SplashScreen(
     }
 }
 
-// ✅ Move SharedPreferences to background thread
 private fun isOnboardingFinished(context: Context): Boolean {
     val sharedPreferences = context.getSharedPreferences("onboarding", Context.MODE_PRIVATE)
     return sharedPreferences.getBoolean("finished", false)

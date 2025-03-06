@@ -172,11 +172,11 @@ val typography = Typography(
 )
 
 val shape = Shapes(
-    extraSmall = RoundedCornerShape(8.dp),
-    small = RoundedCornerShape(12.dp),
-    medium = RoundedCornerShape(16.dp),
-    large = RoundedCornerShape(24.dp),
-    extraLarge = RoundedCornerShape(50),
+    extraSmall = RoundedCornerShape(size = 8.dp),
+    small = RoundedCornerShape(size = 12.dp),
+    medium = RoundedCornerShape(size = 16.dp),
+    large = RoundedCornerShape(size = 24.dp),
+    extraLarge = RoundedCornerShape(percent = 50),
 )
 
 @Composable
