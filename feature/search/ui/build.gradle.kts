@@ -39,6 +39,7 @@ android {
 dependencies {
     // module
     implementation(project(":common"))
+    implementation(project(":feature:search:domain"))
     // hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
@@ -46,6 +47,8 @@ dependencies {
     implementation(libs.navigation.compose)
     // serialization
     implementation(libs.kotlinx.serialization.json)
+    // compose foundation
+    implementation(libs.androidx.compose.foundation)
     //
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

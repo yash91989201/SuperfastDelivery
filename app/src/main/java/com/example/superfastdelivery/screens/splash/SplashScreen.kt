@@ -88,7 +88,7 @@ private fun isOnboardingFinished(context: Context): Boolean {
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun SplashScreenPreview() {
+private fun SplashScreenPreview() {
     AppTheme {
         SplashScreen(
             navHost = rememberNavController(),

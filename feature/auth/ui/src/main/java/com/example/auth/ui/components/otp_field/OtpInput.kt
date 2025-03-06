@@ -125,7 +125,7 @@ fun OtpInput(
 
 @Preview
 @Composable
-fun OtpInputPreview() {
+private fun OtpInputPreview() {
     AppTheme {
         OtpInput(
             number = null,

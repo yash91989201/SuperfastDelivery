@@ -2,7 +2,6 @@ package com.example.account.ui.components.create_profile
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -18,12 +17,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.account.domain.model.Gender
 import com.example.common.ui.theme.AppTheme
-import com.example.common.ui.theme.Gray80
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -95,7 +92,7 @@ fun GenderDropdown(
 
 @Preview(showBackground = true)
 @Composable
-fun GenderDropdownPreview() {
+private fun GenderDropdownPreview() {
     GenderDropdown(
         expanded = false,
         onExpandedChange = {},
