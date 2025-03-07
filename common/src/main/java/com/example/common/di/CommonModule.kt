@@ -1,19 +1,10 @@
 package com.example.common.di
 
-import android.content.Context
-import androidx.room.Room
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.network.okHttpClient
-import com.example.common.application_state_store.ApplicationStateStore
-import com.example.common.application_state_store.ApplicationStateStoreImpl
-import com.example.common.application_state_store.SessionStateHolder
-import com.example.common.dao.AuthDAO
-import com.example.common.dao.ProfileDAO
-import com.example.common.database.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -47,30 +38,4 @@ object CommonModule {
             .addInterceptor(logging)
             .build()
     }
-
-    @Provides
-    @Singleton
-    fun provideApplicationStateStore(
-        sessionStateHolder: SessionStateHolder
-    ): ApplicationStateStore {
-        return ApplicationStateStoreImpl(sessionStateHolder = sessionStateHolder)
-    }
-
-    @Provides
-    @Singleton
-    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
-        return Room.databaseBuilder(
-            context = context,
-            AppDatabase::class.java,
-            "superfast_delivery"
-        ).build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideAuthDAO(appDatabase: AppDatabase): AuthDAO = appDatabase.authDAO()
-
-    @Provides
-    @Singleton
-    fun provideProfileDAO(appDatabase: AppDatabase): ProfileDAO = appDatabase.profileDAO()
 }

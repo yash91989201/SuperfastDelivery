@@ -1,17 +1,16 @@
-package com.example.common.application_state_store
+package com.example.common.data_store
 
-import com.example.common.models.SessionData
+import com.example.common.models.Session
 import kotlinx.coroutines.flow.Flow
 import java.time.Instant
 
 interface SessionDataStore {
     suspend fun saveSession(
-        authId: String,
+        sessionId: String,
         accessToken: String,
         accessTokenExpiresAt: Instant,
-        sessionId: String
     )
 
-    fun getSession(): Flow<SessionData?>
+    fun getSession(): Flow<Session?>
     suspend fun clearSession()
 }

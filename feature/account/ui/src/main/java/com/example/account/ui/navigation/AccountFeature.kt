@@ -8,10 +8,10 @@ import androidx.navigation.navigation
 import com.example.account.ui.screens.home.HomeScreen
 import com.example.account.ui.screens.create_profile.CreateProfileScreen
 import com.example.account.ui.screens.create_profile.CreateProfileViewModel
-import com.example.common.application_state_store.ApplicationStateStore
 import com.example.common.navigation.Feature
 import com.example.common.navigation.NavigationSubGraph
 import com.example.common.navigation.NavigationSubGraphDest
+import com.example.common.state_holder.ApplicationStateHolder
 
 interface AccountFeature : Feature
 
@@ -19,7 +19,7 @@ class AccountFeatureImpl : AccountFeature {
     override fun registerGraph(
         navHostController: NavHostController,
         navGraphBuilder: NavGraphBuilder,
-        applicationStateStore: ApplicationStateStore
+        applicationStateHolder: ApplicationStateHolder
     ) {
         navGraphBuilder.navigation<NavigationSubGraph.Account>(startDestination = NavigationSubGraphDest.AccountHome) {
             composable<NavigationSubGraphDest.AccountHome> {
@@ -30,7 +30,7 @@ class AccountFeatureImpl : AccountFeature {
                 val viewModel = hiltViewModel<CreateProfileViewModel>()
                 CreateProfileScreen(
                     viewModel = viewModel,
-                    applicationStateStore = applicationStateStore,
+                    applicationStateHolder = applicationStateHolder,
                     onNavigateToSearch = {
                         navHostController.navigate(NavigationSubGraphDest.SearchHome)
                     }

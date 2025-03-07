@@ -50,6 +50,8 @@ dependencies {
     implementation(libs.logging.interceptor)
     // datastore preferences
     implementation(libs.androidx.datastore.preferences)
+    // protobuf javalite
+    implementation(libs.protobuf.javalite)
     //
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

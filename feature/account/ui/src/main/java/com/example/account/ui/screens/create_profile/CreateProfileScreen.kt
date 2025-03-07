@@ -36,7 +36,7 @@ import com.example.account.domain.model.Gender
 import com.example.account.ui.components.create_profile.DateSelectionField
 import com.example.account.ui.components.create_profile.GenderDropdown
 import com.example.account.ui.components.create_profile.ProfileImagePicker
-import com.example.common.application_state_store.ApplicationStateStore
+import com.example.common.state_holder.ApplicationStateHolder
 import com.example.common.ui.theme.AppTheme
 import com.example.common.ui.theme.Gray80
 
@@ -44,12 +44,10 @@ import com.example.common.ui.theme.Gray80
 @Composable
 fun CreateProfileScreen(
     viewModel: CreateProfileViewModel,
-    applicationStateStore: ApplicationStateStore,
-    onNavigateToSearch: () -> Unit
+    onNavigateToSearch: () -> Unit,
+    applicationStateHolder: ApplicationStateHolder,
 ) {
     val scrollState = rememberScrollState()
-    val session by applicationStateStore.sessionStateHolder.session.collectAsState()
-    val authId = session?.authId
 
     var showDobPicker by remember { mutableStateOf(false) }
     var showAnniversaryPicker by remember { mutableStateOf(false) }
@@ -61,6 +59,8 @@ fun CreateProfileScreen(
     val dob by viewModel.dob.collectAsState()
     val anniversary by viewModel.anniversary.collectAsState()
     val imageUrl by viewModel.imageUrl.collectAsState()
+
+    val auth by applicationStateHolder.authStateHolder.auth.collectAsState()
 
     LaunchedEffect(viewModel.navigation) {
         viewModel.navigation.collect { nav ->
@@ -149,7 +149,7 @@ fun CreateProfileScreen(
 
                 Button(
                     onClick = {
-                        if (authId != null) {
+                        auth?.let {
                             viewModel.onEvent(
                                 CreateProfile.Event.CreateProfile(
                                     CreateProfileInput(
@@ -158,7 +158,7 @@ fun CreateProfileScreen(
                                         dob = dob,
                                         anniversary = anniversary,
                                         gender = gender ?: Gender.OTHERS,
-                                        authId = authId
+                                        authId = it.id
                                     )
                                 )
                             )

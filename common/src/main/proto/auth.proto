@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_package = "com.example.common";
+option java_multiple_files = true;
+
+enum AuthRole {
+  CUSTOMER = 0;
+  DELIVERY_PARTNER = 1;
+  VENDOR = 2;
+  ADMIN = 3;
+}
+
+message Auth {
+  string id = 1;
+  optional string email = 2;
+  bool email_verified = 3;
+  optional string phone = 4;
+  AuthRole auth_role = 5;
+}

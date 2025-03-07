@@ -49,7 +49,7 @@ class CreateProfileViewModel @Inject constructor(
     val navigation: Flow<CreateProfile.Navigation> = _navigation.receiveAsFlow()
 
     fun updateName(value: String) {
-        _name.value = value
+        _name.update { value }
     }
 
     fun updateGender(value: Gender?) {
@@ -57,15 +57,15 @@ class CreateProfileViewModel @Inject constructor(
     }
 
     fun updateDob(value: LocalDate?) {
-        _dob.value = value
+        _dob.update { value }
     }
 
     fun updateAnniversary(value: LocalDate?) {
-        _anniversary.value = value
+        _anniversary.update { value }
     }
 
     fun updateImageUrl(value: String?) {
-        _imageUrl.value = value
+        _imageUrl.update { value }
     }
 
     fun onEvent(event: CreateProfile.Event) {

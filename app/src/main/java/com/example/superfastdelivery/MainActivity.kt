@@ -8,13 +8,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.example.common.state_holder.ApplicationStateHolder
+import com.example.common.ui.theme.AppTheme
 import com.example.superfastdelivery.navigation.AppNavigationRoot
 import com.example.superfastdelivery.navigation.NavigationRoutes
-import com.example.common.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.example.common.application_state_store.ApplicationStateStore
 
 //const clientid="88877941192-vfsg71tlfla6npd089rh2hrvklbd856r.apps.googleusercontent.com"
 
@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
     lateinit var navigationRoutes: NavigationRoutes
 
     @Inject
-    lateinit var applicationStateStore: ApplicationStateStore
+    lateinit var applicationStateHolder: ApplicationStateHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                         .systemBarsPadding()
                 ) {
                     AppNavigationRoot(
-                        applicationStateStore = applicationStateStore,
+                        applicationStateHolder = applicationStateHolder,
                         navigationRoutes = navigationRoutes
                     )
                 }

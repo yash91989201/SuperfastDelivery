@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.apollo)
+    alias(libs.plugins.protobuf)
 }
 
 android {
@@ -37,7 +38,7 @@ android {
         jvmTarget = "17"
     }
 
-   buildFeatures.compose = true
+    buildFeatures.compose = true
 }
 
 dependencies {
@@ -53,10 +54,8 @@ dependencies {
     implementation(libs.apollo.adapters.core)
     // logging interceptor
     implementation(libs.logging.interceptor)
-    // room db
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
+    // protobuf javalite
+    implementation(libs.protobuf.javalite)
     //
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -73,4 +72,20 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:4.30.0"
+    }
+
+    generateProtoTasks {
+        all().forEach { task ->
+            task.plugins {
+                create("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }

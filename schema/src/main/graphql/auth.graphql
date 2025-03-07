@@ -41,6 +41,8 @@ mutation SignInWithPhone( $input: SignInWithPhoneInput!){
             dob
             anniversary
             auth_id
+            created_at
+            updated_at
         }
         session_id
         access_token

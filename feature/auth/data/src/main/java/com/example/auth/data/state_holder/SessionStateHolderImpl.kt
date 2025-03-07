@@ -1,21 +1,22 @@
-package com.example.auth.data.session_state_holder
+package com.example.auth.data.state_holder
 
-import com.example.common.application_state_store.SessionDataStore
-import com.example.common.application_state_store.SessionStateHolder
-import com.example.common.models.SessionData
+import com.example.common.data_store.SessionDataStore
+import com.example.common.models.Session
+import com.example.common.state_holder.SessionStateHolder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SessionStateHolderImpl @Inject constructor(private val sessionDataStore: SessionDataStore) :
     SessionStateHolder {
-    private val _session = MutableStateFlow<SessionData?>(null)
-    override val session: StateFlow<SessionData?>
+    private val _session = MutableStateFlow<Session?>(null)
+    override val session: StateFlow<Session?>
         get() = _session.asStateFlow()
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -26,24 +27,23 @@ class SessionStateHolderImpl @Inject constructor(private val sessionDataStore: S
 
     private fun loadSession() {
         coroutineScope.launch {
-            sessionDataStore.getSession().collect { _session.value = it }
+            sessionDataStore.getSession().collect { _session.update { it } }
         }
     }
 
-    override fun updateSession(sessionData: SessionData) {
-        _session.value = sessionData
+    override fun updateSession(session: Session) {
+        _session.update { session }
         coroutineScope.launch {
             sessionDataStore.saveSession(
-                sessionData.authId,
-                sessionData.accessToken,
-                sessionData.accessTokenExpiresAt,
-                sessionData.sessionId
+                sessionId = session.sessionId,
+                accessToken = session.accessToken,
+                accessTokenExpiresAt = session.accessTokenExpiresAt,
             )
         }
     }
 
     override fun clearSession() {
-        _session.value = null
+        _session.update { null }
         coroutineScope.launch {
             sessionDataStore.clearSession()
         }

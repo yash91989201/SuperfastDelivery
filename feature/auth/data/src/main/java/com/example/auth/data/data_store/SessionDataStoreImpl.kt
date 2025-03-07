@@ -1,21 +1,21 @@
-package com.example.auth.data.session_data_store
+package com.example.auth.data.data_store
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.common.application_state_store.SessionDataStore
-import com.example.common.models.SessionData
+import com.example.common.data_store.SessionDataStore
+import com.example.common.models.Session
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.Instant
 import javax.inject.Inject
 
-const val SESSION_DATASTORE = "session"
+private const val SESSION_DATASTORE = "session"
 
-val Context.sessionDataStore by preferencesDataStore(name = SESSION_DATASTORE)
+private val Context.sessionDataStore by preferencesDataStore(name = SESSION_DATASTORE)
 
 class SessionDataStoreImpl @Inject constructor(
     @ApplicationContext private val context: Context
@@ -24,35 +24,30 @@ class SessionDataStoreImpl @Inject constructor(
     private val dataStore = context.sessionDataStore
 
     companion object {
-        private val AUTH_ID = stringPreferencesKey("auth_id")
         private val SESSION_ID = stringPreferencesKey("session_id")
         private val ACCESS_TOKEN = stringPreferencesKey("access_token")
         private val ACCESS_TOKEN_EXPIRES_AT = longPreferencesKey("access_token_expires_at")
     }
 
     override suspend fun saveSession(
-        authId: String,
+        sessionId: String,
         accessToken: String,
         accessTokenExpiresAt: Instant,
-        sessionId: String
     ) {
         dataStore.edit { prefs ->
-            prefs[AUTH_ID] = authId
             prefs[ACCESS_TOKEN] = accessToken
             prefs[ACCESS_TOKEN_EXPIRES_AT] = accessTokenExpiresAt.epochSecond
             prefs[SESSION_ID] = sessionId
         }
     }
 
-    override fun getSession(): Flow<SessionData?> = dataStore.data.map { prefs ->
-        val authId = prefs[AUTH_ID]
+    override fun getSession(): Flow<Session?> = dataStore.data.map { prefs ->
         val accessToken = prefs[ACCESS_TOKEN]
         val accessTokenExpiresAt = prefs[ACCESS_TOKEN_EXPIRES_AT]
         val sessionId = prefs[SESSION_ID]
 
-        if (authId != null && accessToken != null && accessTokenExpiresAt != null && sessionId != null)
-            SessionData(
-                authId = authId,
+        if (accessToken != null && accessTokenExpiresAt != null && sessionId != null)
+            Session(
                 accessToken = accessToken,
                 accessTokenExpiresAt = Instant.ofEpochSecond(accessTokenExpiresAt),
                 sessionId = sessionId

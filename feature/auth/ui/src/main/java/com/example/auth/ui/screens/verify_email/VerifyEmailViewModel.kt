@@ -1,12 +1,9 @@
 package com.example.auth.ui.screens.verify_email
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.auth.domain.model.SignInResponse
 import com.example.auth.domain.use_cases.SignInWithEmailUseCase
-import com.example.common.application_state_store.SessionStateHolder
-import com.example.common.models.SessionData
 import com.example.common.utils.NetworkResult
 import com.example.common.utils.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +22,6 @@ import javax.inject.Inject
 @HiltViewModel
 class VerifyEmailViewModel @Inject constructor(
     private val signInWithEmailUseCase: SignInWithEmailUseCase,
-    private val sessionStateHolder: SessionStateHolder,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(VerifyEmail.UiState())
@@ -90,17 +86,15 @@ class VerifyEmailViewModel @Inject constructor(
                             val sessionId = signInRes.sessionId
                             val accessToken = signInRes.accessToken
                             val accessTokenExpiresAt = signInRes.accessTokenExpiresAt
-                            Log.d("signInRes", "response $signInRes")
-                            if (authId != null && sessionId != null && accessToken != null && accessTokenExpiresAt != null) {
-                                sessionStateHolder.updateSession(
-                                    SessionData(
-                                        authId = authId,
-                                        sessionId = sessionId,
-                                        accessToken = accessToken,
-                                        accessTokenExpiresAt = accessTokenExpiresAt
-                                    )
-                                )
-                            }
+//                            if (authId != null && sessionId != null && accessToken != null && accessTokenExpiresAt != null) {
+//                                sessionStateHolder.updateSession(
+//                                    SessionData(
+//                                        sessionId = sessionId,
+//                                        accessToken = accessToken,
+//                                        accessTokenExpiresAt = accessTokenExpiresAt
+//                                    )
+//                                )
+//                            }
 
                             _navigation.send(
                                 if (signInRes.createProfile)
