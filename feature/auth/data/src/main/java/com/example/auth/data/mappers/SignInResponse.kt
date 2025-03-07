@@ -1,12 +1,12 @@
 package com.example.auth.data.mappers
 
 import com.example.auth.domain.model.SignInResponse
-import com.example.schema.SignInWithEmailMutation
-import com.example.schema.SignInWithPhoneMutation
-import com.example.schema.SignInWithGoogleMutation
 import com.example.schema.RefreshTokenMutation
+import com.example.schema.SignInWithEmailMutation
+import com.example.schema.SignInWithGoogleMutation
+import com.example.schema.SignInWithPhoneMutation
 
-fun SignInWithEmailMutation.SignInWithEmail.toDomain(): SignInResponse = SignInResponse(
+fun SignInWithEmailMutation.SignInWithEmail.toDomain() = SignInResponse(
     auth = this.auth?.toDomain(),
     profile = this.profile?.toDomain(),
     verityOtp = this.verify_otp,
@@ -16,7 +16,7 @@ fun SignInWithEmailMutation.SignInWithEmail.toDomain(): SignInResponse = SignInR
     accessTokenExpiresAt = this.access_token_expires_at
 )
 
-fun SignInWithPhoneMutation.SignInWithPhone.toDomain(): SignInResponse = SignInResponse(
+fun SignInWithPhoneMutation.SignInWithPhone.toDomain() = SignInResponse(
     auth = this.auth?.toDomain(),
     profile = this.profile?.toDomain(),
     verityOtp = this.verify_otp,
@@ -26,7 +26,7 @@ fun SignInWithPhoneMutation.SignInWithPhone.toDomain(): SignInResponse = SignInR
     accessTokenExpiresAt = this.access_token_expires_at
 )
 
-fun SignInWithGoogleMutation.SignInWithGoogle.toDomain(): SignInResponse = SignInResponse(
+fun SignInWithGoogleMutation.SignInWithGoogle.toDomain() = SignInResponse(
     auth = this.auth?.toDomain(),
     profile = this.profile?.toDomain(),
     verityOtp = false,
@@ -36,7 +36,7 @@ fun SignInWithGoogleMutation.SignInWithGoogle.toDomain(): SignInResponse = SignI
     accessTokenExpiresAt = this.access_token_expires_at
 )
 
-fun RefreshTokenMutation.RefreshToken.toDomain(): SignInResponse = SignInResponse(
+fun RefreshTokenMutation.RefreshToken.toDomain() = SignInResponse(
     auth = this.auth?.toDomain(),
     profile = this.profile?.toDomain(),
     verityOtp = false,

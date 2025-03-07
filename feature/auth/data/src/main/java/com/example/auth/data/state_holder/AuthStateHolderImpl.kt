@@ -32,15 +32,15 @@ class AuthStateHolderImpl @Inject constructor(
         }
     }
 
-    override fun updateAuth(authData: Auth) {
-        _auth.update { authData }
+    override fun updateAuth(auth: Auth) {
+        _auth.update { auth }
         coroutineScope.launch {
             authDataStore.saveAuth(
-                id = authData.id,
-                email = authData.email,
-                emailVerified = authData.emailVerified,
-                phone = authData.phone,
-                authRole = authData.authRole
+                id = auth.id,
+                email = auth.email,
+                emailVerified = auth.emailVerified,
+                phone = auth.phone,
+                authRole = auth.authRole
             )
         }
     }

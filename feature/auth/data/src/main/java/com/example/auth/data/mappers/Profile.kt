@@ -1,12 +1,12 @@
 package com.example.auth.data.mappers
 
-import com.example.auth.domain.model.Profile
 import com.example.schema.RefreshTokenMutation
 import com.example.schema.SignInWithEmailMutation
 import com.example.schema.SignInWithGoogleMutation
 import com.example.schema.SignInWithPhoneMutation
+import com.example.auth.domain.model.Profile as DomainProfile
 
-fun SignInWithEmailMutation.Profile.toDomain(): Profile = Profile(
+fun SignInWithEmailMutation.Profile.toDomain() = DomainProfile(
     id = this.id,
     name = this.name,
     imageUrl = this.image_url,
@@ -16,7 +16,7 @@ fun SignInWithEmailMutation.Profile.toDomain(): Profile = Profile(
     authId = this.auth_id
 )
 
-fun SignInWithPhoneMutation.Profile.toDomain(): Profile = Profile(
+fun SignInWithPhoneMutation.Profile.toDomain() = DomainProfile(
     id = this.id,
     name = this.name,
     imageUrl = this.image_url,
@@ -26,7 +26,7 @@ fun SignInWithPhoneMutation.Profile.toDomain(): Profile = Profile(
     authId = this.auth_id
 )
 
-fun SignInWithGoogleMutation.Profile.toDomain(): Profile = Profile(
+fun SignInWithGoogleMutation.Profile.toDomain() = DomainProfile(
     id = this.id,
     name = this.name,
     imageUrl = this.image_url,
@@ -36,7 +36,7 @@ fun SignInWithGoogleMutation.Profile.toDomain(): Profile = Profile(
     authId = this.auth_id
 )
 
-fun RefreshTokenMutation.Profile.toDomain(): Profile = Profile(
+fun RefreshTokenMutation.Profile.toDomain() = DomainProfile(
     id = this.id,
     name = this.name,
     imageUrl = this.image_url,

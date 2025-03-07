@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
-import com.example.auth.data.mappers.toDomain
+import com.example.auth.data.mappers.toStore
 import com.example.auth.data.mappers.toProto
 import com.example.common.Auth
 import com.example.common.data_store.AuthDataStore
@@ -45,7 +45,7 @@ class AuthDataStoreImpl @Inject constructor(@ApplicationContext private val cont
     }
 
     override fun getAuth(): Flow<StoreAuth> {
-        return context.authDataStore.data.map { it.toDomain() }
+        return context.authDataStore.data.map { it.toStore() }
     }
 
     override suspend fun clearAuth() {

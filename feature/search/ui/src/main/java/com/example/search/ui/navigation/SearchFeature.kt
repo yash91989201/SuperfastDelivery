@@ -20,7 +20,7 @@ class SearchFeatureImpl : SearchFeature {
     ) {
         navGraphBuilder.navigation<NavigationSubGraph.Search>(startDestination = NavigationSubGraphDest.SearchHome) {
             composable<NavigationSubGraphDest.SearchHome> {
-                HomeScreen()
+                HomeScreen(applicationStateHolder=applicationStateHolder)
             }
         }
     }

@@ -6,6 +6,7 @@ import com.example.auth.data.remote.AuthGraphQLService
 import com.example.auth.domain.repository.AuthRepository
 import com.example.common.state_holder.ApplicationStateHolder
 import com.example.common.models.Auth as StoreAuth
+import com.example.common.models.Profile as StoreProfile
 
 class AuthRepositoryImpl(
     private val authGraphQLService: AuthGraphQLService,
@@ -31,6 +32,20 @@ class AuthRepositoryImpl(
                     phone = it.phone,
                     emailVerified = it.email_verified,
                     authRole = it.auth_role.toStore()
+                )
+            )
+        }
+
+        signInRes?.profile?.let {
+            applicationStateHolder.profileStateHolder.updateProfile(
+                StoreProfile(
+                    id = it.id,
+                    name = it.name,
+                    imageUrl = it.image_url,
+                    dob = it.dob,
+                    anniversary = it.anniversary,
+                    gender = it.gender?.toStore(),
+                    authId = it.auth_id
                 )
             )
         }

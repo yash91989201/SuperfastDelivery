@@ -38,9 +38,3 @@ data class SignInResponse(
     val createProfile: Boolean,
     val verityOtp: Boolean,
 )
-
-data class Session(
-    val sessionId: String,
-    val accessToken: String,
-    val accessTokenExpiresAt: Instant,
-)

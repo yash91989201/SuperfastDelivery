@@ -4,6 +4,7 @@ import com.example.account.ui.navigation.AccountFeature
 import com.example.auth.ui.navigation.AuthFeature
 import com.example.common.state_holder.ApplicationStateHolder
 import com.example.common.state_holder.AuthStateHolder
+import com.example.common.state_holder.ProfileStateHolder
 import com.example.common.state_holder.SessionStateHolder
 import com.example.search.ui.navigation.SearchFeature
 import com.example.superfastdelivery.ApplicationStateHolderImpl
@@ -32,11 +33,13 @@ object AppModule {
     @Singleton
     fun provideApplicationStateHolder(
         sessionStateHolder: SessionStateHolder,
-        authStateHolder: AuthStateHolder
+        authStateHolder: AuthStateHolder,
+        profileStateHolder: ProfileStateHolder
     ): ApplicationStateHolder {
         return ApplicationStateHolderImpl(
             sessionStateHolder = sessionStateHolder,
-            authStateHolder = authStateHolder
+            authStateHolder = authStateHolder,
+            profileStateHolder = profileStateHolder
         )
     }
 }

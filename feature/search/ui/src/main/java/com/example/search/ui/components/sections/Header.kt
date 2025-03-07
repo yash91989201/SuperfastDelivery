@@ -17,17 +17,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.composables.icons.lucide.CircleUserRound
 import com.composables.icons.lucide.Lucide
 import com.example.common.ui.theme.AppTheme
 
+
 @Composable
-fun Header() {
+fun Header(imageUrl: String? = null) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -59,15 +60,23 @@ fun Header() {
             onClick = {},
             modifier = Modifier
                 .size(36.dp)
-                .shadow(elevation = 6.dp, shape = CircleShape, clip = false)
                 .background(Color.White, CircleShape)
-                .clip(CircleShape)
         ) {
-            Icon(
-                imageVector = Lucide.CircleUserRound,
-                contentDescription = "Profile",
-                modifier = Modifier.size(20.dp)
-            )
+            if (imageUrl.isNullOrEmpty()) {
+                Icon(
+                    imageVector = Lucide.CircleUserRound,
+                    contentDescription = "Profile",
+                    modifier = Modifier.size(20.dp)
+                )
+            } else {
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = "Profile Image",
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(CircleShape),
+                )
+            }
         }
     }
 }

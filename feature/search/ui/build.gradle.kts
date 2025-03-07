@@ -51,6 +51,9 @@ dependencies {
     implementation(libs.androidx.compose.foundation)
     // lucide icons
     implementation(libs.lucide)
+    // coil
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
     //
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

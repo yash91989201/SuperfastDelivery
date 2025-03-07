@@ -1,12 +1,12 @@
 package com.example.auth.data.mappers
 
 import com.example.auth.domain.model.Auth
-import com.example.common.Auth as ProtoAuth
-import com.example.common.models.Auth as StoreAuth
 import com.example.schema.RefreshTokenMutation
 import com.example.schema.SignInWithEmailMutation
 import com.example.schema.SignInWithGoogleMutation
 import com.example.schema.SignInWithPhoneMutation
+import com.example.common.Auth as ProtoAuth
+import com.example.common.models.Auth as StoreAuth
 
 fun SignInWithEmailMutation.Auth.toDomain() = Auth(
     id = this.id,
@@ -40,7 +40,7 @@ fun RefreshTokenMutation.Auth.toDomain() = Auth(
     authRole = this.auth_role.toDomain()
 )
 
-fun ProtoAuth.toDomain(): StoreAuth = StoreAuth(
+fun ProtoAuth.toStore() = StoreAuth(
     id = this.id,
     email = this.email,
     emailVerified = this.emailVerified,
