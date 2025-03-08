@@ -38,9 +38,9 @@ android {
 }
 
 dependencies {
-    // module
-    implementation(project(":common"))
-    implementation(project(":feature:account:domain"))
+    // modules
+    implementation(projects.common)
+    implementation(projects.feature.account.domain)
     // hilt
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)

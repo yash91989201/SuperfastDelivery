@@ -37,9 +37,9 @@ android {
 
 dependencies {
     // modules
-    implementation(project(":common"))
-    implementation(project(":schema"))
-    implementation(project(":feature:auth:domain"))
+    implementation(projects.common)
+    implementation(projects.schema)
+    implementation(projects.feature.auth.domain)
     // dagger hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
@@ -65,7 +65,6 @@ apollo {
     // Service names must match
     service("service") {
         packageName.set("com.example.auth.data")
-
-        dependsOn(project(":schema"))
+        dependsOn(projects.schema)
     }
 }

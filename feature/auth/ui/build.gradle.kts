@@ -38,8 +38,8 @@ android {
 
 dependencies {
     // module
-    implementation(project(":common"))
-    implementation(project(":feature:auth:domain"))
+    implementation(projects.common)
+    implementation(projects.feature.auth.domain)
     // hilt
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)

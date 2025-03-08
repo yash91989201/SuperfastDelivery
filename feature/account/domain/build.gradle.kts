@@ -35,9 +35,8 @@ android {
 }
 
 dependencies {
-
     // modules
-    implementation(project(":common"))
+    implementation(projects.common)
     // javax inject
     implementation(libs.javax.inject)
     // dagger hilt

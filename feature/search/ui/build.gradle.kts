@@ -38,8 +38,8 @@ android {
 
 dependencies {
     // module
-    implementation(project(":common"))
-    implementation(project(":feature:search:domain"))
+    implementation(projects.common)
+    implementation(projects.feature.search.domain)
     // hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

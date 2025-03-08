@@ -37,9 +37,9 @@ android {
 
 dependencies {
     // modules
-    implementation(project(":schema"))
-    implementation(project(":common"))
-    implementation(project(":feature:account:domain"))
+    implementation(projects.schema)
+    implementation(projects.common)
+    implementation(projects.feature.account.domain)
     // dagger hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
@@ -65,7 +65,6 @@ apollo {
     // Service names must match
     service("service") {
         packageName.set("com.example.account.data")
-
-        dependsOn(project(":schema"))
+        dependsOn(projects.schema)
     }
 }

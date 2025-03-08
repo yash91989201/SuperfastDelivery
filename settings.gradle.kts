@@ -19,7 +19,9 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Superfast Delivery"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
+rootProject.name = "SuperfastDelivery"
 include(":app")
 include(":common")
 include(":feature:auth:ui")

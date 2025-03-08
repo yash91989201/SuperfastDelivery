@@ -44,15 +44,20 @@ android {
 }
 
 dependencies {
-    // module
-    implementation(project(":common"))
-    implementation(project(":feature:auth:ui"))
-    implementation(project(":feature:auth:domain"))
-    implementation(project(":feature:auth:data"))
-    implementation(project(":feature:account:ui"))
-    implementation(project(":feature:account:domain"))
-    implementation(project(":feature:account:data"))
-    implementation(project(":feature:search:ui"))
+    // modules
+    implementation(projects.common)
+    // auth feature
+    implementation(projects.feature.auth.data)
+    implementation(projects.feature.auth.domain)
+    implementation(projects.feature.auth.ui)
+    // account feature
+    implementation(projects.feature.account.data)
+    implementation(projects.feature.account.domain)
+    implementation(projects.feature.account.ui)
+    // search feature
+    implementation(projects.feature.search.data)
+    implementation(projects.feature.search.domain)
+    implementation(projects.feature.search.ui)
     // splash screen
     implementation(libs.androidx.core.splashscreen)
     // hilt
