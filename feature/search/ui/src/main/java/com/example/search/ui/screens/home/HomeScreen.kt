@@ -6,11 +6,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.common.models.Auth
 import com.example.common.models.Profile
 import com.example.common.models.Session
@@ -26,8 +28,23 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, applicationStateHolder: ApplicationStateHolder) {
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    goToAccountAddressesScreen: () -> Unit,
+    viewModel: HomeViewModel,
+    applicationStateHolder: ApplicationStateHolder
+) {
     val profile by applicationStateHolder.profileStateHolder.profile.collectAsState()
+
+    LaunchedEffect(viewModel.navigation) {
+        viewModel.navigation.collect {
+            when (it) {
+                Home.Navigation.GoToAccountAddressScreen -> {
+                    goToAccountAddressesScreen()
+                }
+            }
+        }
+    }
 
     Scaffold(modifier = modifier.padding(16.dp)) {
         Column(
@@ -36,7 +53,9 @@ fun HomeScreen(modifier: Modifier = Modifier, applicationStateHolder: Applicatio
                 .padding(it)
                 .fillMaxSize()
         ) {
-            Header(imageUrl = profile?.imageUrl)
+            Header(imageUrl = profile?.imageUrl, onSelectDeliveryAddress = {
+                viewModel.onEvent(Home.Event.GoToAccountAddressScreen)
+            })
             SearchBar(query = "") { }
             BrowseCategories()
         }
@@ -95,6 +114,8 @@ private fun HomeScreenPreview() {
     AppTheme {
         HomeScreen(
             modifier = Modifier,
+            goToAccountAddressesScreen = {},
+            viewModel = hiltViewModel<HomeViewModel>(),
             applicationStateHolder = FakeApplicationStateHolder()
         )
     }

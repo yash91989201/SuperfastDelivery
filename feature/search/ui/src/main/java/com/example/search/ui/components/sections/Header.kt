@@ -1,6 +1,7 @@
 package com.example.search.ui.components.sections
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,7 @@ import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +30,7 @@ import com.example.common.ui.theme.AppTheme
 
 
 @Composable
-fun Header(imageUrl: String? = null) {
+fun Header(imageUrl: String? = null, onSelectDeliveryAddress: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -42,7 +44,9 @@ fun Header(imageUrl: String? = null) {
                 style = AppTheme.typography.bodySmall,
                 color = AppTheme.colorScheme.tertiary
             )
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            TextButton(
+               onClick = onSelectDeliveryAddress
+            ) {
                 Text(
                     text = "Select delivery location",
                     style = AppTheme.typography.bodyMedium,
@@ -85,6 +89,8 @@ fun Header(imageUrl: String? = null) {
 @Composable
 private fun HeaderPreview() {
     AppTheme {
-        Header()
+        Header(
+            onSelectDeliveryAddress = {}
+        )
     }
 }

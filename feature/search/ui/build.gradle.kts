@@ -42,6 +42,7 @@ dependencies {
     implementation(projects.feature.search.domain)
     // hilt
     implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)
     // navigation
     implementation(libs.navigation.compose)

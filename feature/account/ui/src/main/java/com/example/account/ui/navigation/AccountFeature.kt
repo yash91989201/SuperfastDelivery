@@ -5,9 +5,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.example.account.ui.screens.home.HomeScreen
+import com.example.account.ui.screens.addresses.AddressesScreen
 import com.example.account.ui.screens.create_profile.CreateProfileScreen
 import com.example.account.ui.screens.create_profile.CreateProfileViewModel
+import com.example.account.ui.screens.home.HomeScreen
+import com.example.account.ui.screens.new_address.NewAddressScreen
 import com.example.common.navigation.Feature
 import com.example.common.navigation.NavigationSubGraph
 import com.example.common.navigation.NavigationSubGraphDest
@@ -34,6 +36,18 @@ class AccountFeatureImpl : AccountFeature {
                     onNavigateToSearch = {
                         navHostController.navigate(NavigationSubGraphDest.SearchHome)
                     }
+                )
+            }
+
+            composable<NavigationSubGraphDest.AccountNewAddress> {
+                NewAddressScreen(
+                    applicationStateHolder = applicationStateHolder,
+                )
+            }
+
+            composable<NavigationSubGraphDest.AccountAddresses> {
+                AddressesScreen(
+                    applicationStateHolder = applicationStateHolder,
                 )
             }
         }

@@ -43,4 +43,10 @@ sealed class NavigationSubGraphDest {
 
     @Serializable
     data object AccountCreateProfile : NavigationSubGraphDest()
+
+    @Serializable
+    data object AccountAddresses : NavigationSubGraphDest()
+
+    @Serializable
+    data object AccountNewAddress : NavigationSubGraphDest()
 }
