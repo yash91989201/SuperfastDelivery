@@ -6,9 +6,9 @@ import com.example.common.state_holder.AuthStateHolder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,24 +16,14 @@ import javax.inject.Inject
 class AuthStateHolderImpl @Inject constructor(
     private val authDataStore: AuthDataStore
 ) : AuthStateHolder {
-    private val _auth = MutableStateFlow<Auth?>(null)
-    override val auth: StateFlow<Auth?>
-        get() = _auth.asStateFlow()
-
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    init {
-        loadAuth()
-    }
+    private val _auth = authDataStore.getAuth().stateIn(coroutineScope, SharingStarted.Lazily, null)
+    override val auth: StateFlow<Auth?>
+        get() = _auth
 
-    private fun loadAuth() {
-        coroutineScope.launch {
-            authDataStore.getAuth().collect { _auth.update { it } }
-        }
-    }
 
     override fun updateAuth(auth: Auth) {
-        _auth.update { auth }
         coroutineScope.launch {
             authDataStore.saveAuth(
                 id = auth.id,
@@ -46,7 +36,6 @@ class AuthStateHolderImpl @Inject constructor(
     }
 
     override fun clearAuth() {
-        _auth.update { null }
         coroutineScope.launch {
             authDataStore.clearAuth()
         }

@@ -574,6 +574,14 @@ type RetailItem {
   deleted_at: DateTime
 }
 
+type Session {
+  id: String!
+
+  access_token: String!
+
+  access_token_expires_at: DateTime!
+}
+
 type Shop {
   id: ID!
 
@@ -689,11 +697,7 @@ type SignInOutput {
 
   profile: Profile
 
-  session_id: String
-
-  access_token: String
-
-  access_token_expires_at: DateTime
+  session: Session
 
   create_profile: Boolean!
 

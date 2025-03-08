@@ -7,6 +7,11 @@ mutation SignInWithEmail( $input: SignInWithEmailInput!){
             phone
             auth_role
         }
+        session{
+            id
+            access_token
+            access_token_expires_at
+        }
         profile {
             id
             name
@@ -16,9 +21,6 @@ mutation SignInWithEmail( $input: SignInWithEmailInput!){
             anniversary
             auth_id
         }
-        session_id
-        access_token
-        access_token_expires_at
         verify_otp
         create_profile
     }
@@ -33,6 +35,11 @@ mutation SignInWithPhone( $input: SignInWithPhoneInput!){
             phone
             auth_role
         }
+        session{
+            id
+            access_token
+            access_token_expires_at
+        }
         profile {
             id
             name
@@ -44,9 +51,6 @@ mutation SignInWithPhone( $input: SignInWithPhoneInput!){
             created_at
             updated_at
         }
-        session_id
-        access_token
-        access_token_expires_at
         verify_otp
         create_profile
     }
@@ -61,6 +65,11 @@ mutation SignInWithGoogle( $input: SignInWithGoogleInput!){
             phone
             auth_role
         }
+        session{
+            id
+            access_token
+            access_token_expires_at
+        }
         profile {
             id
             name
@@ -70,9 +79,6 @@ mutation SignInWithGoogle( $input: SignInWithGoogleInput!){
             anniversary
             auth_id
         }
-        session_id
-        access_token
-        access_token_expires_at
     }
 }
 
@@ -85,6 +91,11 @@ mutation RefreshToken( $sessionId: String!){
             phone
             auth_role
         }
+        session{
+            id
+            access_token
+            access_token_expires_at
+        }
         profile {
             id
             name
@@ -94,9 +105,6 @@ mutation RefreshToken( $sessionId: String!){
             anniversary
             auth_id
         }
-        session_id
-        access_token
-        access_token_expires_at
         verify_otp
         create_profile
     }

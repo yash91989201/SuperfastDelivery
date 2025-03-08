@@ -7,6 +7,7 @@ import com.example.auth.domain.repository.AuthRepository
 import com.example.common.state_holder.ApplicationStateHolder
 import com.example.common.models.Auth as StoreAuth
 import com.example.common.models.Profile as StoreProfile
+import com.example.common.models.Session as StoreSession
 
 class AuthRepositoryImpl(
     private val authGraphQLService: AuthGraphQLService,
@@ -23,6 +24,16 @@ class AuthRepositoryImpl(
         response.errors?.firstOrNull()?.message?.also { throw Exception(it) }
 
         val signInRes = response.data?.SignInWithEmail
+
+        signInRes?.session?.let {
+            applicationStateHolder.sessionStateHolder.updateSession(
+                StoreSession(
+                    id = it.id,
+                    accessToken = it.access_token,
+                    accessTokenExpiresAt = it.access_token_expires_at
+                )
+            )
+        }
 
         signInRes?.auth?.let {
             applicationStateHolder.authStateHolder.updateAuth(

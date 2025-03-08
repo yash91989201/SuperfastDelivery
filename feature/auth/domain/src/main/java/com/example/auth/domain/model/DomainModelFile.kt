@@ -19,6 +19,12 @@ data class Auth(
     val authRole: AuthRole,
 )
 
+data class Session(
+    val id: String,
+    val accessToken: String,
+    val accessTokenExpiresAt: Instant?
+)
+
 data class Profile(
     val id: String,
     val name: String,
@@ -32,9 +38,7 @@ data class Profile(
 data class SignInResponse(
     val auth: Auth?,
     val profile: Profile?,
-    val sessionId: String?,
-    val accessToken: String?,
-    val accessTokenExpiresAt: Instant?,
+    val session: Session?,
     val createProfile: Boolean,
     val verityOtp: Boolean,
 )

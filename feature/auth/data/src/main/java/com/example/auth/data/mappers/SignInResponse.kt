@@ -8,40 +8,32 @@ import com.example.schema.SignInWithPhoneMutation
 
 fun SignInWithEmailMutation.SignInWithEmail.toDomain() = SignInResponse(
     auth = this.auth?.toDomain(),
+    session = this.session?.toDomain(),
     profile = this.profile?.toDomain(),
     verityOtp = this.verify_otp,
     createProfile = this.create_profile,
-    sessionId = this.session_id,
-    accessToken = this.access_token,
-    accessTokenExpiresAt = this.access_token_expires_at
 )
 
 fun SignInWithPhoneMutation.SignInWithPhone.toDomain() = SignInResponse(
     auth = this.auth?.toDomain(),
     profile = this.profile?.toDomain(),
+    session = this.session?.toDomain(),
     verityOtp = this.verify_otp,
     createProfile = this.create_profile,
-    sessionId = this.session_id,
-    accessToken = this.access_token,
-    accessTokenExpiresAt = this.access_token_expires_at
 )
 
 fun SignInWithGoogleMutation.SignInWithGoogle.toDomain() = SignInResponse(
     auth = this.auth?.toDomain(),
+    session = this.session?.toDomain(),
     profile = this.profile?.toDomain(),
     verityOtp = false,
-    createProfile = false,
-    sessionId = this.session_id,
-    accessToken = this.access_token,
-    accessTokenExpiresAt = this.access_token_expires_at
+    createProfile = false
 )
 
 fun RefreshTokenMutation.RefreshToken.toDomain() = SignInResponse(
     auth = this.auth?.toDomain(),
+    session = this.session?.toDomain(),
     profile = this.profile?.toDomain(),
     verityOtp = false,
-    createProfile = false,
-    sessionId = this.session_id,
-    accessToken = this.access_token,
-    accessTokenExpiresAt = this.access_token_expires_at
+    createProfile = false
 )

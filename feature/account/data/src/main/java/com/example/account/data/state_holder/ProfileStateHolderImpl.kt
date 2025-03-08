@@ -6,10 +6,9 @@ import com.example.common.state_holder.ProfileStateHolder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,25 +16,14 @@ class ProfileStateHolderImpl @Inject constructor(
     private val profileDataStore: ProfileDataStore,
 ) : ProfileStateHolder {
 
-    private val _profile = MutableStateFlow<Profile?>(null)
-    override val profile: StateFlow<Profile?>
-        get() = _profile.asStateFlow()
-
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    init {
-        loadProfile()
-    }
-
-    private fun loadProfile() {
-        coroutineScope.launch {
-            profileDataStore.getProfile().collect { _profile.update { it } }
-        }
-    }
+    private val _profile =
+        profileDataStore.getProfile().stateIn(coroutineScope, SharingStarted.Lazily, null)
+    override val profile: StateFlow<Profile?>
+        get() = _profile
 
     override fun updateProfile(profile: Profile) {
-        _profile.update { profile }
-
         coroutineScope.launch {
             profileDataStore.saveProfile(
                 id = profile.id,
@@ -50,7 +38,6 @@ class ProfileStateHolderImpl @Inject constructor(
     }
 
     override fun clearProfile() {
-        _profile.update { null }
         coroutineScope.launch {
             profileDataStore.clearProfile()
         }

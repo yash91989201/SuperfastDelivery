@@ -50,7 +50,7 @@ class SessionDataStoreImpl @Inject constructor(
             Session(
                 accessToken = accessToken,
                 accessTokenExpiresAt = Instant.ofEpochSecond(accessTokenExpiresAt),
-                sessionId = sessionId
+                id = sessionId
             )
         else null
     }

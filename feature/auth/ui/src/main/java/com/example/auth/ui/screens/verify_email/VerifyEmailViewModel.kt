@@ -81,21 +81,6 @@ class VerifyEmailViewModel @Inject constructor(
                         }
 
                         result.data?.let { signInRes ->
-
-                            val authId = signInRes.auth?.id
-                            val sessionId = signInRes.sessionId
-                            val accessToken = signInRes.accessToken
-                            val accessTokenExpiresAt = signInRes.accessTokenExpiresAt
-//                            if (authId != null && sessionId != null && accessToken != null && accessTokenExpiresAt != null) {
-//                                sessionStateHolder.updateSession(
-//                                    SessionData(
-//                                        sessionId = sessionId,
-//                                        accessToken = accessToken,
-//                                        accessTokenExpiresAt = accessTokenExpiresAt
-//                                    )
-//                                )
-//                            }
-
                             _navigation.send(
                                 if (signInRes.createProfile)
                                     VerifyEmail.Navigation.GoToAccountCreateProfileScreen
