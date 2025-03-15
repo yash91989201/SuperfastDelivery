@@ -50,13 +50,15 @@ apollo {
     service("service") {
         packageName.set("com.example.schema")
         schemaFile.set(file("src/main/graphql/schema.graphqls"))
-        mapScalar("Date","java.time.LocalDate","com.apollographql.adapter.core.JavaLocalDateAdapter")
-        mapScalar("DateTime","java.time.Instant","com.apollographql.adapter.core.JavaInstantAdapter")
+
         generateKotlinModels.set(true)
         generateApolloMetadata.set(true)
 
+        mapScalar("Date","java.time.LocalDate","com.apollographql.adapter.core.JavaLocalDateAdapter")
+        mapScalar("DateTime","java.time.Instant","com.apollographql.adapter.core.JavaInstantAdapter")
+
         introspection {
-            endpointUrl.set("http://172.25.160.1:8081/graphql")
+            endpointUrl.set("http://192.168.1.4:8081/graphql")
             schemaFile.set(file("src/main/graphql/schema.graphqls"))
         }
     }
