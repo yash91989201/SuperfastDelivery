@@ -27,7 +27,7 @@ fun StoreGender.toDomain(): DomainGender = when (this) {
     StoreGender.UNDISCLOSED -> DomainGender.UNDISCLOSED
 }
 
-fun DomainGender.fromDomain() = when (this) {
+fun DomainGender.toSchema() = when (this) {
     DomainGender.MALE -> SchemaGender.MALE
     DomainGender.FEMALE -> SchemaGender.FEMALE
     DomainGender.OTHERS -> SchemaGender.OTHERS

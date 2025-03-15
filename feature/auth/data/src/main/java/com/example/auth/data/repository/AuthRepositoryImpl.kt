@@ -84,7 +84,10 @@ class AuthRepositoryImpl(
     override suspend fun refreshToken(sessionId: String) = runCatching {
         val response = authGraphQLService.refreshToken(sessionId = sessionId)
         response.exception?.let { throw Exception(it.toString()) }
+
         response.errors?.firstOrNull()?.message?.let { throw Exception(it) }
+
+
         response.data?.RefreshToken?.toDomain() ?: throw Exception("No Data returned")
     }
 }

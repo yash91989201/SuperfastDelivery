@@ -56,6 +56,9 @@ dependencies {
     implementation(libs.logging.interceptor)
     // protobuf javalite
     implementation(libs.protobuf.javalite)
+    implementation(libs.play.services.location)
+    // lucide icons
+    implementation(libs.lucide)
     //
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

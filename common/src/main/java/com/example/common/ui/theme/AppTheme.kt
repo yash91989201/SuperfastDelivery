@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -171,12 +172,22 @@ val typography = Typography(
     ),
 )
 
+data class Sizes(
+    val extraSmall: Dp = 8.dp,
+    val small: Dp = 12.dp,
+    val medium: Dp = 16.dp,
+    val large: Dp = 24.dp,
+    val extraLarge: Dp = 80.dp
+)
+
+val sizes = Sizes()
+
 val shape = Shapes(
-    extraSmall = RoundedCornerShape(size = 8.dp),
-    small = RoundedCornerShape(size = 12.dp),
-    medium = RoundedCornerShape(size = 16.dp),
-    large = RoundedCornerShape(size = 24.dp),
-    extraLarge = RoundedCornerShape(percent = 50),
+    extraSmall = RoundedCornerShape(sizes.extraSmall),
+    small = RoundedCornerShape(sizes.small),
+    medium = RoundedCornerShape(sizes.medium),
+    large = RoundedCornerShape(sizes.large),
+    extraLarge = RoundedCornerShape(sizes.extraLarge)
 )
 
 @Composable
@@ -199,4 +210,7 @@ object AppTheme {
 
     val shape: Shapes
         @Composable get() = MaterialTheme.shapes
+
+    val size: Sizes
+        @Composable get() = sizes
 }

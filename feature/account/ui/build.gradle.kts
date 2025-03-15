@@ -52,6 +52,14 @@ dependencies {
     // coil
     implementation(libs.coil)
     implementation(libs.coil.compose)
+    // lucide icons
+    implementation(libs.lucide)
+    // map related dependencies
+    implementation(libs.maps.compose)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
+    implementation(libs.android.maps.utils)
+    implementation(libs.accompanist.permissions)
     //
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

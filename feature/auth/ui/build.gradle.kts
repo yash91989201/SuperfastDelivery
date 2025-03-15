@@ -48,6 +48,8 @@ dependencies {
     implementation(libs.navigation.compose)
     // serialization
     implementation(libs.kotlinx.serialization.json)
+    // lucide icons
+    implementation(libs.lucide)
     //
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

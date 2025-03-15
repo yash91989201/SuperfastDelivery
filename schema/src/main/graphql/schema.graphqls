@@ -10,6 +10,44 @@ type AddonStock {
   updated_at: DateTime!
 }
 
+enum AddressAlias {
+  HOME
+
+  WORK
+
+  HOTEL
+
+  OTHER
+}
+
+type AddressDetail {
+  id: String!
+
+  route: String!
+
+  town: String!
+
+  postal_code: String!
+
+  district: String!
+
+  state: String!
+
+  country: String!
+
+  plus_code: String!
+
+  place_id: String!
+
+  formatted_address: String!
+
+  latitude: Float!
+
+  longitude: Float!
+
+  address_id: String!
+}
+
 type Auth {
   id: String!
 
@@ -42,6 +80,30 @@ input CreateAddonStockInput {
   addon_id: ID!
 
   quantity: Int!
+}
+
+input CreateDeliveryAddressInput {
+  receiver_name: String!
+
+  receiver_phone: String!
+
+  address_alias: AddressAlias!
+
+  other_alias: String
+
+  latitude: Float!
+
+  longitude: Float!
+
+  address: String!
+
+  nearby_landmark: String
+
+  delivery_instruction: String
+
+  is_default: Boolean!
+
+  auth_id: String!
 }
 
 input CreateItemAddonInput {
@@ -228,6 +290,36 @@ enum DayOfWeek {
   SUNDAY
 }
 
+type DeliveryAddress {
+  id: String!
+
+  receiver_name: String!
+
+  receiver_phone: String!
+
+  address_alias: AddressAlias!
+
+  other_alias: String
+
+  latitude: Float!
+
+  longitude: Float!
+
+  address: String!
+
+  nearby_landmark: String
+
+  delivery_instruction: String
+
+  is_default: Boolean!
+
+  auth_id: String!
+
+  created_at: DateTime!
+
+  updated_at: DateTime!
+}
+
 enum Gender {
   MALE
 
@@ -314,6 +406,10 @@ input LatLngInput {
   lat: Float!
 
   lng: Float!
+}
+
+type ListDeliveryAddressOutput {
+  delivery_address: [DeliveryAddress!]!
 }
 
 type ListMedicineCategoryOutput {
@@ -419,11 +515,15 @@ type Mutation {
 
   RefreshToken(session_id: String!): SignInOutput!
 
-  LogOut(session_id: String!): SignInOutput!
+  LogOut(session_id: ID!): SignInOutput!
 
   CreateProfile(input: CreateProfileInput!): Profile!
 
   UpdateProfile(input: UpdateProfileInput!): Profile!
+
+  CreateDeliveryAddress(input: CreateDeliveryAddressInput): DeliveryAddress!
+
+  UpdateDeliveryAddress(input: UpdateDeliveryAddressInput): DeliveryAddress!
 
   CreateShop(input: CreateShopInput!): CreateShopOutput!
 
@@ -489,11 +589,17 @@ type Profile {
 }
 
 type Query {
-  AuthById(input: GetAuthByIdInput!): Auth
+  GetAuthById(input: GetAuthByIdInput!): Auth
 
-  Auth(input: GetAuthInput!): Auth
+  GetAuth(input: GetAuthInput!): Auth
 
-  Profile(input: GetProfileInput!): Profile
+  GetProfile(input: GetProfileInput!): Profile!
+
+  GetDeliveryAddress(id: ID!): DeliveryAddress!
+
+  ListDeliveryAddress(authId: ID!): ListDeliveryAddressOutput!
+
+  GetDeliveryAddressDetail(addressId: ID!): AddressDetail!
 
   GetShop(id: ID!): Shop!
 
@@ -721,6 +827,28 @@ input SignInWithPhoneInput {
 }
 
 scalar Time
+
+input UpdateDeliveryAddressInput {
+  receiver_name: String
+
+  receiver_phone: String
+
+  address_alias: AddressAlias
+
+  other_alias: String
+
+  latitude: Float
+
+  longitude: Float
+
+  nearby_landmark: String
+
+  delivery_instruction: String
+
+  is_default: Boolean!
+
+  auth_id: String!
+}
 
 input UpdateProfileInput {
   id: String

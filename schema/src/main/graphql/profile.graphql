@@ -1,3 +1,21 @@
+query ListDeliveryAddress( $authId: ID!){
+    ListDeliveryAddress( authId: $authId){
+        delivery_address {
+            id
+            receiver_name
+            receiver_phone
+            address_alias
+            other_alias
+            latitude
+            longitude
+            nearby_landmark
+            address
+            delivery_instruction
+            auth_id
+        }
+    }
+}
+
 mutation CreateProfileMutation( $input: CreateProfileInput!){
     CreateProfile(input: $input){
         id
@@ -17,6 +35,22 @@ mutation UpdateProfileMutation( $input: UpdateProfileInput!){
         dob
         anniversary
         gender
+        auth_id
+    }
+}
+
+mutation CreateDeliveryAddress( $input: CreateDeliveryAddressInput!){
+    CreateDeliveryAddress(input: $input){
+        id
+        receiver_name
+        receiver_phone
+        address_alias
+        other_alias
+        latitude
+        longitude
+        nearby_landmark
+        address
+        delivery_instruction
         auth_id
     }
 }
