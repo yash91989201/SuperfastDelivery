@@ -6,26 +6,31 @@ import com.example.account.domain.model.CreateProfileInput
 import com.example.account.domain.model.Gender
 import com.example.account.domain.model.Profile
 import com.example.account.domain.use_cases.CreateProfileUseCase
+import com.example.common.models.Auth
+import com.example.common.navigation.NavigationSubGraphDest
+import com.example.common.navigation.Navigator
+import com.example.common.state_holder.ApplicationStateHolder
 import com.example.common.utils.NetworkResult
 import com.example.common.utils.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateProfileViewModel @Inject constructor(
+    private val navigator: Navigator,
+    applicationStateHolder: ApplicationStateHolder,
     private val createProfileUseCase: CreateProfileUseCase,
 ) : ViewModel() {
+
+    private val _auth = applicationStateHolder.authStateHolder.auth
+    val auth: StateFlow<Auth?> = _auth
 
     private val _name = MutableStateFlow("")
     val name: StateFlow<String> = _name.asStateFlow()
@@ -45,8 +50,6 @@ class CreateProfileViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(CreateProfile.UIState())
     val uiState: StateFlow<CreateProfile.UIState> = _uiState.asStateFlow()
 
-    private val _navigation = Channel<CreateProfile.Navigation>()
-    val navigation: Flow<CreateProfile.Navigation> = _navigation.receiveAsFlow()
 
     fun updateName(value: String) {
         _name.update { value }
@@ -74,10 +77,8 @@ class CreateProfileViewModel @Inject constructor(
                 createProfile(event.newProfile)
             }
 
-            CreateProfile.Event.GoToSearchScreen -> {
-                viewModelScope.launch {
-                    _navigation.send(CreateProfile.Navigation.GoToSearchScreen)
-                }
+            CreateProfile.Event.GoToSearchHomeScreen -> {
+                navigator.navigateTo(NavigationSubGraphDest.SearchHome)
             }
         }
     }
@@ -85,6 +86,14 @@ class CreateProfileViewModel @Inject constructor(
     private fun createProfile(newProfile: CreateProfileInput) {
         createProfileUseCase(newProfile).onEach { result ->
             when (result) {
+                is NetworkResult.Loading -> {
+                    _uiState.update { it.copy(isLoading = true) }
+                }
+
+                is NetworkResult.Success -> {
+                    onEvent(CreateProfile.Event.GoToSearchHomeScreen)
+                }
+
                 is NetworkResult.Error -> {
                     _uiState.update {
                         it.copy(
@@ -92,14 +101,6 @@ class CreateProfileViewModel @Inject constructor(
                             error = UiText.RemoteString(result.message ?: "Unknown Error")
                         )
                     }
-                }
-
-                is NetworkResult.Loading -> {
-                    _uiState.update { it.copy(isLoading = true) }
-                }
-
-                is NetworkResult.Success -> {
-                    _navigation.send(CreateProfile.Navigation.GoToSearchScreen)
                 }
             }
         }.launchIn(viewModelScope)
@@ -113,14 +114,10 @@ object CreateProfile {
         val data: Profile? = null
     )
 
-    sealed interface Navigation {
-        data object GoToSearchScreen : Navigation
-    }
-
     sealed interface Event {
         data class CreateProfile(val newProfile: CreateProfileInput) : Event
 
         // navigation events
-        data object GoToSearchScreen : Event
+        data object GoToSearchHomeScreen : Event
     }
 }

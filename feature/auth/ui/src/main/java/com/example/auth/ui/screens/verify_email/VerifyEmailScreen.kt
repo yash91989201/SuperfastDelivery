@@ -39,23 +39,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.flowWithLifecycle
 import com.example.auth.ui.components.otp_field.OTP_LENGTH
 import com.example.auth.ui.components.otp_field.OtpAction
 import com.example.auth.ui.components.otp_field.OtpField
 import com.example.auth.ui.components.otp_field.OtpViewModel
 import com.example.common.ui.theme.AppTheme
 import com.example.common.utils.UiText
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun VerifyEmailScreen(
     email: String,
     viewModel: VerifyEmailViewModel,
-    onGoBack: () -> Unit,
-    goToSearchHomeScreen: () -> Unit,
-    goToAccountCreateProfileScreen: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -64,24 +58,8 @@ fun VerifyEmailScreen(
     val keyboardManager = LocalSoftwareKeyboardController.current
     val focusRequesters = remember { List(OTP_LENGTH) { FocusRequester() } }
 
-    val lifecycleOwner = LocalLifecycleOwner.current
     val otpViewModel = hiltViewModel<OtpViewModel>()
     val otpState by otpViewModel.state.collectAsState()
-
-    LaunchedEffect(key1 = viewModel.navigation) {
-        viewModel.navigation.flowWithLifecycle(lifecycleOwner.lifecycle)
-            .collectLatest { navigation ->
-                when (navigation) {
-                    VerifyEmail.Navigation.GoToSearchHomeScreen -> {
-                        goToSearchHomeScreen()
-                    }
-
-                    is VerifyEmail.Navigation.GoToAccountCreateProfileScreen -> {
-                        goToAccountCreateProfileScreen()
-                    }
-                }
-            }
-    }
 
     LaunchedEffect(otpState.focusedIndex) {
         otpState.focusedIndex?.let { index ->
@@ -118,7 +96,7 @@ fun VerifyEmailScreen(
                 .align(Alignment.Center)
         ) {
             IconButton(
-                onClick = onGoBack,
+                onClick = { viewModel.onEvent(VerifyEmail.Event.GoBack) },
                 modifier = Modifier
                     .shadow(8.dp, shape = AppTheme.shape.medium)
                     .background(color = Color.White, shape = AppTheme.shape.medium)

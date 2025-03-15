@@ -6,14 +6,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.account.ui.screens.addresses.AddressesScreen
+import com.example.account.ui.screens.addresses.AddressesViewModel
 import com.example.account.ui.screens.create_profile.CreateProfileScreen
 import com.example.account.ui.screens.create_profile.CreateProfileViewModel
 import com.example.account.ui.screens.home.HomeScreen
 import com.example.account.ui.screens.new_address.NewAddressScreen
+import com.example.account.ui.screens.new_address.NewAddressViewModel
 import com.example.common.navigation.Feature
 import com.example.common.navigation.NavigationSubGraph
 import com.example.common.navigation.NavigationSubGraphDest
-import com.example.common.state_holder.ApplicationStateHolder
 
 interface AccountFeature : Feature
 
@@ -21,7 +22,6 @@ class AccountFeatureImpl : AccountFeature {
     override fun registerGraph(
         navHostController: NavHostController,
         navGraphBuilder: NavGraphBuilder,
-        applicationStateHolder: ApplicationStateHolder
     ) {
         navGraphBuilder.navigation<NavigationSubGraph.Account>(startDestination = NavigationSubGraphDest.AccountHome) {
             composable<NavigationSubGraphDest.AccountHome> {
@@ -29,25 +29,23 @@ class AccountFeatureImpl : AccountFeature {
             }
 
             composable<NavigationSubGraphDest.AccountCreateProfile> {
-                val viewModel = hiltViewModel<CreateProfileViewModel>()
+                val createProfileViewModel = hiltViewModel<CreateProfileViewModel>()
                 CreateProfileScreen(
-                    viewModel = viewModel,
-                    applicationStateHolder = applicationStateHolder,
-                    onNavigateToSearch = {
-                        navHostController.navigate(NavigationSubGraphDest.SearchHome)
-                    }
+                    viewModel = createProfileViewModel
                 )
             }
 
             composable<NavigationSubGraphDest.AccountNewAddress> {
+                val newAddressViewModel = hiltViewModel<NewAddressViewModel>()
                 NewAddressScreen(
-                    applicationStateHolder = applicationStateHolder,
+                    viewModel = newAddressViewModel
                 )
             }
 
             composable<NavigationSubGraphDest.AccountAddresses> {
+                val addressesViewModel = hiltViewModel<AddressesViewModel>()
                 AddressesScreen(
-                    applicationStateHolder = applicationStateHolder,
+                    viewModel = addressesViewModel
                 )
             }
         }

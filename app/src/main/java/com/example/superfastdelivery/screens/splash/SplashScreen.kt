@@ -70,7 +70,7 @@ fun SplashScreen(
                 .size(240.dp)
                 .clip(RoundedCornerShape(50))
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         Text(
             text = "Superfast Delivery",
             style = AppTheme.typography.displaySmall,

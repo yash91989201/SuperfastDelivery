@@ -24,12 +24,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -38,35 +34,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.flowWithLifecycle
 import com.example.common.ui.theme.AppTheme
 import com.example.common.ui.theme.Gray80
 import com.example.common.utils.UiText
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun EmailSignInScreen(
-    onGoBack: () -> Unit,
-    onContinue: (email: String) -> Unit,
     viewModel: EmailSignInViewModel,
     modifier: Modifier = Modifier
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
-    val lifecycleOwner = LocalLifecycleOwner.current
-    var emailValue by rememberSaveable { mutableStateOf("") }
-
-    LaunchedEffect(key1 = viewModel.navigation) {
-        viewModel.navigation.flowWithLifecycle(lifecycleOwner.lifecycle)
-            .collectLatest { navigation ->
-                when (navigation) {
-                    EmailSignIn.Navigation.GoToVerifyEmailScreen -> {
-                        onContinue(emailValue)
-                    }
-                }
-            }
-    }
+    val emailValue by viewModel.email.collectAsState()
 
     Box(modifier = modifier.fillMaxSize()) {
         Column(
@@ -78,7 +57,7 @@ fun EmailSignInScreen(
                 .align(Alignment.Center)
         ) {
             IconButton(
-                onClick = onGoBack,
+                onClick = { viewModel.onEvent(EmailSignIn.Event.GoBack) },
                 modifier = Modifier
                     .shadow(8.dp, shape = AppTheme.shape.medium)
                     .background(color = Color.White, shape = AppTheme.shape.medium)
@@ -112,7 +91,9 @@ fun EmailSignInScreen(
 
             TextField(
                 value = emailValue,
-                onValueChange = { emailValue = it },
+                onValueChange = {
+                    viewModel.onEvent(EmailSignIn.Event.UpdateEmail(it))
+                },
                 singleLine = true,
                 shape = AppTheme.shape.medium,
                 textStyle = AppTheme.typography.bodyMedium,

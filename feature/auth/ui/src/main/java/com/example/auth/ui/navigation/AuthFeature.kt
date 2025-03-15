@@ -13,9 +13,8 @@ import com.example.auth.ui.screens.verify_email.VerifyEmailScreen
 import com.example.auth.ui.screens.verify_email.VerifyEmailViewModel
 import com.example.auth.ui.screens.verify_phone.VerifyPhoneScreen
 import com.example.common.navigation.Feature
-import com.example.common.navigation.NavigationSubGraphDest
 import com.example.common.navigation.NavigationSubGraph
-import com.example.common.state_holder.ApplicationStateHolder
+import com.example.common.navigation.NavigationSubGraphDest
 
 interface AuthFeature : Feature
 
@@ -23,7 +22,6 @@ class AuthFeatureImpl : AuthFeature {
     override fun registerGraph(
         navHostController: NavHostController,
         navGraphBuilder: NavGraphBuilder,
-        applicationStateHolder: ApplicationStateHolder,
     ) {
         navGraphBuilder.navigation<NavigationSubGraph.Auth>(startDestination = NavigationSubGraphDest.AuthSignIn) {
             composable<NavigationSubGraphDest.AuthSignIn> {
@@ -38,33 +36,18 @@ class AuthFeatureImpl : AuthFeature {
             }
 
             composable<NavigationSubGraphDest.AuthEmailSignIn> {
-                val viewModel = hiltViewModel<EmailSignInViewModel>()
+                val emailSignInViewModel = hiltViewModel<EmailSignInViewModel>()
                 EmailSignInScreen(
-                    viewModel = viewModel,
-                    onGoBack = {
-                        navHostController.navigate(NavigationSubGraphDest.AuthSignIn)
-                    },
-                    onContinue = { email ->
-                        navHostController.navigate(NavigationSubGraphDest.AuthVerifyEmail(email = email))
-                    }
+                    viewModel = emailSignInViewModel,
                 )
             }
 
             composable<NavigationSubGraphDest.AuthVerifyEmail> {
                 val route = it.toRoute<NavigationSubGraphDest.AuthVerifyEmail>()
-                val viewModel = hiltViewModel<VerifyEmailViewModel>()
+                val verifyEmailViewModel = hiltViewModel<VerifyEmailViewModel>()
                 VerifyEmailScreen(
                     email = route.email,
-                    viewModel = viewModel,
-                    onGoBack = {
-                        navHostController.navigate(NavigationSubGraphDest.AuthEmailSignIn)
-                    },
-                    goToSearchHomeScreen = {
-                        navHostController.navigate(NavigationSubGraphDest.SearchHome)
-                    },
-                    goToAccountCreateProfileScreen = {
-                        navHostController.navigate(NavigationSubGraphDest.AccountCreateProfile)
-                    }
+                    viewModel = verifyEmailViewModel,
                 )
             }
 

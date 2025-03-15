@@ -20,7 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,16 +35,14 @@ import com.example.account.domain.model.Gender
 import com.example.account.ui.components.create_profile.DateSelectionField
 import com.example.account.ui.components.create_profile.GenderDropdown
 import com.example.account.ui.components.create_profile.ProfileImagePicker
-import com.example.common.state_holder.ApplicationStateHolder
 import com.example.common.ui.theme.AppTheme
 import com.example.common.ui.theme.Gray80
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateProfileScreen(
-    viewModel: CreateProfileViewModel,
-    onNavigateToSearch: () -> Unit,
-    applicationStateHolder: ApplicationStateHolder,
+    modifier: Modifier = Modifier,
+    viewModel: CreateProfileViewModel
 ) {
     val scrollState = rememberScrollState()
 
@@ -53,25 +50,18 @@ fun CreateProfileScreen(
     var showAnniversaryPicker by remember { mutableStateOf(false) }
     var genderDropdownExpanded by remember { mutableStateOf(false) }
 
+    val auth by viewModel.auth.collectAsState()
     val uiState by viewModel.uiState.collectAsState()
+
     val name by viewModel.name.collectAsState()
     val gender by viewModel.gender.collectAsState()
     val dob by viewModel.dob.collectAsState()
     val anniversary by viewModel.anniversary.collectAsState()
     val imageUrl by viewModel.imageUrl.collectAsState()
 
-    val auth by applicationStateHolder.authStateHolder.auth.collectAsState()
-
-    LaunchedEffect(viewModel.navigation) {
-        viewModel.navigation.collect { nav ->
-            when (nav) {
-                CreateProfile.Navigation.GoToSearchScreen -> onNavigateToSearch()
-            }
-        }
-    }
-
     Scaffold(
-        topBar = { CenterAlignedTopAppBar(title = { Text("Create Profile") }) }
+        topBar = { CenterAlignedTopAppBar(title = { Text("Create Profile") }) },
+        modifier = modifier
     ) { padding ->
         Box(modifier = Modifier.fillMaxSize()) {
             if (uiState.isLoading) {
@@ -124,7 +114,7 @@ fun CreateProfileScreen(
 
                 GenderDropdown(
                     gender = gender,
-                    onGenderChange = viewModel::updateGender,
+                    onGenderChange = { viewModel.updateGender(it) },
                     expanded = genderDropdownExpanded,
                     onExpandedChange = { genderDropdownExpanded = it }
                 )

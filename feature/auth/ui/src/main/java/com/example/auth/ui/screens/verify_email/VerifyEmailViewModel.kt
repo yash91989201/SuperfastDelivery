@@ -4,44 +4,41 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.auth.domain.model.SignInResponse
 import com.example.auth.domain.use_cases.SignInWithEmailUseCase
+import com.example.common.navigation.NavigationSubGraphDest
+import com.example.common.navigation.Navigator
 import com.example.common.utils.NetworkResult
 import com.example.common.utils.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class VerifyEmailViewModel @Inject constructor(
+    private val navigator: Navigator,
     private val signInWithEmailUseCase: SignInWithEmailUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(VerifyEmail.UiState())
     val uiState: StateFlow<VerifyEmail.UiState> get() = _uiState.asStateFlow()
 
-    private val _navigation = Channel<VerifyEmail.Navigation>()
-    val navigation: Flow<VerifyEmail.Navigation> get() = _navigation.receiveAsFlow()
-
     fun onEvent(event: VerifyEmail.Event) {
         when (event) {
-            VerifyEmail.Event.GoToSearchHomeScreen -> {
-                viewModelScope.launch {
-                    _navigation.send(VerifyEmail.Navigation.GoToSearchHomeScreen)
-                }
+            VerifyEmail.Event.GoBack -> {
+                navigator.navigateBack()
             }
 
-            is VerifyEmail.Event.GoToAccountCreateProfileScreen -> {
-                viewModelScope.launch {
-                    _navigation.send(VerifyEmail.Navigation.GoToAccountCreateProfileScreen)
-                }
+            VerifyEmail.Event.GoToSearchHomeScreen -> {
+                navigator.navigateTo(NavigationSubGraphDest.SearchHome)
+            }
+
+            VerifyEmail.Event.GoToAccountCreateProfileScreen -> {
+                navigator.navigateTo(NavigationSubGraphDest.AccountCreateProfile)
             }
 
             is VerifyEmail.Event.VerifyEmail -> {
@@ -81,12 +78,10 @@ class VerifyEmailViewModel @Inject constructor(
                         }
 
                         result.data?.let { signInRes ->
-                            _navigation.send(
-                                if (signInRes.createProfile)
-                                    VerifyEmail.Navigation.GoToAccountCreateProfileScreen
-                                else
-                                    VerifyEmail.Navigation.GoToSearchHomeScreen
-                            )
+                            if (signInRes.createProfile) {
+                                onEvent(VerifyEmail.Event.GoToAccountCreateProfileScreen)
+                            }
+                            onEvent(VerifyEmail.Event.GoToSearchHomeScreen)
                         }
                     }
                 }
@@ -138,16 +133,12 @@ object VerifyEmail {
         val data: SignInResponse? = null
     )
 
-    sealed interface Navigation {
-        data object GoToSearchHomeScreen : Navigation
-        data object GoToAccountCreateProfileScreen : Navigation
-    }
-
     sealed interface Event {
         data class ResendEmail(val email: String) : Event
         data class VerifyEmail(val email: String, val otp: String) : Event
 
         // navigation event
+        data object GoBack : Event
         data object GoToSearchHomeScreen : Event
         data object GoToAccountCreateProfileScreen : Event
     }
