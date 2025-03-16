@@ -9,6 +9,26 @@ plugins {
 }
 
 android {
+    compileSdk = 34
+
+    defaultConfig {
+        applicationId = "com.example.app"
+        minSdk = 21
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+
+        val googleMapsApiKey: String? = project.findProperty("GOOGLE_MAPS_API_KEY") as String?
+        buildConfigField("String", "GOOGLE_MAPS_API_KEY", "\"${googleMapsApiKey ?: ""}\"")
+    }
+
+    buildFeatures{
+        buildConfig = true
+    }
+}
+
+
+android {
     namespace = "com.example.superfastdelivery"
     compileSdk = 35
 
@@ -20,6 +40,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(type = "string", name = "GOOGLE_MAPS_API_KEY", value = "")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
