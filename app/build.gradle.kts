@@ -8,25 +8,6 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
-android {
-    compileSdk = 34
-
-    defaultConfig {
-        applicationId = "com.example.app"
-        minSdk = 21
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-
-        val googleMapsApiKey: String? = project.findProperty("GOOGLE_MAPS_API_KEY") as String?
-        buildConfigField("String", "GOOGLE_MAPS_API_KEY", "\"${googleMapsApiKey ?: ""}\"")
-    }
-
-    buildFeatures{
-        buildConfig = true
-    }
-}
-
 
 android {
     namespace = "com.example.superfastdelivery"
@@ -41,7 +22,12 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField(type = "string", name = "GOOGLE_MAPS_API_KEY", value = "")
+        val googleMapsApiKey: String? = project.findProperty("GOOGLE_MAPS_API_KEY") as String?
+        // Set build config field
+        buildConfigField("String", "GOOGLE_MAPS_API_KEY", "\"${googleMapsApiKey ?: ""}\"")
+
+        // Provide placeholder for AndroidManifest.xml
+        manifestPlaceholders["GOOGLE_MAPS_API_KEY"] = googleMapsApiKey ?: ""
     }
 
     buildFeatures {
