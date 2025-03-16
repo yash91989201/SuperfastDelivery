@@ -23,6 +23,10 @@ class HomeViewModel @Inject constructor(
             Home.Event.GoToAccountAddressScreen -> {
                 navigator.navigateTo(NavigationSubGraphDest.AccountAddresses)
             }
+
+            Home.Event.GoToAccountHomeScreen -> {
+                navigator.navigateTo(NavigationSubGraphDest.AccountHome)
+            }
         }
     }
 }
@@ -30,7 +34,7 @@ class HomeViewModel @Inject constructor(
 object Home {
 
     sealed interface Event {
-        // Navigation events
         data object GoToAccountAddressScreen : Event
+        data object GoToAccountHomeScreen : Event
     }
 }

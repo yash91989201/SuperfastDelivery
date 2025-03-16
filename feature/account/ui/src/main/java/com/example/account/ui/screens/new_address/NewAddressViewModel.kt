@@ -15,11 +15,15 @@ import com.example.common.utils.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -34,7 +38,11 @@ class NewAddressViewModel @Inject constructor(
 ) : ViewModel() {
 
     val auth = applicationStateHolder.authStateHolder.auth
+    private val _uiState: MutableStateFlow<NewAddress.UiState> =
+        MutableStateFlow(NewAddress.UiState())
+    val uiState: StateFlow<NewAddress.UiState> get() = _uiState.asStateFlow()
 
+    val addressDetailBottomSheet = MutableStateFlow(false)
     val receiverName = MutableStateFlow("")
     val receiverPhone = MutableStateFlow("")
     val address = MutableStateFlow("")
@@ -151,9 +159,19 @@ class NewAddressViewModel @Inject constructor(
                 )
                 createDeliveryAddressUseCase(newDeliveryAddress).onEach { result ->
                     when (result) {
-                        is NetworkResult.Loading -> {}
-                        is NetworkResult.Success -> {}
-                        is NetworkResult.Error -> {}
+                        is NetworkResult.Loading -> {
+                            _uiState.update { it.copy(isLoading = true) }
+                        }
+
+                        is NetworkResult.Success -> {
+                            _uiState.update { it.copy(isLoading = false) }
+                            delay(1000)
+                            onEvent(NewAddress.Event.GoBack)
+                        }
+
+                        is NetworkResult.Error -> {
+                            _uiState.update { it.copy(isLoading = false) }
+                        }
                     }
 
                 }
@@ -170,13 +188,11 @@ object NewAddress {
     )
 
     sealed interface Event {
-
-        data class UpdateLocation(val lat: Double, val lng: Double) : Event
-        data object CreateDeliveryAddress : Event
-
-        // Navigation Events
         data object GoBack : Event
         data object GoToSearchHomeScreen : Event
         data object GoToSearchAddressScreen : Event
+
+        data class UpdateLocation(val lat: Double, val lng: Double) : Event
+        data object CreateDeliveryAddress : Event
     }
 }

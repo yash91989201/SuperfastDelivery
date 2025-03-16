@@ -29,7 +29,11 @@ import com.composables.icons.lucide.Lucide
 import com.example.common.ui.theme.AppTheme
 
 @Composable
-fun Header(imageUrl: String? = null, onSelectDeliveryAddress: () -> Unit) {
+fun Header(
+    imageUrl: String? = null,
+    onSelectDeliveryAddress: () -> Unit,
+    onProfileClick: () -> Unit,
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -40,7 +44,7 @@ fun Header(imageUrl: String? = null, onSelectDeliveryAddress: () -> Unit) {
         Column {
             Text(
                 text = "Deliver To",
-                style = AppTheme.typography.bodySmall,
+                style = AppTheme.typography.bodyMedium,
                 color = AppTheme.colorScheme.tertiary
             )
             TextButton(
@@ -52,7 +56,7 @@ fun Header(imageUrl: String? = null, onSelectDeliveryAddress: () -> Unit) {
             ) {
                 Text(
                     text = "Select delivery location",
-                    style = AppTheme.typography.bodyMedium,
+                    style = AppTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Bold
                 )
                 Icon(
@@ -64,7 +68,7 @@ fun Header(imageUrl: String? = null, onSelectDeliveryAddress: () -> Unit) {
         }
 
         IconButton(
-            onClick = {},
+            onClick = onProfileClick,
             modifier = Modifier
                 .size(36.dp)
                 .background(Color.White, CircleShape)
@@ -72,13 +76,13 @@ fun Header(imageUrl: String? = null, onSelectDeliveryAddress: () -> Unit) {
             if (imageUrl.isNullOrEmpty()) {
                 Icon(
                     imageVector = Lucide.CircleUserRound,
-                    contentDescription = "Profile",
+                    contentDescription = "Account",
                     modifier = Modifier.size(20.dp)
                 )
             } else {
                 AsyncImage(
                     model = imageUrl,
-                    contentDescription = "Profile Image",
+                    contentDescription = "Account",
                     modifier = Modifier
                         .size(36.dp)
                         .clip(CircleShape),
@@ -93,7 +97,8 @@ fun Header(imageUrl: String? = null, onSelectDeliveryAddress: () -> Unit) {
 private fun HeaderPreview() {
     AppTheme {
         Header(
-            onSelectDeliveryAddress = {}
+            onSelectDeliveryAddress = {},
+            onProfileClick = {}
         )
     }
 }

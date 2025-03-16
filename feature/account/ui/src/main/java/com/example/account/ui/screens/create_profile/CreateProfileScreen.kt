@@ -13,14 +13,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,11 +28,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.account.domain.model.CreateProfileInput
 import com.example.account.domain.model.Gender
 import com.example.account.ui.components.create_profile.DateSelectionField
 import com.example.account.ui.components.create_profile.GenderDropdown
 import com.example.account.ui.components.create_profile.ProfileImagePicker
+import com.example.common.ui.components.FullScreenLoader
 import com.example.common.ui.theme.AppTheme
 import com.example.common.ui.theme.Gray80
 
@@ -50,28 +50,29 @@ fun CreateProfileScreen(
     var showAnniversaryPicker by remember { mutableStateOf(false) }
     var genderDropdownExpanded by remember { mutableStateOf(false) }
 
-    val auth by viewModel.auth.collectAsState()
-    val uiState by viewModel.uiState.collectAsState()
+    val auth by viewModel.auth.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val name by viewModel.name.collectAsState()
-    val gender by viewModel.gender.collectAsState()
-    val dob by viewModel.dob.collectAsState()
-    val anniversary by viewModel.anniversary.collectAsState()
-    val imageUrl by viewModel.imageUrl.collectAsState()
+    val name by viewModel.name.collectAsStateWithLifecycle()
+    val gender by viewModel.gender.collectAsStateWithLifecycle()
+    val dob by viewModel.dob.collectAsStateWithLifecycle()
+    val anniversary by viewModel.anniversary.collectAsStateWithLifecycle()
+    val imageUrl by viewModel.imageUrl.collectAsStateWithLifecycle()
 
     Scaffold(
-        topBar = { CenterAlignedTopAppBar(title = { Text("Create Profile") }) },
-        modifier = modifier
-    ) { padding ->
-        Box(modifier = Modifier.fillMaxSize()) {
-            if (uiState.isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            }
-
+        topBar = {
+            CenterAlignedTopAppBar(title = { Text("Create Profile") })
+        },
+        modifier = modifier.padding(top = 0.dp, end = 16.dp, bottom = 16.dp, start = 16.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(padding)
                     .verticalScroll(scrollState)
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -159,6 +160,10 @@ fun CreateProfileScreen(
                 ) {
                     Text("Create Profile")
                 }
+            }
+
+            if (uiState.isLoading) {
+                FullScreenLoader(text = "Creating your profile...")
             }
         }
     }

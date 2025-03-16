@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-
 class ListDeliveryAddressesUseCase @Inject constructor(private val accountRepository: AccountRepository) {
     operator fun invoke(authId: String) = flow<NetworkResult<ListDeliveryAddress>> {
         emit(NetworkResult.Loading())

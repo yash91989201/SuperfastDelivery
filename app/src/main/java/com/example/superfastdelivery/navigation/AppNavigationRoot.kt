@@ -2,8 +2,8 @@ package com.example.superfastdelivery.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -23,7 +23,7 @@ fun AppNavigationRoot(
     applicationStateHolder: ApplicationStateHolder
 ) {
     val navHost = rememberNavController()
-    val session by applicationStateHolder.sessionStateHolder.session.collectAsState()
+    val session by applicationStateHolder.sessionStateHolder.session.collectAsStateWithLifecycle()
     val isLoggedIn = session != null
 
     LaunchedEffect(key1 = "navigation") {

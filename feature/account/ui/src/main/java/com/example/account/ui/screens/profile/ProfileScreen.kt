@@ -1,4 +1,4 @@
-package com.example.account.ui.screens.home
+package com.example.account.ui.screens.profile
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,14 +14,14 @@ import androidx.compose.ui.unit.dp
 import com.example.common.ui.components.TopBar
 
 @Composable
-fun HomeScreen(
-    viewModel: HomeViewModel,
+fun ProfileScreen(
+    viewModel: ProfileViewModel,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
         topBar = {
-            TopBar("Account") {
-                viewModel.onEvent(AccountHome.Event.GoBack)
+            TopBar("Add New Address") {
+                viewModel.onEvent(Profile.Event.GoBack)
             }
         },
         modifier = modifier.padding(top = 0.dp, end = 16.dp, bottom = 16.dp, start = 16.dp)
@@ -37,7 +37,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                Text("Account home screen")
+                Text("Account profile screen")
             }
         }
     }

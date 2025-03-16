@@ -24,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.common.ui.theme.AppTheme
 import com.example.common.ui.theme.Gray80
 import com.example.common.utils.UiText
@@ -44,8 +44,8 @@ fun EmailSignInScreen(
     modifier: Modifier = Modifier
 ) {
 
-    val uiState by viewModel.uiState.collectAsState()
-    val emailValue by viewModel.email.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val emailValue by viewModel.email.collectAsStateWithLifecycle()
 
     Box(modifier = modifier.fillMaxSize()) {
         Column(

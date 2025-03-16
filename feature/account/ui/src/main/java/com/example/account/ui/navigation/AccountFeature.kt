@@ -10,8 +10,11 @@ import com.example.account.ui.screens.addresses.AddressesViewModel
 import com.example.account.ui.screens.create_profile.CreateProfileScreen
 import com.example.account.ui.screens.create_profile.CreateProfileViewModel
 import com.example.account.ui.screens.home.HomeScreen
+import com.example.account.ui.screens.home.HomeViewModel
 import com.example.account.ui.screens.new_address.NewAddressScreen
 import com.example.account.ui.screens.new_address.NewAddressViewModel
+import com.example.account.ui.screens.profile.ProfileScreen
+import com.example.account.ui.screens.profile.ProfileViewModel
 import com.example.common.navigation.Feature
 import com.example.common.navigation.NavigationSubGraph
 import com.example.common.navigation.NavigationSubGraphDest
@@ -25,7 +28,17 @@ class AccountFeatureImpl : AccountFeature {
     ) {
         navGraphBuilder.navigation<NavigationSubGraph.Account>(startDestination = NavigationSubGraphDest.AccountHome) {
             composable<NavigationSubGraphDest.AccountHome> {
-                HomeScreen()
+                val homeViewModel = hiltViewModel<HomeViewModel>()
+                HomeScreen(
+                    viewModel = homeViewModel
+                )
+            }
+
+            composable<NavigationSubGraphDest.AccountProfile> {
+                val profileViewModel = hiltViewModel<ProfileViewModel>()
+                ProfileScreen(
+                    viewModel = profileViewModel
+                )
             }
 
             composable<NavigationSubGraphDest.AccountCreateProfile> {

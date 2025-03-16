@@ -24,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -39,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.auth.ui.components.otp_field.OTP_LENGTH
 import com.example.auth.ui.components.otp_field.OtpAction
 import com.example.auth.ui.components.otp_field.OtpField
@@ -52,14 +52,14 @@ fun VerifyEmailScreen(
     viewModel: VerifyEmailViewModel,
     modifier: Modifier = Modifier
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val focusManager = LocalFocusManager.current
     val keyboardManager = LocalSoftwareKeyboardController.current
     val focusRequesters = remember { List(OTP_LENGTH) { FocusRequester() } }
 
     val otpViewModel = hiltViewModel<OtpViewModel>()
-    val otpState by otpViewModel.state.collectAsState()
+    val otpState by otpViewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(otpState.focusedIndex) {
         otpState.focusedIndex?.let { index ->

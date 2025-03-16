@@ -19,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -33,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.auth.ui.components.otp_field.OtpAction
 import com.example.auth.ui.components.otp_field.OtpField
 import com.example.auth.ui.components.otp_field.OtpViewModel
@@ -44,7 +44,7 @@ fun VerifyPhoneScreen(
 ) {
 
     val otpViewModel = hiltViewModel<OtpViewModel>()
-    val state by otpViewModel.state.collectAsState()
+    val state by otpViewModel.state.collectAsStateWithLifecycle()
 
     val focusRequesters = remember { List(4) { FocusRequester() } }
     val focusManager = LocalFocusManager.current

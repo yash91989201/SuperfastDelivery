@@ -54,7 +54,7 @@ fun CreateDeliveryAddressMutation.CreateDeliveryAddress.toDomain() = DomainDeliv
     address = this.address,
     nearbyLandmark = this.nearby_landmark,
     deliveryInstruction = this.delivery_instruction,
-    isDefault = false,
+    isDefault = this.is_default,
     authId = this.auth_id,
 )
 
@@ -70,7 +70,7 @@ fun ListDeliveryAddressQuery.Delivery_address.toDomain() = DomainDeliveryAddress
     address = this.address,
     nearbyLandmark = this.nearby_landmark,
     deliveryInstruction = this.delivery_instruction,
-    isDefault = false,
+    isDefault = this.is_default,
     authId = this.auth_id,
 )
 

@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Layers
@@ -43,7 +44,6 @@ import com.google.maps.android.compose.rememberCameraPositionState
 fun GoogleMapView(
     latitude: Double,
     longitude: Double,
-    modifier: Modifier = Modifier,
     onMarkCurrentLocation: () -> Unit,
     onLocationChange: (LatLng) -> Unit,
 ) {
@@ -61,7 +61,9 @@ fun GoogleMapView(
         markerState.position = newLocation
     }
 
-    Box(modifier = modifier) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .clip(AppTheme.shape.medium)) {
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
             properties = MapProperties(mapType = mapType),

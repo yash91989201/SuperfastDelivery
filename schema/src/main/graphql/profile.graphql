@@ -11,6 +11,7 @@ query ListDeliveryAddress( $authId: ID!){
             nearby_landmark
             address
             delivery_instruction
+            is_default
             auth_id
         }
     }
@@ -51,6 +52,7 @@ mutation CreateDeliveryAddress( $input: CreateDeliveryAddressInput!){
         nearby_landmark
         address
         delivery_instruction
+        is_default
         auth_id
     }
 }

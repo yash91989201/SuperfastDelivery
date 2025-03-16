@@ -45,7 +45,7 @@ object CommonModule {
     @Singleton
     fun provideApolloClient(okHttpClient: OkHttpClient): ApolloClient {
         return ApolloClient.Builder()
-            .serverUrl("http://192.168.1.4:8081/graphql")
+            .serverUrl("http://192.168.1.6:8081/graphql")
             .okHttpClient(okHttpClient)
             .build()
     }
