@@ -513,7 +513,7 @@ type Mutation {
 
   SignInWithGoogle(input: SignInWithGoogleInput!): SignInOutput!
 
-  RefreshToken(session_id: String!): SignInOutput!
+  RefreshToken(session_id: ID!): SignInOutput!
 
   LogOut(session_id: ID!): SignInOutput!
 
@@ -521,9 +521,11 @@ type Mutation {
 
   UpdateProfile(input: UpdateProfileInput!): Profile!
 
-  CreateDeliveryAddress(input: CreateDeliveryAddressInput): DeliveryAddress!
+  CreateDeliveryAddress(input: CreateDeliveryAddressInput!): DeliveryAddress!
 
-  UpdateDeliveryAddress(input: UpdateDeliveryAddressInput): DeliveryAddress!
+  UpdateDeliveryAddress(input: UpdateDeliveryAddressInput!): DeliveryAddress!
+
+  UpdateDefaultDeliveryAddress(input: UpdateDefaultDeliveryAddressInput!): UpdateOutput!
 
   CreateShop(input: CreateShopInput!): CreateShopOutput!
 
@@ -589,9 +591,9 @@ type Profile {
 }
 
 type Query {
-  GetAuthById(input: GetAuthByIdInput!): Auth
+  GetAuth(input: GetAuthInput!): Auth!
 
-  GetAuth(input: GetAuthInput!): Auth
+  GetAuthById(input: GetAuthByIdInput!): Auth!
 
   GetProfile(input: GetProfileInput!): Profile!
 
@@ -813,20 +815,32 @@ type SignInOutput {
 input SignInWithEmailInput {
   email: String!
 
+  auth_role: AuthRole!
+
   otp: String
 }
 
 input SignInWithGoogleInput {
   id_token: String!
+
+  auth_role: AuthRole!
 }
 
 input SignInWithPhoneInput {
   phone: String!
 
+  auth_role: AuthRole!
+
   otp: String
 }
 
 scalar Time
+
+input UpdateDefaultDeliveryAddressInput {
+  delivery_address_id: String!
+
+  auth_id: String!
+}
 
 input UpdateDeliveryAddressInput {
   receiver_name: String
@@ -848,6 +862,10 @@ input UpdateDeliveryAddressInput {
   is_default: Boolean!
 
   auth_id: String!
+}
+
+type UpdateOutput {
+  message: String!
 }
 
 input UpdateProfileInput {

@@ -1,5 +1,6 @@
 package com.example.auth.domain.use_cases
 
+import com.example.auth.domain.model.AuthRole
 import com.example.auth.domain.model.SignInResponse
 import com.example.auth.domain.repository.AuthRepository
 import com.example.common.utils.NetworkResult
@@ -9,10 +10,10 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class SignInWithEmailUseCase @Inject constructor(private val authRepository: AuthRepository) {
-    operator fun invoke(email: String, otp: String? = null) = flow<NetworkResult<SignInResponse>> {
+    operator fun invoke(email: String, authRole: AuthRole, otp: String? = null) = flow<NetworkResult<SignInResponse>> {
         emit(NetworkResult.Loading())
 
-        authRepository.signInWithEmail(email, otp)
+        authRepository.signInWithEmail(email,authRole, otp)
             .onSuccess { emit(NetworkResult.Success(it)) }
             .onFailure { emit(NetworkResult.Error(it.message ?: "Unknown Error occurred")) }
     }.flowOn(Dispatchers.IO)

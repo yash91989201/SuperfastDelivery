@@ -2,6 +2,7 @@ package com.example.auth.ui.screens.email_sign_in
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.auth.domain.model.AuthRole
 import com.example.auth.domain.model.SignInResponse
 import com.example.auth.domain.use_cases.SignInWithEmailUseCase
 import com.example.common.navigation.NavigationSubGraphDest.AuthVerifyEmail
@@ -50,7 +51,7 @@ class EmailSignInViewModel @Inject constructor(
     }
 
     private fun signInWithEmail(email: String) {
-        signInWithEmailUseCase(email).onEach { result ->
+        signInWithEmailUseCase(email, AuthRole.CUSTOMER).onEach { result ->
             when (result) {
                 is NetworkResult.Error -> {
                     _uiState.update {

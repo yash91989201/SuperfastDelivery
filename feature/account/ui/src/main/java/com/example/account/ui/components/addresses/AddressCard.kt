@@ -127,7 +127,7 @@ fun AddressCard(
             ) {
                 Text(
                     text = "Manage location",
-                    style = AppTheme.typography.headlineSmall,
+                    style = AppTheme.typography.titleLarge,
                     color = AppTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(bottom = 12.dp)
                 )
@@ -152,7 +152,7 @@ fun AddressCard(
                     )
                     Text(
                         text = "Edit",
-                        style = AppTheme.typography.bodyLarge,
+                        style = AppTheme.typography.bodyMedium,
                         color = AppTheme.colorScheme.onSurface
                     )
                 }
@@ -177,7 +177,7 @@ fun AddressCard(
                     )
                     Text(
                         text = "Delete",
-                        style = AppTheme.typography.bodyLarge,
+                        style = AppTheme.typography.bodyMedium,
                         color = AppTheme.colorScheme.onSurface
                     )
                 }

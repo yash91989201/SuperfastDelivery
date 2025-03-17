@@ -36,3 +36,10 @@ fun StoreAuthRole.toProto() = when (this) {
     StoreAuthRole.ADMIN -> ProtoAuthRole.ADMIN
 }
 
+fun DomainAuthRole.toSchema() = when (this) {
+    DomainAuthRole.CUSTOMER -> SchemaAuthRole.CUSTOMER
+    DomainAuthRole.DELIVERY_PARTNER -> SchemaAuthRole.DELIVERY_PARTNER
+    DomainAuthRole.VENDOR -> SchemaAuthRole.VENDOR
+    DomainAuthRole.ADMIN -> SchemaAuthRole.ADMIN
+}
+

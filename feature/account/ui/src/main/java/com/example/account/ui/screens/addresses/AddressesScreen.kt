@@ -1,6 +1,5 @@
 package com.example.account.ui.screens.addresses
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,9 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +30,8 @@ import com.example.account.ui.components.addresses.AddressCard
 import com.example.account.ui.components.addresses.AddressCardSkeleton
 import com.example.common.ui.components.TopBar
 import com.example.common.ui.theme.AppTheme
+import com.example.common.ui.theme.Orange100
+import com.example.common.ui.theme.Orange20
 import com.example.common.utils.UiText
 
 @Composable
@@ -133,13 +134,12 @@ fun AddressesScreen(
                     }
                 }
 
-                OutlinedButton(
+                Button(
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Transparent,
-                        contentColor = AppTheme.colorScheme.primary,
+                        containerColor = Orange20,
+                        contentColor = Orange100,
                     ),
-                    shape = AppTheme.shape.small,
-                    border = BorderStroke(width = 1.dp, color = AppTheme.colorScheme.primary),
+                    shape = AppTheme.shape.medium,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp),

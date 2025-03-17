@@ -82,7 +82,7 @@ mutation SignInWithGoogle( $input: SignInWithGoogleInput!){
     }
 }
 
-mutation RefreshToken( $sessionId: String!){
+mutation RefreshToken( $sessionId: ID!){
     RefreshToken(session_id: $sessionId){
         auth {
             id

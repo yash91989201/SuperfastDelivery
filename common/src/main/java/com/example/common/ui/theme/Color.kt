@@ -2,15 +2,18 @@ package com.example.common.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Orange100 = Color.hsl(13f, 0.99f, 0.65f)
-val Orange80 = Color.hsl(13f, 0.99f, 0.69f)
-val Orange50 = Color.hsl(13f, 0.98f, 0.77f)
-val Orange20 = Color.hsl(13f, 0.96f, 0.89f)
+val Orange20 = Color.hsl(6f, 1f, 0.94f)
+val Orange40 = Color.hsl(13f, 1f, 0.86f)
+val Orange60 = Color.hsl(11f, 1f, 0.81f)
+val Orange80 = Color.hsl(12f, 1f, 0.75f)
+val Orange100 = Color.hsl(10f, 1f, 0.70f)
 
-val Yellow100 = Color.hsl(44f, 1f, 0.58f)
-val Yellow80 = Color.hsl(44f, 1f, 0.66f)
-val Yellow50 = Color.hsl(43f, 1f, 0.77f)
-val Yellow20 = Color.hsl(44f, 1f, 0.88f)
+val Yellow20 = Color.hsl(42f, 1f, 0.94f)
+val Yellow40 = Color.hsl(46f, 1f, 0.82f)
+val Yellow60 = Color.hsl(45f, 1f, 0.74f)
+val Yellow80 = Color.hsl(45f, 1f, 0.64f)
+val Yellow100 = Color.hsl(46f, 1f, 0.58f)
+
 
 val Dark100 = Color.hsl(225f, 0.19f, 0.13f)
 val Dark80 = Color.hsl(224f, 0.18f, 0.20f)

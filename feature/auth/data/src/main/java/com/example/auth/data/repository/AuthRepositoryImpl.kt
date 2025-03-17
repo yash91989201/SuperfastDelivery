@@ -1,8 +1,10 @@
 package com.example.auth.data.repository
 
 import com.example.auth.data.mappers.toDomain
+import com.example.auth.data.mappers.toSchema
 import com.example.auth.data.mappers.toStore
 import com.example.auth.data.remote.AuthGraphQLService
+import com.example.auth.domain.model.AuthRole
 import com.example.auth.domain.repository.AuthRepository
 import com.example.common.state_holder.ApplicationStateHolder
 import com.example.common.models.Auth as StoreAuth
@@ -15,9 +17,14 @@ class AuthRepositoryImpl(
 ) : AuthRepository {
     override suspend fun signInWithEmail(
         email: String,
+        authRole: AuthRole,
         otp: String?
     ) = runCatching {
-        val response = authGraphQLService.signInWithEmail(email, otp)
+        val response = authGraphQLService.signInWithEmail(
+            email = email,
+            authRole = authRole.toSchema(),
+            otp = otp
+        )
 
         response.exception?.also { throw Exception(it.toString()) }
 
@@ -66,16 +73,25 @@ class AuthRepositoryImpl(
 
     override suspend fun signInWithPhone(
         phone: String,
+        authRole: AuthRole,
         otp: String?
     ) = runCatching {
-        val response = authGraphQLService.signInWithPhone(phone, otp)
+        val response = authGraphQLService.signInWithPhone(
+            phone = phone,
+            authRole = authRole.toSchema(),
+            otp = otp
+        )
         response.exception?.let { throw Exception(it.toString()) }
         response.errors?.firstOrNull()?.message?.let { throw Exception(it) }
         response.data?.SignInWithPhone?.toDomain() ?: throw Exception("No Data returned")
     }
 
-    override suspend fun signInWithGoogle(idToken: String) = runCatching {
-        val response = authGraphQLService.signInWithGoogle(idToken = idToken)
+
+    override suspend fun signInWithGoogle(idToken: String, authRole: AuthRole) = runCatching {
+        val response = authGraphQLService.signInWithGoogle(
+            idToken = idToken,
+            authRole = authRole.toSchema(),
+        )
         response.exception?.let { throw Exception(it.toString()) }
         response.errors?.firstOrNull()?.message?.let { throw Exception(it) }
         response.data?.SignInWithGoogle?.toDomain() ?: throw Exception("No Data returned")

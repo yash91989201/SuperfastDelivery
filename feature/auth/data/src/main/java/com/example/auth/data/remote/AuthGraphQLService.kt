@@ -7,6 +7,7 @@ import com.example.schema.RefreshTokenMutation
 import com.example.schema.SignInWithEmailMutation
 import com.example.schema.SignInWithGoogleMutation
 import com.example.schema.SignInWithPhoneMutation
+import com.example.schema.type.AuthRole
 import com.example.schema.type.SignInWithEmailInput
 import com.example.schema.type.SignInWithGoogleInput
 import com.example.schema.type.SignInWithPhoneInput
@@ -15,15 +16,20 @@ interface AuthGraphQLService {
 
     suspend fun signInWithEmail(
         email: String,
+        authRole: AuthRole,
         otp: String? = null
     ): ApolloResponse<SignInWithEmailMutation.Data>
 
     suspend fun signInWithPhone(
         phone: String,
+        authRole: AuthRole,
         otp: String? = null
     ): ApolloResponse<SignInWithPhoneMutation.Data>
 
-    suspend fun signInWithGoogle(idToken: String): ApolloResponse<SignInWithGoogleMutation.Data>
+    suspend fun signInWithGoogle(
+        idToken: String,
+        authRole: AuthRole,
+    ): ApolloResponse<SignInWithGoogleMutation.Data>
 
     suspend fun refreshToken(sessionId: String): ApolloResponse<RefreshTokenMutation.Data>
 }
@@ -31,6 +37,7 @@ interface AuthGraphQLService {
 class AuthGraphQLServiceImpl(private val apolloClient: ApolloClient) : AuthGraphQLService {
     override suspend fun signInWithEmail(
         email: String,
+        authRole: AuthRole,
         otp: String?
     ): ApolloResponse<SignInWithEmailMutation.Data> {
         val optionalOtp = Optional.presentIfNotNull(otp)
@@ -38,6 +45,7 @@ class AuthGraphQLServiceImpl(private val apolloClient: ApolloClient) : AuthGraph
             SignInWithEmailMutation(
                 SignInWithEmailInput(
                     email = email,
+                    auth_role = authRole,
                     otp = optionalOtp
                 )
             )
@@ -48,6 +56,7 @@ class AuthGraphQLServiceImpl(private val apolloClient: ApolloClient) : AuthGraph
 
     override suspend fun signInWithPhone(
         phone: String,
+        authRole: AuthRole,
         otp: String?
     ): ApolloResponse<SignInWithPhoneMutation.Data> {
         val optionalOtp = Optional.presentIfNotNull(otp)
@@ -55,6 +64,7 @@ class AuthGraphQLServiceImpl(private val apolloClient: ApolloClient) : AuthGraph
             SignInWithPhoneMutation(
                 SignInWithPhoneInput(
                     phone = phone,
+                    auth_role = authRole,
                     otp = optionalOtp
                 )
             )
@@ -62,11 +72,15 @@ class AuthGraphQLServiceImpl(private val apolloClient: ApolloClient) : AuthGraph
         return response
     }
 
-    override suspend fun signInWithGoogle(idToken: String): ApolloResponse<SignInWithGoogleMutation.Data> {
+    override suspend fun signInWithGoogle(
+        idToken: String,
+        authRole: AuthRole
+    ): ApolloResponse<SignInWithGoogleMutation.Data> {
         val response = apolloClient.mutation(
             SignInWithGoogleMutation(
                 SignInWithGoogleInput(
-                    id_token = idToken
+                    id_token = idToken,
+                    auth_role = authRole,
                 )
             )
         ).execute()

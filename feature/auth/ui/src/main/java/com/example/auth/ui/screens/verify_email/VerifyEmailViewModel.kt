@@ -2,6 +2,7 @@ package com.example.auth.ui.screens.verify_email
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.auth.domain.model.AuthRole
 import com.example.auth.domain.model.SignInResponse
 import com.example.auth.domain.use_cases.SignInWithEmailUseCase
 import com.example.common.navigation.NavigationSubGraphDest
@@ -53,7 +54,7 @@ class VerifyEmailViewModel @Inject constructor(
 
     private fun verifyEmail(email: String, otp: String) {
         viewModelScope.launch {
-            signInWithEmailUseCase(email, otp).collect { result ->
+            signInWithEmailUseCase(email, AuthRole.CUSTOMER, otp).collect { result ->
                 when (result) {
                     is NetworkResult.Error -> {
                         _uiState.update {
@@ -90,7 +91,7 @@ class VerifyEmailViewModel @Inject constructor(
     }
 
     private fun resendEmail(email: String) {
-        signInWithEmailUseCase(email = email).onEach { result ->
+        signInWithEmailUseCase(email = email, AuthRole.CUSTOMER).onEach { result ->
             when (result) {
                 is NetworkResult.Error -> {
                     _uiState.update {
