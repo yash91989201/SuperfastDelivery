@@ -1,5 +1,6 @@
 package com.example.account.ui.screens.search_address
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -51,7 +51,6 @@ fun SearchAddressScreen(
             TextInput(
                 value = searchQuery,
                 onValueChange = { viewModel.onEvent(SearchAddress.Event.UpdateSearchQuery(it)) },
-                showPlaceholder = false,
                 placeholderText = "Search for an address",
                 trailingIcon = {
                     Icon(
@@ -101,17 +100,17 @@ fun SearchAddressScreen(
                 }
 
                 else -> {
+                    Log.d("check", "${uiState.data.size}")
                     LazyColumn(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        items(uiState.data) { address ->
+                        items(uiState.data) {
                             AddressCard(
-                                prediction = address,
+                                prediction = it,
                                 onClick = {
                                     viewModel.onEvent(SearchAddress.Event.GoToNewAddressScreen(it))
                                 }
                             )
-                            HorizontalDivider()
                         }
                     }
                 }
