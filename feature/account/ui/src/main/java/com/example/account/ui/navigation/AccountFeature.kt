@@ -15,6 +15,8 @@ import com.example.account.ui.screens.new_address.NewAddressScreen
 import com.example.account.ui.screens.new_address.NewAddressViewModel
 import com.example.account.ui.screens.profile.ProfileScreen
 import com.example.account.ui.screens.profile.ProfileViewModel
+import com.example.account.ui.screens.search_address.SearchAddressScreen
+import com.example.account.ui.screens.search_address.SearchAddressViewModel
 import com.example.common.navigation.Feature
 import com.example.common.navigation.NavigationSubGraph
 import com.example.common.navigation.NavigationSubGraphDest
@@ -49,9 +51,18 @@ class AccountFeatureImpl : AccountFeature {
             }
 
             composable<NavigationSubGraphDest.AccountNewAddress> {
+                val placeId = it.arguments?.getString("placeId")
                 val newAddressViewModel = hiltViewModel<NewAddressViewModel>()
                 NewAddressScreen(
+                    placeId = placeId,
                     viewModel = newAddressViewModel
+                )
+            }
+
+            composable<NavigationSubGraphDest.AccountSearchAddress> {
+                val searchAddressViewModel = hiltViewModel<SearchAddressViewModel>()
+                SearchAddressScreen(
+                    viewModel = searchAddressViewModel
                 )
             }
 

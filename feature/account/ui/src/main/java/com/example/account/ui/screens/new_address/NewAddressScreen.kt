@@ -34,6 +34,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun NewAddressScreen(
     modifier: Modifier = Modifier,
+    placeId: String? = null,
     viewModel: NewAddressViewModel,
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -57,14 +58,26 @@ fun NewAddressScreen(
             locationPermissions.launchMultiplePermissionRequest()
         } else {
             coroutineScope.launch {
-                val location = viewModel.fetchUserLocation()
-                location?.let {
-                    viewModel.onEvent(
-                        NewAddress.Event.UpdateLocation(
-                            lat = it.latitude,
-                            lng = it.longitude
+                if (placeId == null) {
+                    val location = viewModel.fetchUserLocation()
+                    location?.let {
+                        viewModel.onEvent(
+                            NewAddress.Event.UpdateLocation(
+                                lat = it.latitude,
+                                lng = it.longitude
+                            )
                         )
-                    )
+                    }
+                } else {
+                    val location = viewModel.fetchPlaceDetails(placeId = placeId)
+                    location?.let {
+                        viewModel.onEvent(
+                            NewAddress.Event.UpdateLocation(
+                                lat = it.latitude,
+                                lng = it.longitude
+                            )
+                        )
+                    }
                 }
             }
         }

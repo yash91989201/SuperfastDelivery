@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -7,7 +9,6 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
 }
-
 
 android {
     namespace = "com.example.superfastdelivery"
@@ -22,16 +23,10 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        val googleMapsApiKey: String? = project.findProperty("GOOGLE_MAPS_API_KEY") as String?
-        // Set build config field
-        buildConfigField("String", "GOOGLE_MAPS_API_KEY", "\"${googleMapsApiKey ?: ""}\"")
+        val localProperties = gradleLocalProperties(rootDir, providers)
+        val googleMapsApiKey = localProperties.getProperty("GOOGLE_MAPS_API_KEY") ?: ""
 
-        // Provide placeholder for AndroidManifest.xml
-        manifestPlaceholders["GOOGLE_MAPS_API_KEY"] = googleMapsApiKey ?: ""
-    }
-
-    buildFeatures {
-        buildConfig = true
+        manifestPlaceholders["GOOGLE_MAPS_API_KEY"] = googleMapsApiKey
     }
 
     buildTypes {

@@ -100,8 +100,8 @@ fun AddressesScreen(
                                         selected = address.isDefault,
                                         onSelect = {
                                             viewModel.onEvent(
-                                                Addresses.Event.SetDeliveryAddressAsDefault(
-                                                    addressId = address.id
+                                                Addresses.Event.UpdateDefaultDeliveryAddress(
+                                                    deliveryAddressId = address.id
                                                 )
                                             )
                                         },

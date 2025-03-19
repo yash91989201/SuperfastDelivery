@@ -7,14 +7,13 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntime = "2.8.7"
 activityCompose = "1.10.1"
-composeBom = "2025.02.00"
+composeBom = "2025.03.00"
 daggerHilt = "2.52"
 ksp = "2.0.21-1.0.25"
-navigationCompose = "2.8.8"
+navigationCompose = "2.8.9"
 hiltNavigationCompose = "1.2.0"
 coil = "2.7.0"
 appCompat = "1.7.0"
-composeRuntimeLiveData = "1.7.8"
 material = "1.12.0"
 kotlinxSerializationJson = "1.7.3"
 kotlinSerialization = "2.0.21"
@@ -33,6 +32,7 @@ accompanistPermissions = "0.37.2"
 playServicesLocation = "21.3.0"
 playServicesMaps = "19.1.0"
 androidMapsUtils = "3.11.1"
+places = "4.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -100,6 +100,8 @@ play-services-maps = { module = "com.google.android.gms:play-services-maps ", ve
 
 # map utils
 android-maps-utils = { module = "com.google.maps.android:android-maps-utils", version.ref = "androidMapsUtils" }
+
+places = { module = "com.google.android.libraries.places:places", version.ref = "places" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

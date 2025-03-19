@@ -51,5 +51,8 @@ sealed class NavigationSubGraphDest {
     data object AccountAddresses : NavigationSubGraphDest()
 
     @Serializable
-    data object AccountNewAddress : NavigationSubGraphDest()
+    data class AccountNewAddress(val placeId: String? = null) : NavigationSubGraphDest()
+
+    @Serializable
+    data object AccountSearchAddress : NavigationSubGraphDest()
 }

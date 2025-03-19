@@ -43,4 +43,28 @@ class AccountRepositoryImpl(private val accountGraphQLService: AccountGraphQLSer
 
         response.data?.ListDeliveryAddress?.toDomain() ?: throw Exception("No data returned")
     }
+
+    override suspend fun updateDefaultDeliveryAddress(deliveryAddressId: String, authId: String) =
+        runCatching {
+            val response =
+                accountGraphQLService.updateDefaultDeliveryAddress(deliveryAddressId, authId)
+
+            response.exception?.also { throw Exception(it.toString()) }
+
+            response.errors?.firstOrNull()?.message?.also { throw Exception(it) }
+
+            response.data?.UpdateDefaultDeliveryAddress?.message
+                ?: throw Exception("No data returned")
+        }
+
+    override suspend fun deleteDeliveryAddress(addressId: String) = runCatching {
+        val response = accountGraphQLService.deleteDeliveryAddress(addressId)
+
+        response.exception?.also { throw Exception(it.toString()) }
+
+        response.errors?.firstOrNull()?.message?.also { throw Exception(it) }
+
+        response.data?.DeleteDeliveryAddress?.message
+            ?: throw Exception("No data returned")
+    }
 }

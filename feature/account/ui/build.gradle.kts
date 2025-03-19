@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -19,12 +21,32 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
+    val localProperties = Properties()
+    val localPropertiesFile = File(rootDir, "local.properties")
+    if (localPropertiesFile.exists() && localPropertiesFile.isFile) {
+        localPropertiesFile.inputStream().use {
+            localProperties.load(it)
+        }
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
+            )
+        }
+
+        debug {
+            buildConfigField(
+                "String",
+                "GOOGLE_PLACES_API_KEY",
+                localProperties["GOOGLE_PLACES_API_KEY"].toString()
             )
         }
     }
@@ -60,6 +82,7 @@ dependencies {
     implementation(libs.play.services.location)
     implementation(libs.android.maps.utils)
     implementation(libs.accompanist.permissions)
+    implementation(libs.places)
     //
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

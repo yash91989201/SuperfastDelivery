@@ -199,23 +199,13 @@ input CreateRetailItemInput {
 }
 
 input CreateShopAddressInput {
-  address1: String!
-
-  address2: String
-
   longitude: Float!
 
   latitude: Float!
 
+  address: String!
+
   nearby_landmark: String!
-
-  city: String!
-
-  state: String!
-
-  pincode: String!
-
-  country: String!
 }
 
 input CreateShopContactInput {
@@ -288,6 +278,10 @@ enum DayOfWeek {
   SATURDAY
 
   SUNDAY
+}
+
+type DeleteOutput {
+  message: String!
 }
 
 type DeliveryAddress {
@@ -527,7 +521,9 @@ type Mutation {
 
   UpdateDefaultDeliveryAddress(input: UpdateDefaultDeliveryAddressInput!): UpdateOutput!
 
-  CreateShop(input: CreateShopInput!): CreateShopOutput!
+  DeleteDeliveryAddress(addressId: ID!): DeleteOutput!
+
+  CreateShop(input: CreateShopInput!): Shop!
 
   UpdateShop(input: UpdateShopInput!): UpdateShopOutput!
 
@@ -719,27 +715,19 @@ type Shop {
 type ShopAddress {
   id: ID!
 
-  address1: String!
-
-  address2: String!
-
   longitude: Float!
 
   latitude: Float!
 
+  address: String!
+
   nearby_landmark: String!
-
-  city: String!
-
-  state: String!
-
-  pincode: String!
-
-  country: String!
 
   shop_id: ID!
 
   created_at: String!
+
+  updated_at: String!
 }
 
 type ShopContact {

@@ -57,13 +57,17 @@ fun GoogleMapView(
 
     LaunchedEffect(latitude, longitude) {
         val newLocation = LatLng(latitude, longitude)
-        cameraPositionState.move(CameraUpdateFactory.newLatLngZoom(newLocation, 15f))
-        markerState.position = newLocation
+        if (cameraPositionState.position.target != newLocation) {
+            cameraPositionState.move(CameraUpdateFactory.newLatLngZoom(newLocation, 15f))
+            markerState.position = newLocation
+        }
     }
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .clip(AppTheme.shape.medium)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .clip(AppTheme.shape.medium)
+    ) {
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
             properties = MapProperties(mapType = mapType),

@@ -56,3 +56,16 @@ mutation CreateDeliveryAddress( $input: CreateDeliveryAddressInput!){
         auth_id
     }
 }
+
+mutation UpdateDefaultDeliveryAddress( $input: UpdateDefaultDeliveryAddressInput!){
+    UpdateDefaultDeliveryAddress( input: $input){
+        message
+    }
+}
+
+
+mutation DeleteDeliveryAddress( $addressId: ID!){
+    DeleteDeliveryAddress( addressId: $addressId){
+        message
+    }
+}

@@ -13,8 +13,7 @@ import com.example.common.navigation.Navigator
 import com.example.common.state_holder.ApplicationStateHolder
 import com.example.superfastdelivery.screens.onboarding.OnboardingScreen
 import com.example.superfastdelivery.screens.splash.SplashScreen
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun AppNavigationRoot(
@@ -26,21 +25,23 @@ fun AppNavigationRoot(
     val session by applicationStateHolder.sessionStateHolder.session.collectAsStateWithLifecycle()
     val isLoggedIn = session != null
 
-    LaunchedEffect(key1 = "navigation") {
-        navigator.navigation.onEach {
-            when (it) {
+    LaunchedEffect(Unit) {
+        navigator.navigation.collectLatest { destination ->
+            when (destination) {
                 NavigationSubGraphDest.Back -> {
                     navHost.popBackStack()
                 }
 
                 else -> {
-                    navHost.navigate(it) {
-                        popUpTo(it) { inclusive = false }
+                    navHost.navigate(destination) {
+                        launchSingleTop = true
+                        restoreState = true
                     }
                 }
             }
-        }.launchIn(this)
+        }
     }
+
 
     NavHost(
         navController = navHost,
