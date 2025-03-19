@@ -1,14 +1,20 @@
 package com.example.common.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -22,6 +28,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.X
 import com.example.common.ui.theme.AppTheme
 
 @Composable
@@ -29,6 +37,7 @@ fun TextInput(
     value: String?,
     onValueChange: (String) -> Unit,
     placeholderText: String,
+    showPlaceholder: Boolean = true,
     modifier: Modifier = Modifier,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Default,
@@ -54,6 +63,14 @@ fun TextInput(
     )
 
     Column(modifier = modifier.fillMaxWidth()) {
+        if (!showPlaceholder) {
+            Text(
+                text = placeholderText,
+                style = AppTheme.typography.bodyLarge,
+                color = AppTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(start = 14.dp, bottom = 6.dp)
+            )
+        }
         TextField(
             value = value ?: "",
             onValueChange = {
@@ -67,19 +84,39 @@ fun TextInput(
                     color = borderColor
                 ),
             enabled = enabled,
-            textStyle = AppTheme.typography.bodyMedium.copy(
+            textStyle = AppTheme.typography.bodyLarge.copy(
                 color = AppTheme.colorScheme.onSurface
             ),
             singleLine = maxLines == 1,
             maxLines = maxLines,
             leadingIcon = leadingIcon,
-            trailingIcon = trailingIcon,
             placeholder = {
-                Text(
-                    text = placeholderText,
-                    style = AppTheme.typography.bodyMedium,
-                    color = AppTheme.colorScheme.tertiary.copy(alpha = 0.8f)
-                )
+                if (showPlaceholder) {
+                    Text(
+                        text = placeholderText,
+                        style = AppTheme.typography.bodyLarge,
+                        color = AppTheme.colorScheme.tertiary
+                    )
+                }
+            },
+            trailingIcon = {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(if (trailingIcon != null) 6.dp else 0.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    trailingIcon?.invoke()
+
+                    AnimatedVisibility(visible = !value.isNullOrEmpty()) {
+                        IconButton(onClick = { onValueChange("") }) {
+                            Icon(
+                                imageVector = Lucide.X,
+                                contentDescription = "Clear text input",
+                                modifier = Modifier.size(18.dp),
+                                tint = AppTheme.colorScheme.tertiary
+                            )
+                        }
+                    }
+                }
             },
             shape = AppTheme.shape.medium,
             colors = TextFieldDefaults.colors(
@@ -113,7 +150,7 @@ fun TextInput(
                 text = errorMessage,
                 color = AppTheme.colorScheme.error,
                 style = AppTheme.typography.labelSmall,
-                modifier = Modifier.padding(start = 12.dp, top = 4.dp)
+                modifier = Modifier.padding(start = 14.dp, top = 6.dp)
             )
         }
 

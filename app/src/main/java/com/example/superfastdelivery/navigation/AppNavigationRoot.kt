@@ -42,7 +42,6 @@ fun AppNavigationRoot(
         }
     }
 
-
     NavHost(
         navController = navHost,
         startDestination = NavigationSubGraph.Splash

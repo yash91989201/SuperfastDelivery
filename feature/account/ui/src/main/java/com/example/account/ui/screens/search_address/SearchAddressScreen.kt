@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -19,6 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.Search
 import com.example.account.ui.components.search_address.AddressCard
 import com.example.common.ui.components.TextInput
 import com.example.common.ui.components.TopBar
@@ -48,7 +51,16 @@ fun SearchAddressScreen(
             TextInput(
                 value = searchQuery,
                 onValueChange = { viewModel.onEvent(SearchAddress.Event.UpdateSearchQuery(it)) },
+                showPlaceholder = false,
                 placeholderText = "Search for an address",
+                trailingIcon = {
+                    Icon(
+                        imageVector = Lucide.Search,
+                        contentDescription = "Search",
+                        modifier = Modifier.height(18.dp),
+                        tint = MaterialTheme.colorScheme.tertiary
+                    )
+                }
             )
 
             Spacer(modifier = Modifier.height(16.dp))

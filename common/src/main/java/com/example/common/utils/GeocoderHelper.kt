@@ -2,7 +2,6 @@ package com.example.common.utils
 
 import android.content.Context
 import android.location.Geocoder
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Locale
@@ -12,10 +11,7 @@ class GeocoderHelper(private val context: Context) {
         runCatching {
             Geocoder(context, Locale.getDefault()).getFromLocation(lat, lng, 1)
                 ?.firstOrNull()
-                ?.let {
-                    Log.d("check", "address: $it")
-                    formatAddress(it)
-                }
+                ?.let { formatAddress(it) }
         }.getOrNull()
     }
 
