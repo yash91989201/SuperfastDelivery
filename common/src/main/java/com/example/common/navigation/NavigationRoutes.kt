@@ -55,4 +55,25 @@ sealed class NavigationSubGraphDest {
 
     @Serializable
     data object AccountSearchAddress : NavigationSubGraphDest()
+
+    @Serializable
+    data object AccountPromotions : NavigationSubGraphDest()
+
+    @Serializable
+    data object AccountPaymentMethods : NavigationSubGraphDest()
+
+    @Serializable
+    data object AccountHelpCenter : NavigationSubGraphDest()
+
+    @Serializable
+    data object AccountTermsOfService : NavigationSubGraphDest()
+
+    @Serializable
+    data object AccountPrivacyPolicy : NavigationSubGraphDest()
+
+    @Serializable
+    data object AccountSettings : NavigationSubGraphDest()
+
+    @Serializable
+    data object AccountAboutApp : NavigationSubGraphDest()
 }

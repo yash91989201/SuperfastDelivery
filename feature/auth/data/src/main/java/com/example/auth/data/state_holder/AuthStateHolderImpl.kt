@@ -20,8 +20,7 @@ class AuthStateHolderImpl @Inject constructor(
     private val _auth = authDataStore.getAuth().stateIn(coroutineScope, SharingStarted.Lazily, null)
     override val auth: StateFlow<Auth?>
         get() = _auth
-
-
+    
     override fun updateAuth(auth: Auth) {
         coroutineScope.launch {
             authDataStore.saveAuth(

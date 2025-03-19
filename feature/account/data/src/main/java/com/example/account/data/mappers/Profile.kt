@@ -2,14 +2,28 @@ package com.example.account.data.mappers
 
 import com.apollographql.apollo.api.Optional
 import com.example.schema.CreateProfileMutation
+import com.example.schema.UpdateProfileMutation
 import com.example.account.domain.model.CreateProfileInput as DomainCreateProfileInput
 import com.example.account.domain.model.Profile as DomainProfile
+import com.example.account.domain.model.UpdateProfileInput as DomainUpdateProfileInput
 import com.example.common.Profile as ProtoProfile
 import com.example.common.models.Profile as StoreProfile
 import com.example.schema.type.CreateProfileInput as SchemaCreateProfileInput
+import com.example.schema.type.UpdateProfileInput as SchemaUpdateProfileInput
+
 
 fun DomainCreateProfileInput.toSchema() = SchemaCreateProfileInput(
     name = this.name,
+    image_url = Optional.presentIfNotNull(this.imageUrl),
+    dob = Optional.presentIfNotNull(this.dob),
+    anniversary = Optional.presentIfNotNull(this.anniversary),
+    gender = Optional.presentIfNotNull(this.gender.toSchema()),
+    auth_id = this.authId
+)
+
+fun DomainUpdateProfileInput.toSchema() = SchemaUpdateProfileInput(
+    id = this.id,
+    name = Optional.presentIfNotNull(this.name),
     image_url = Optional.presentIfNotNull(this.imageUrl),
     dob = Optional.presentIfNotNull(this.dob),
     anniversary = Optional.presentIfNotNull(this.anniversary),
@@ -38,6 +52,17 @@ fun StoreProfile.toDomain() = DomainProfile(
 )
 
 fun CreateProfileMutation.CreateProfile.toDomain() = DomainProfile(
+    id = this.id,
+    name = this.name,
+    imageUrl = this.image_url,
+    dob = this.dob,
+    anniversary = this.anniversary,
+    gender = this.gender?.toDomain(),
+    authId = this.auth_id
+)
+
+
+fun UpdateProfileMutation.UpdateProfile.toDomain() = DomainProfile(
     id = this.id,
     name = this.name,
     imageUrl = this.image_url,

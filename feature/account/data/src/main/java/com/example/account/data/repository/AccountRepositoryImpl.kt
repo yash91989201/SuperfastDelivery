@@ -1,13 +1,19 @@
 package com.example.account.data.repository
 
 import com.example.account.data.mappers.toDomain
+import com.example.account.data.mappers.toStore
 import com.example.account.data.remote.AccountGraphQLService
 import com.example.account.domain.model.CreateDeliveryAddressInput
 import com.example.account.domain.model.CreateProfileInput
-import com.example.account.domain.model.Profile
+import com.example.account.domain.model.UpdateProfileInput
 import com.example.account.domain.repository.AccountRepository
+import com.example.common.state_holder.ApplicationStateHolder
+import com.example.common.models.Profile as StoreProfile
 
-class AccountRepositoryImpl(private val accountGraphQLService: AccountGraphQLService) :
+class AccountRepositoryImpl(
+    private val accountGraphQLService: AccountGraphQLService,
+    private val applicationStateHolder: ApplicationStateHolder,
+) :
     AccountRepository {
     override suspend fun createProfile(newProfile: CreateProfileInput) = runCatching {
         val response = accountGraphQLService.createProfile(newProfile)
@@ -19,8 +25,30 @@ class AccountRepositoryImpl(private val accountGraphQLService: AccountGraphQLSer
         response.data?.CreateProfile?.toDomain() ?: throw Exception("No data returned")
     }
 
-    override suspend fun updateProfile(profile: Profile): Result<Profile> {
-        TODO("Not yet implemented")
+    override suspend fun updateProfile(updatedProfile: UpdateProfileInput) = runCatching {
+        val response = accountGraphQLService.updateProfile(updatedProfile)
+
+        response.exception?.also { throw Exception(it.toString()) }
+
+        response.errors?.firstOrNull()?.message?.also { throw Exception(it) }
+
+        val updateProfileRes = response.data?.UpdateProfile
+
+        updateProfileRes?.let {
+            applicationStateHolder.profileStateHolder.updateProfile(
+                StoreProfile(
+                    id = it.id,
+                    name = it.name,
+                    imageUrl = it.image_url,
+                    dob = it.dob,
+                    anniversary = it.anniversary,
+                    authId = it.auth_id,
+                    gender = it.gender?.toStore(),
+                )
+            )
+        }
+
+        response.data?.UpdateProfile?.toDomain() ?: throw Exception("No data returned")
     }
 
     override suspend fun createDeliveryAddress(newDeliveryAddress: CreateDeliveryAddressInput) =

@@ -31,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.composables.icons.lucide.CircleHelp
 import com.composables.icons.lucide.LogOut
@@ -39,7 +40,7 @@ import com.composables.icons.lucide.Mail
 import com.composables.icons.lucide.MapPin
 import com.composables.icons.lucide.Pencil
 import com.composables.icons.lucide.Phone
-import com.composables.icons.lucide.ShieldCheck
+import com.composables.icons.lucide.Settings2
 import com.composables.icons.lucide.TicketPercent
 import com.example.account.ui.components.home.AccountRowItem
 import com.example.account.ui.components.home.AccountToggleItem
@@ -52,6 +53,9 @@ fun HomeScreen(
     viewModel: HomeViewModel,
     modifier: Modifier = Modifier
 ) {
+    val auth by viewModel.auth.collectAsStateWithLifecycle()
+    val profile by viewModel.profile.collectAsStateWithLifecycle()
+
     var pushNotificationsEnabled by remember { mutableStateOf(true) }
     var darkModeEnabled by remember { mutableStateOf(false) }
     var soundEnabled by remember { mutableStateOf(true) }
@@ -86,59 +90,69 @@ fun HomeScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        AsyncImage(
-                            model = "https://picsum.photos/200",
-                            contentDescription = "Profile picture",
-                            modifier = Modifier
-                                .size(64.dp)
-                                .clip(AppTheme.shape.extraLarge)
-                        )
+                        profile?.imageUrl?.let {
+                            AsyncImage(
+                                model = it,
+                                contentDescription = "Profile picture",
+                                modifier = Modifier
+                                    .size(64.dp)
+                                    .clip(AppTheme.shape.extraLarge)
+                            )
+                        }
 
                         Column(
                             verticalArrangement = Arrangement.spacedBy(4.dp),
                             modifier = Modifier.weight(1f)
                         ) {
-                            Text(
-                                text = "Username",
-                                color = AppTheme.colorScheme.primary,
-                                style = AppTheme.typography.headlineSmall,
-                                fontWeight = FontWeight.Bold
-                            )
-
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    imageVector = Lucide.Phone,
-                                    contentDescription = "Phone",
-                                    modifier = Modifier.size(14.dp),
-                                    tint = AppTheme.colorScheme.secondary
-                                )
+                            profile?.let {
                                 Text(
-                                    text = "+91 9586521521",
-                                    color = AppTheme.colorScheme.tertiary,
-                                    style = AppTheme.typography.bodyMedium,
-                                    fontWeight = FontWeight.SemiBold,
+                                    text = it.name,
+                                    color = AppTheme.colorScheme.primary,
+                                    style = AppTheme.typography.headlineSmall,
+                                    fontWeight = FontWeight.Bold
                                 )
                             }
 
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    imageVector = Lucide.Mail,
-                                    contentDescription = "Email",
-                                    modifier = Modifier.size(14.dp),
-                                    tint = AppTheme.colorScheme.secondary
-                                )
-                                Text(
-                                    text = "username@gmail.com",
-                                    color = AppTheme.colorScheme.tertiary,
-                                    style = AppTheme.typography.bodyMedium,
-                                    fontWeight = FontWeight.SemiBold,
-                                )
+                            if (auth != null) {
+                                auth?.phone?.takeIf { it.isNotEmpty() }?.let {
+                                    Row(
+                                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Icon(
+                                            imageVector = Lucide.Phone,
+                                            contentDescription = "Phone",
+                                            modifier = Modifier.size(14.dp),
+                                            tint = AppTheme.colorScheme.secondary
+                                        )
+                                        Text(
+                                            text = "+91 $it",
+                                            color = AppTheme.colorScheme.tertiary,
+                                            style = AppTheme.typography.bodyMedium,
+                                            fontWeight = FontWeight.SemiBold,
+                                        )
+                                    }
+                                }
+
+                                auth?.email?.takeIf { it.isNotEmpty() }?.let {
+                                    Row(
+                                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Icon(
+                                            imageVector = Lucide.Mail,
+                                            contentDescription = "Email",
+                                            modifier = Modifier.size(14.dp),
+                                            tint = AppTheme.colorScheme.secondary
+                                        )
+                                        Text(
+                                            text = it,
+                                            color = AppTheme.colorScheme.tertiary,
+                                            style = AppTheme.typography.bodyMedium,
+                                            fontWeight = FontWeight.SemiBold,
+                                        )
+                                    }
+                                }
                             }
                         }
 
@@ -199,7 +213,7 @@ fun HomeScreen(
                         title = "My Address",
                         leadingIcon = Lucide.MapPin,
                         onClick = {
-                            viewModel.onEvent(AccountHome.Event.GoToProfileScreen)
+                            viewModel.onEvent(AccountHome.Event.GoToAddressesScreen)
                         }
                     )
 
@@ -220,10 +234,10 @@ fun HomeScreen(
                     )
 
                     AccountRowItem(
-                        title = "Security",
-                        leadingIcon = Lucide.ShieldCheck,
+                        title = "Account Settings",
+                        leadingIcon = Lucide.Settings2,
                         onClick = {
-                            viewModel.onEvent(AccountHome.Event.GoToSecurityScreen)
+                            viewModel.onEvent(AccountHome.Event.GoToAccountSettingsScreen)
                         }
                     )
 

@@ -9,6 +9,7 @@ import com.example.account.data.repository.AccountRepositoryImpl
 import com.example.account.data.state_holder.ProfileStateHolderImpl
 import com.example.account.domain.repository.AccountRepository
 import com.example.common.data_store.ProfileDataStore
+import com.example.common.state_holder.ApplicationStateHolder
 import com.example.common.state_holder.ProfileStateHolder
 import dagger.Module
 import dagger.Provides
@@ -41,7 +42,10 @@ object AccountDataModule {
 
     @Provides
     @Singleton
-    fun provideAccountRepository(accountGraphQLService: AccountGraphQLService): AccountRepository {
-        return AccountRepositoryImpl(accountGraphQLService)
+    fun provideAccountRepository(
+        accountGraphQLService: AccountGraphQLService,
+        applicationStateHolder: ApplicationStateHolder
+    ): AccountRepository {
+        return AccountRepositoryImpl(accountGraphQLService, applicationStateHolder)
     }
 }

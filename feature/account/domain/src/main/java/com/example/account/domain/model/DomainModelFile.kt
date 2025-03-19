@@ -44,6 +44,16 @@ data class CreateProfileInput(
     val authId: String
 )
 
+data class UpdateProfileInput(
+    val id: String,
+    val name: String?,
+    val imageUrl: String?,
+    val dob: LocalDate?,
+    val anniversary: LocalDate?,
+    val gender: Gender,
+    val authId: String
+)
+
 data class CreateDeliveryAddressInput(
     val receiverName: String,
     val receiverPhone: String,

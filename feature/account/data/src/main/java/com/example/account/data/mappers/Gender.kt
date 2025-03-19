@@ -41,3 +41,11 @@ fun SchemaGender.toDomain() = when (this) {
     SchemaGender.UNDISCLOSED -> DomainGender.UNDISCLOSED
     SchemaGender.UNKNOWN__ -> DomainGender.UNDISCLOSED
 }
+
+fun SchemaGender.toStore() = when (this) {
+    SchemaGender.MALE -> StoreGender.MALE
+    SchemaGender.FEMALE -> StoreGender.FEMALE
+    SchemaGender.OTHERS -> StoreGender.OTHERS
+    SchemaGender.UNDISCLOSED -> StoreGender.UNDISCLOSED
+    SchemaGender.UNKNOWN__ -> StoreGender.UNDISCLOSED
+}

@@ -1,16 +1,20 @@
 package com.example.account.ui.screens.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.common.navigation.NavigationSubGraphDest
 import com.example.common.navigation.Navigator
+import com.example.common.state_holder.ApplicationStateHolder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val navigator: Navigator
+    private val navigator: Navigator,
+    applicationStateHolder: ApplicationStateHolder,
 ) : ViewModel() {
+
+    val auth = applicationStateHolder.authStateHolder.auth
+    val profile = applicationStateHolder.profileStateHolder.profile
 
     fun onEvent(event: AccountHome.Event) {
         when (event) {
@@ -27,31 +31,34 @@ class HomeViewModel @Inject constructor(
             }
 
             AccountHome.Event.GoToPromotionsScreen -> {
-                Log.d("TODO", "promotions screen")
+                navigator.navigateTo(NavigationSubGraphDest.AccountPromotions)
             }
 
             AccountHome.Event.GoToPaymentMethodsScreen -> {
-                Log.d("TODO", "payment methods screen")
+                navigator.navigateTo(NavigationSubGraphDest.AccountPaymentMethods)
             }
 
-            AccountHome.Event.GoToSecurityScreen -> {
-                Log.d("TODO", "security screen")
+            AccountHome.Event.GoToAccountSettingsScreen -> {
+                navigator.navigateTo(NavigationSubGraphDest.AccountSettings)
+
             }
 
             AccountHome.Event.GoToHelpCenterScreen -> {
-                Log.d("TODO", "help center screen")
+                navigator.navigateTo(NavigationSubGraphDest.AccountHelpCenter)
+
             }
 
             AccountHome.Event.GoToTermsOfServiceScreen -> {
-                Log.d("TODO", "terms of service screen")
+                navigator.navigateTo(NavigationSubGraphDest.AccountTermsOfService)
+
             }
 
             AccountHome.Event.GoToPrivacyPolicyScreen -> {
-                Log.d("TODO", "privacy policy screen")
+                navigator.navigateTo(NavigationSubGraphDest.AccountPrivacyPolicy)
             }
 
             AccountHome.Event.GoToAboutAppScreen -> {
-                Log.d("TODO", "about app screen")
+                navigator.navigateTo(NavigationSubGraphDest.AccountAboutApp)
             }
         }
     }
@@ -64,7 +71,7 @@ object AccountHome {
         data object GoToAddressesScreen : Event
         data object GoToPromotionsScreen : Event
         data object GoToPaymentMethodsScreen : Event
-        data object GoToSecurityScreen : Event
+        data object GoToAccountSettingsScreen : Event
         data object GoToHelpCenterScreen : Event
         data object GoToTermsOfServiceScreen : Event
         data object GoToPrivacyPolicyScreen : Event

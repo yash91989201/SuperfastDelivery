@@ -857,7 +857,7 @@ type UpdateOutput {
 }
 
 input UpdateProfileInput {
-  id: String
+  id: String!
 
   name: String
 

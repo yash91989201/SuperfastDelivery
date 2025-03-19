@@ -5,7 +5,7 @@ import com.apollographql.apollo.api.ApolloResponse
 import com.example.account.data.mappers.toSchema
 import com.example.account.domain.model.CreateDeliveryAddressInput
 import com.example.account.domain.model.CreateProfileInput
-import com.example.account.domain.model.Profile
+import com.example.account.domain.model.UpdateProfileInput
 import com.example.schema.CreateDeliveryAddressMutation
 import com.example.schema.CreateProfileMutation
 import com.example.schema.DeleteDeliveryAddressMutation
@@ -19,7 +19,7 @@ interface AccountGraphQLService {
         newProfile: CreateProfileInput
     ): ApolloResponse<CreateProfileMutation.Data>
 
-    suspend fun updateProfile(profile: Profile): ApolloResponse<UpdateProfileMutation.Data>
+    suspend fun updateProfile(profile: UpdateProfileInput): ApolloResponse<UpdateProfileMutation.Data>
 
     suspend fun createDeliveryAddress(newDeliveryAddress: CreateDeliveryAddressInput): ApolloResponse<CreateDeliveryAddressMutation.Data>
 
@@ -40,9 +40,9 @@ class AccountGraphQLServiceImpl(private val apolloClient: ApolloClient) : Accoun
         .mutation(CreateProfileMutation(newProfile.toSchema()))
         .execute()
 
-    override suspend fun updateProfile(profile: Profile): ApolloResponse<UpdateProfileMutation.Data> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun updateProfile(updatedProfile: UpdateProfileInput) = apolloClient
+        .mutation(UpdateProfileMutation(updatedProfile.toSchema()))
+        .execute()
 
     override suspend fun createDeliveryAddress(newDeliveryAddress: CreateDeliveryAddressInput) =
         apolloClient
