@@ -76,13 +76,13 @@ fun Header(
             if (imageUrl.isNullOrEmpty()) {
                 Icon(
                     imageVector = Lucide.CircleUserRound,
-                    contentDescription = "Account",
+                    contentDescription = "Go to Account",
                     modifier = Modifier.size(20.dp)
                 )
             } else {
                 AsyncImage(
                     model = imageUrl,
-                    contentDescription = "Account",
+                    contentDescription = "Go to Account",
                     modifier = Modifier
                         .size(36.dp)
                         .clip(CircleShape),
