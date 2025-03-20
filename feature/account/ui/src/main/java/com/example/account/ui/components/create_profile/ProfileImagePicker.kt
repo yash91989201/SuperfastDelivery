@@ -1,6 +1,5 @@
 package com.example.account.ui.components.create_profile
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,14 +29,14 @@ fun ProfileImagePicker(
     onImageSelected: (String) -> Unit
 ) {
     Box(
-        modifier = Modifier.size(120.dp),
+        modifier = Modifier.size(96.dp),
         contentAlignment = Alignment.Center
     ) {
         Card(
             shape = CircleShape,
             colors = CardDefaults.cardColors(Color.White),
             elevation = CardDefaults.cardElevation(4.dp),
-            modifier = Modifier.size(120.dp)
+            modifier = Modifier.size(96.dp)
         ) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -54,7 +53,7 @@ fun ProfileImagePicker(
                     Icon(
                         imageVector = Icons.Rounded.Person,
                         contentDescription = "Default Profile Image",
-                        modifier = Modifier.size(64.dp),
+                        modifier = Modifier.size(56.dp),
                         tint = Color.Gray.copy(alpha = 0.6f)
                     )
                 }

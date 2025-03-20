@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.common.ui.theme.AppTheme
 
@@ -67,9 +68,9 @@ fun <T> DropdownInput(
                 enabled = enabled,
                 singleLine = true,
                 shape = AppTheme.shape.medium,
-                textStyle = AppTheme.typography.bodyMedium.copy(
+                textStyle = AppTheme.typography.bodyLarge.copy(
                     color = if (selectedItem != null) AppTheme.colorScheme.onSurface
-                    else AppTheme.colorScheme.tertiary.copy(alpha = 0.8f)
+                    else AppTheme.colorScheme.tertiary
                 ),
                 leadingIcon = leadingIcon,
                 trailingIcon = {
@@ -113,7 +114,8 @@ fun <T> DropdownInput(
                         text = {
                             Text(
                                 text = itemToString(item),
-                                style = AppTheme.typography.bodyMedium,
+                                style = AppTheme.typography.bodyLarge,
+                                fontWeight = FontWeight.Normal,
                                 color = AppTheme.colorScheme.onSurface
                             )
                         },
