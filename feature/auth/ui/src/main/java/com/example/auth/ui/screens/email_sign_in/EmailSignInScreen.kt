@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.common.ui.theme.AppTheme
-import com.example.common.ui.theme.Gray80
 import com.example.common.utils.UiText
 
 @Composable
@@ -119,7 +118,7 @@ fun EmailSignInScreen(
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,
-                    cursorColor = Gray80,
+                    //cursorColor = Gray80,
                 ),
                 modifier = Modifier
                     .fillMaxWidth()

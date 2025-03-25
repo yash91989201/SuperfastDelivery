@@ -62,6 +62,16 @@ class AccountRepositoryImpl(
             response.data?.CreateDeliveryAddress?.toDomain() ?: throw Exception("No data returned")
         }
 
+    override suspend fun getDefaultDeliveryAddress(authId: String) = runCatching {
+        val response = accountGraphQLService.getDefaultDeliveryAddress(authId)
+
+        response.exception?.also { throw Exception(it.toString()) }
+
+        response.errors?.firstOrNull()?.message?.also { throw Exception(it) }
+
+        response.data?.GetDefaultDeliveryAddress?.toDomain() ?: throw Exception("No data returned")
+    }
+
     override suspend fun listDeliveryAddresses(authId: String) = runCatching {
         val response = accountGraphQLService.listDeliveryAddresses(authId)
 

@@ -1,22 +1,3 @@
-query ListDeliveryAddress( $authId: ID!){
-    ListDeliveryAddress( authId: $authId){
-        delivery_address {
-            id
-            receiver_name
-            receiver_phone
-            address_alias
-            other_alias
-            latitude
-            longitude
-            nearby_landmark
-            address
-            delivery_instruction
-            is_default
-            auth_id
-        }
-    }
-}
-
 mutation CreateProfileMutation( $input: CreateProfileInput!){
     CreateProfile(input: $input){
         id
@@ -58,15 +39,40 @@ mutation CreateDeliveryAddress( $input: CreateDeliveryAddressInput!){
     }
 }
 
+query GetDefaultDeliveryAddress($authID: ID!){
+    GetDefaultDeliveryAddress(authID: $authID){
+        address
+        address_alias
+    }
+}
+
+query ListDeliveryAddress( $authId: ID!){
+    ListDeliveryAddress( authID: $authId){
+        delivery_address {
+            id
+            receiver_name
+            receiver_phone
+            address_alias
+            other_alias
+            latitude
+            longitude
+            nearby_landmark
+            address
+            delivery_instruction
+            is_default
+            auth_id
+        }
+    }
+}
+
 mutation UpdateDefaultDeliveryAddress( $input: UpdateDefaultDeliveryAddressInput!){
     UpdateDefaultDeliveryAddress( input: $input){
         message
     }
 }
 
-
 mutation DeleteDeliveryAddress( $addressId: ID!){
-    DeleteDeliveryAddress( addressId: $addressId){
+    DeleteDeliveryAddress( addressID: $addressId){
         message
     }
 }

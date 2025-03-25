@@ -25,6 +25,11 @@ data class DeliveryAddress(
     val authId: String,
 )
 
+data class DefaultDeliveryAddress(
+    val address: String,
+    val addressAlias: AddressAlias,
+)
+
 data class Profile(
     val id: String,
     val name: String,

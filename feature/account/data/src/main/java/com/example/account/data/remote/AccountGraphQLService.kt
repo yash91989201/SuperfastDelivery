@@ -9,6 +9,7 @@ import com.example.account.domain.model.UpdateProfileInput
 import com.example.schema.CreateDeliveryAddressMutation
 import com.example.schema.CreateProfileMutation
 import com.example.schema.DeleteDeliveryAddressMutation
+import com.example.schema.GetDefaultDeliveryAddressQuery
 import com.example.schema.ListDeliveryAddressQuery
 import com.example.schema.UpdateDefaultDeliveryAddressMutation
 import com.example.schema.UpdateProfileMutation
@@ -22,6 +23,8 @@ interface AccountGraphQLService {
     suspend fun updateProfile(profile: UpdateProfileInput): ApolloResponse<UpdateProfileMutation.Data>
 
     suspend fun createDeliveryAddress(newDeliveryAddress: CreateDeliveryAddressInput): ApolloResponse<CreateDeliveryAddressMutation.Data>
+
+    suspend fun getDefaultDeliveryAddress(authId: String): ApolloResponse<GetDefaultDeliveryAddressQuery.Data>
 
     suspend fun listDeliveryAddresses(
         authId: String
@@ -48,6 +51,10 @@ class AccountGraphQLServiceImpl(private val apolloClient: ApolloClient) : Accoun
         apolloClient
             .mutation(CreateDeliveryAddressMutation(newDeliveryAddress.toSchema()))
             .execute()
+
+    override suspend fun getDefaultDeliveryAddress(authId: String) = apolloClient
+        .query(GetDefaultDeliveryAddressQuery(authID = authId))
+        .execute()
 
     override suspend fun listDeliveryAddresses(authId: String) = apolloClient
         .query(ListDeliveryAddressQuery(authId = authId))

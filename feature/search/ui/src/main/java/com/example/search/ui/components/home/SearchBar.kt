@@ -1,4 +1,4 @@
-package com.example.search.ui.components.sections
+package com.example.search.ui.components.home
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +17,6 @@ import com.composables.icons.lucide.Filter
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Search
 import com.example.common.ui.theme.AppTheme
-import com.example.common.ui.theme.Gray80
 
 @Composable
 fun SearchBar(query: String, onQueryChange: (String) -> Unit) {
@@ -47,16 +46,16 @@ fun SearchBar(query: String, onQueryChange: (String) -> Unit) {
             Icon(
                 imageVector = Lucide.Filter,
                 contentDescription = "Apply filters",
+                tint = AppTheme.colorScheme.primary,
                 modifier = Modifier.size(20.dp)
             )
         },
         colors = TextFieldDefaults.colors(
-            unfocusedContainerColor = Color.White,
-            focusedContainerColor = Color.White,
+            unfocusedContainerColor = AppTheme.colorScheme.surfaceContainerLow,
+            focusedContainerColor = AppTheme.colorScheme.surfaceContainerHighest,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
-            cursorColor = Gray80,
         ),
         modifier = Modifier
             .fillMaxWidth()

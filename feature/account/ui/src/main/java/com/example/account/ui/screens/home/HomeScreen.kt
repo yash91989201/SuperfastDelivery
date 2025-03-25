@@ -1,8 +1,6 @@
 package com.example.account.ui.screens.home
 
 import android.util.Log
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,8 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -46,7 +44,6 @@ import com.example.account.ui.components.home.AccountRowItem
 import com.example.account.ui.components.home.AccountToggleItem
 import com.example.common.ui.components.TopBar
 import com.example.common.ui.theme.AppTheme
-import com.example.common.ui.theme.Orange20
 
 @Composable
 fun HomeScreen(
@@ -156,15 +153,11 @@ fun HomeScreen(
                             }
                         }
 
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .clip(AppTheme.shape.extraLarge)
-                                .background(AppTheme.colorScheme.primary)
-                                .clickable {
-                                    viewModel.onEvent(AccountHome.Event.GoToProfileScreen)
-                                },
-                            contentAlignment = Alignment.Center
+                        FilledTonalIconButton(
+                            modifier = Modifier.size(40.dp),
+                            onClick = {
+                                viewModel.onEvent(AccountHome.Event.GoToProfileScreen)
+                            }
                         ) {
                             Icon(
                                 imageVector = Lucide.Pencil,
@@ -175,11 +168,7 @@ fun HomeScreen(
                         }
                     }
 
-                    Button(
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Orange20,
-                            contentColor = AppTheme.colorScheme.primary
-                        ),
+                    FilledTonalButton(
                         onClick = {
                             Log.d("TODO", "Logout User")
                         },
@@ -193,13 +182,12 @@ fun HomeScreen(
                         ) {
                             Icon(
                                 imageVector = Lucide.LogOut,
-                                contentDescription = "Logout",
-                                modifier = Modifier.size(16.dp)
+                                contentDescription = "Log Out",
+                                modifier = Modifier.size(18.dp)
                             )
                             Text(
-                                text = "Logout",
-                                style = AppTheme.typography.headlineSmall,
-                                fontWeight = FontWeight.SemiBold
+                                text = "Log Out",
+                                style = AppTheme.typography.titleMedium,
                             )
                         }
                     }

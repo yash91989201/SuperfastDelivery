@@ -40,6 +40,7 @@ dependencies {
     // module
     implementation(projects.common)
     implementation(projects.feature.search.domain)
+    implementation(projects.feature.account.domain)
     // hilt
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)

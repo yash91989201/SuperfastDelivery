@@ -2,9 +2,11 @@ package com.example.account.data.mappers
 
 import com.apollographql.apollo.api.Optional
 import com.example.schema.CreateDeliveryAddressMutation
+import com.example.schema.GetDefaultDeliveryAddressQuery
 import com.example.schema.ListDeliveryAddressQuery
 import com.example.account.domain.model.AddressAlias as DomainAddressAlias
 import com.example.account.domain.model.CreateDeliveryAddressInput as DomainCreateDeliveryAddressInput
+import com.example.account.domain.model.DefaultDeliveryAddress as DomainDefaultDeliveryAddress
 import com.example.account.domain.model.DeliveryAddress as DomainDeliveryAddress
 import com.example.account.domain.model.ListDeliveryAddress as DomainListDeliveryAddress
 import com.example.schema.type.AddressAlias as SchemaAddressAlias
@@ -28,6 +30,7 @@ fun DomainAddressAlias.toSchema(): SchemaAddressAlias {
         DomainAddressAlias.OTHERS -> SchemaAddressAlias.OTHER
     }
 }
+
 
 fun DomainCreateDeliveryAddressInput.toSchema() = SchemaCreateDeliveryAddressInput(
     receiver_name = this.receiverName,
@@ -57,6 +60,13 @@ fun CreateDeliveryAddressMutation.CreateDeliveryAddress.toDomain() = DomainDeliv
     isDefault = this.is_default,
     authId = this.auth_id,
 )
+
+
+fun GetDefaultDeliveryAddressQuery.GetDefaultDeliveryAddress.toDomain() =
+    DomainDefaultDeliveryAddress(
+        address = this.address,
+        addressAlias = this.address_alias.toDomain()
+    )
 
 
 fun ListDeliveryAddressQuery.Delivery_address.toDomain() = DomainDeliveryAddress(

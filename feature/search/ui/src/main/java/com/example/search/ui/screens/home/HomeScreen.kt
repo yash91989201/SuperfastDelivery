@@ -15,19 +15,22 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.common.ui.theme.AppTheme
-import com.example.search.ui.components.sections.BrowseCategories
-import com.example.search.ui.components.sections.Header
-import com.example.search.ui.components.sections.SearchBar
+import com.example.search.ui.components.home.BrowseCategories
+import com.example.search.ui.components.home.Header
+import com.example.search.ui.components.home.HeaderSkeleton
+import com.example.search.ui.components.home.SearchBar
 
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
     modifier: Modifier = Modifier,
 ) {
-    val profile by viewModel.profile.collectAsStateWithLifecycle()
+
+
+    val defaultAddressState by viewModel.defaultAddressState.collectAsStateWithLifecycle()
 
     Scaffold(
-        modifier = modifier.padding(16.dp)
+        modifier = modifier.padding(16.dp),
     ) {
         Box(
             modifier = Modifier
@@ -40,16 +43,22 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                Header(
-                    imageUrl = profile?.imageUrl,
-                    onSelectDeliveryAddress = {
-                        viewModel.onEvent(Home.Event.GoToAccountAddressScreen)
-                    },
-                    onProfileClick = {
-                        viewModel.onEvent(Home.Event.GoToAccountHomeScreen)
-                    }
-                )
+                if (defaultAddressState.isLoading) {
+                    HeaderSkeleton()
+                } else {
+                    Header(
+                        defaultAddress = defaultAddressState.data,
+                        onSelectDeliveryAddress = {
+                            viewModel.onEvent(HomeModel.Event.GoToAccountAddressScreen)
+                        },
+                        onProfileClick = {
+                            viewModel.onEvent(HomeModel.Event.GoToAccountHomeScreen)
+                        }
+                    )
+                }
+
                 SearchBar(query = "") { }
+
                 BrowseCategories()
             }
         }

@@ -1,4 +1,4 @@
-package com.example.search.ui.components.sections
+package com.example.search.ui.components.home
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
@@ -27,7 +27,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -50,6 +49,7 @@ fun BrowseCategories() {
             text = "Browse Categories",
             style = AppTheme.typography.titleLarge,
             fontSize = AppTheme.typography.headlineSmall.fontSize,
+            color = AppTheme.colorScheme.primary,
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
@@ -122,7 +122,10 @@ fun CategoryItem(category: DeliverableCategory) {
             .fillMaxWidth()
             .height(180.dp),
         shape = AppTheme.shape.small,
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = AppTheme.colorScheme.surfaceVariant
+        )
     ) {
         Box {
             Image(
@@ -133,10 +136,10 @@ fun CategoryItem(category: DeliverableCategory) {
             )
             Text(
                 text = category.name,
-                style = AppTheme.typography.titleSmall.copy(color = Color.White),
+                style = AppTheme.typography.titleSmall.copy(color = AppTheme.colorScheme.onPrimary),
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .background(Color.Black.copy(alpha = 0.6f))
+                    .background(AppTheme.colorScheme.scrim.copy(alpha = 0.6f))
                     .padding(8.dp)
             )
         }
