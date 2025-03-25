@@ -30,7 +30,8 @@ object AccountModule {
     }
 
     @Provides
-    fun providesAccountFeature(): AccountFeature {
+    @Singleton
+    fun provideAccountFeature(): AccountFeature {
         return AccountFeatureImpl()
     }
 }

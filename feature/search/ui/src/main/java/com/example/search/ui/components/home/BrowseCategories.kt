@@ -97,7 +97,7 @@ fun BrowseCategories() {
 
                 val color by animateColorAsState(
                     targetValue = if (isSelected) AppTheme.colorScheme.primary else AppTheme.colorScheme.surfaceDim,
-                    animationSpec = tween(durationMillis = 500), label = ""
+                    animationSpec = tween(durationMillis = 750), label = ""
                 )
 
                 Box(

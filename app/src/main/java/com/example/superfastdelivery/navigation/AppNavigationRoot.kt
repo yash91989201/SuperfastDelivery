@@ -74,5 +74,10 @@ fun AppNavigationRoot(
             navHostController = navHost,
             navGraphBuilder = this,
         )
+
+        navigationRoutes.restaurantFeature.registerGraph(
+            navHostController = navHost,
+            navGraphBuilder = this,
+        )
     }
 }

@@ -1,0 +1,18 @@
+query ListShops( $input: ListShopsInput){
+    ListShops(input: $input){
+        shops {
+            id
+            name
+            shop_type
+            shop_status
+            address {
+                address
+                nearby_landmark
+            }
+            images {
+                image_url
+                description
+            }
+        }
+    }
+}

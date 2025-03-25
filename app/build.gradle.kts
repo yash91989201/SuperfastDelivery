@@ -65,6 +65,10 @@ dependencies {
     implementation(projects.feature.search.data)
     implementation(projects.feature.search.domain)
     implementation(projects.feature.search.ui)
+    // restaurant feature
+    implementation(projects.feature.restaurant.data)
+    implementation(projects.feature.restaurant.domain)
+    implementation(projects.feature.restaurant.ui)
     // splash screen
     implementation(libs.androidx.core.splashscreen)
     // hilt

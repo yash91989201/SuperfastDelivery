@@ -9,6 +9,10 @@ import com.example.common.navigation.Navigator
 import com.example.common.state_holder.ApplicationStateHolder
 import com.example.common.utils.NetworkResult
 import com.example.common.utils.UiText
+import com.example.search.domain.model.ListShopsInput
+import com.example.search.domain.model.Shop
+import com.example.search.domain.model.ShopType
+import com.example.search.domain.use_cases.ListShopsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,16 +26,22 @@ class HomeViewModel @Inject constructor(
     private val navigator: Navigator,
     applicationStateHolder: ApplicationStateHolder,
     private val getDefaultDeliveryAddressUseCase: GetDefaultDeliveryAddressUseCase,
+    private val listShopsUseCase: ListShopsUseCase,
 ) : ViewModel() {
 
     private val _defaultAddressState =
         MutableStateFlow<HomeModel.DefaultAddressState>(HomeModel.DefaultAddressState())
     val defaultAddressState: StateFlow<HomeModel.DefaultAddressState> = _defaultAddressState
 
+    private val _nearbyRestaurants =
+        MutableStateFlow<HomeModel.NearbyRestaurantsState>(HomeModel.NearbyRestaurantsState())
+    val nearbyRestaurants: StateFlow<HomeModel.NearbyRestaurantsState> = _nearbyRestaurants
+
     val auth = applicationStateHolder.authStateHolder.auth
 
     init {
         fetchDefaultAddress()
+        fetchNearbyRestaurants()
     }
 
     private fun fetchDefaultAddress() {
@@ -77,6 +87,46 @@ class HomeViewModel @Inject constructor(
 
     }
 
+    private fun fetchNearbyRestaurants() {
+        viewModelScope.launch {
+            listShopsUseCase(
+                input = ListShopsInput(
+                    shopType = ShopType.RESTAURANT,
+                    limit = 3
+                )
+            )
+                .collect { result ->
+                    when (result) {
+                        is NetworkResult.Loading -> {
+                            _nearbyRestaurants.update {
+                                it.copy(
+                                    isLoading = true,
+                                )
+                            }
+                        }
+
+                        is NetworkResult.Success -> {
+                            _nearbyRestaurants.update {
+                                it.copy(
+                                    isLoading = false,
+                                    data = result.data ?: emptyList()
+                                )
+                            }
+                        }
+
+                        is NetworkResult.Error -> {
+                            _nearbyRestaurants.update {
+                                it.copy(
+                                    isLoading = false,
+                                    error = UiText.RemoteString(message = "Error")
+                                )
+                            }
+                        }
+                    }
+                }
+        }
+    }
+
     fun onEvent(event: HomeModel.Event) {
         when (event) {
             HomeModel.Event.GoToAccountAddressScreen -> {
@@ -97,6 +147,12 @@ object HomeModel {
         val isLoading: Boolean = false,
         val error: UiText? = UiText.Idle,
         val data: DefaultDeliveryAddress? = null,
+    )
+
+    data class NearbyRestaurantsState(
+        val isLoading: Boolean = false,
+        val error: UiText? = UiText.Idle,
+        val data: List<Shop> = emptyList(),
     )
 
     sealed interface Event {

@@ -54,8 +54,23 @@ apollo {
         generateKotlinModels.set(true)
         generateApolloMetadata.set(true)
 
-        mapScalar("Date","java.time.LocalDate","com.apollographql.adapter.core.JavaLocalDateAdapter")
-        mapScalar("DateTime","java.time.Instant","com.apollographql.adapter.core.JavaInstantAdapter")
+        mapScalar(
+            "Date",
+            "java.time.LocalDate",
+            "com.apollographql.adapter.core.JavaLocalDateAdapter"
+        )
+
+        mapScalar(
+            "DateTime",
+            "java.time.Instant",
+            "com.apollographql.adapter.core.JavaInstantAdapter"
+        )
+
+        mapScalar(
+            "Time",
+            "java.time.LocalTime",
+            "com.apollographql.adapter.core.JavaLocalTimeAdapter"
+        )
 
         introspection {
             endpointUrl.set("http://192.168.1.3:8081/graphql")

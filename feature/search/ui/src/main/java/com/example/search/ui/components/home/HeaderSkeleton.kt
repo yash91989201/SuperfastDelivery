@@ -26,7 +26,9 @@ fun HeaderSkeleton() {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(0.75f)

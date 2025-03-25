@@ -6,6 +6,7 @@ import com.example.common.state_holder.ApplicationStateHolder
 import com.example.common.state_holder.AuthStateHolder
 import com.example.common.state_holder.ProfileStateHolder
 import com.example.common.state_holder.SessionStateHolder
+import com.example.restaurant.ui.navigation.RestaurantFeature
 import com.example.search.ui.navigation.SearchFeature
 import com.example.superfastdelivery.ApplicationStateHolderImpl
 import com.example.superfastdelivery.navigation.NavigationRoutes
@@ -24,9 +25,15 @@ object AppModule {
     fun provideNavigationRoutes(
         authFeature: AuthFeature,
         searchFeature: SearchFeature,
-        accountFeature: AccountFeature
+        accountFeature: AccountFeature,
+        restaurantFeature: RestaurantFeature
     ): NavigationRoutes {
-        return NavigationRoutes(authFeature, searchFeature, accountFeature)
+        return NavigationRoutes(
+            authFeature = authFeature,
+            searchFeature = searchFeature,
+            accountFeature = accountFeature,
+            restaurantFeature = restaurantFeature
+        )
     }
 
     @Provides

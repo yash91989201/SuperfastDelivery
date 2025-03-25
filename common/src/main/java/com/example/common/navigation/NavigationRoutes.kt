@@ -17,6 +17,9 @@ sealed class NavigationSubGraph {
 
     @Serializable
     data object Account : NavigationSubGraph()
+
+    @Serializable
+    data object Restaurant : NavigationSubGraph()
 }
 
 sealed class NavigationSubGraphDest {
@@ -76,4 +79,7 @@ sealed class NavigationSubGraphDest {
 
     @Serializable
     data object AccountAboutApp : NavigationSubGraphDest()
+
+    @Serializable
+    data object RestaurantHome : NavigationSubGraphDest()
 }
