@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -30,8 +29,6 @@ import com.example.account.ui.components.addresses.AddressCard
 import com.example.account.ui.components.addresses.AddressCardSkeleton
 import com.example.common.ui.components.TopBar
 import com.example.common.ui.theme.AppTheme
-import com.example.common.ui.theme.Orange100
-import com.example.common.ui.theme.Orange20
 import com.example.common.utils.UiText
 
 @Composable
@@ -135,10 +132,6 @@ fun AddressesScreen(
                 }
 
                 Button(
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Orange20,
-                        contentColor = Orange100,
-                    ),
                     shape = AppTheme.shape.medium,
                     modifier = Modifier
                         .fillMaxWidth()

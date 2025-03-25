@@ -26,7 +26,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.common.navigation.NavigationSubGraph
 import com.example.common.ui.theme.AppTheme
-import com.example.common.ui.theme.Orange100
 import com.example.superfastdelivery.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -65,16 +64,18 @@ fun SplashScreen(
         Image(
             painter = painterResource(R.drawable.splash_image),
             contentScale = ContentScale.Crop,
-            contentDescription = "",
+            contentDescription = "Superfast delivery",
             modifier = Modifier
                 .size(240.dp)
                 .clip(RoundedCornerShape(50))
         )
-        Spacer(modifier = Modifier.height(24.dp))
+
+        Spacer(modifier = Modifier.height(32.dp))
+
         Text(
             text = "Superfast Delivery",
             style = AppTheme.typography.displaySmall,
-            color = Orange100,
+            color = AppTheme.colorScheme.primary,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold
         )

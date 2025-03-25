@@ -31,7 +31,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.auth.ui.R
 import com.example.common.ui.theme.AppTheme
-import com.example.common.ui.theme.Gray80
 
 @Composable
 fun SignInScreen(
@@ -111,7 +110,6 @@ fun SignInScreen(
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,
-                    cursorColor = Gray80,
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -160,7 +158,6 @@ fun SignInScreen(
                 Text(
                     text = "Or Sign in with",
                     style = AppTheme.typography.titleSmall,
-                    color = Gray80,
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
