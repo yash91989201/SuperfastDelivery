@@ -111,6 +111,8 @@ input CreateItemAddonInput {
 
   addon_price: Float!
 
+  image_url: String
+
   description: String
 
   item_id: ID!
@@ -125,11 +127,13 @@ input CreateItemStockInput {
 input CreateItemVariantInput {
   variant_name: String!
 
-  relative_price: Float!
-
   relative_pricing: Boolean!
 
+  relative_price: Float!
+
   price: Float!
+
+  image_url: String
 
   description: String
 
@@ -139,6 +143,8 @@ input CreateItemVariantInput {
 input CreateMedicineCategoryInput {
   category_name: String!
 
+  image_url: String
+
   shop_id: String!
 }
 
@@ -147,7 +153,9 @@ input CreateMedicineItemInput {
 
   price: Float!
 
-  description: String!
+  image_url: String
+
+  description: String
 
   category_id: String!
 }
@@ -155,9 +163,11 @@ input CreateMedicineItemInput {
 input CreateMenuItemInput {
   name: String!
 
-  description: String!
-
   price: Float!
+
+  image_url: String
+
+  description: String
 
   menu_id: ID!
 }
@@ -179,11 +189,15 @@ input CreateProfileInput {
 input CreateRestaurantMenuInput {
   menu_name: String!
 
+  image_url: String
+
   shop_id: String!
 }
 
 input CreateRetailCategoryInput {
   category_name: String!
+
+  image_url: String
 
   shop_id: String!
 }
@@ -191,9 +205,11 @@ input CreateRetailCategoryInput {
 input CreateRetailItemInput {
   name: String!
 
-  description: String!
-
   price: Float!
+
+  image_url: String
+
+  description: String
 
   category_id: String!
 }
@@ -280,6 +296,18 @@ enum DayOfWeek {
   SUNDAY
 }
 
+input DeleteItemAddonInput {
+  item_id: ID!
+
+  addon_id: ID!
+}
+
+input DeleteItemVariantInput {
+  item_id: ID!
+
+  variant_id: ID!
+}
+
 type DeleteOutput {
   message: String!
 }
@@ -334,16 +362,16 @@ input GetAuthInput {
   phone: String
 }
 
-type GetItemAddonsOutput {
-  addons: [ItemAddon!]!
+input GetItemAddonInput {
+  item_id: ID!
 
-  total_addons: Int!
+  addon_id: ID!
 }
 
-type GetItemVariantsOutput {
-  variants: [ItemVariant!]!
+input GetItemVariantInput {
+  item_id: ID!
 
-  total_variants: Int!
+  variant_id: ID!
 }
 
 input GetProfileInput {
@@ -356,6 +384,8 @@ type ItemAddon {
   addon_name: String!
 
   addon_price: Float!
+
+  image_url: String
 
   description: String
 
@@ -379,11 +409,13 @@ type ItemVariant {
 
   variant_name: String!
 
-  relative_price: Float!
-
   relative_pricing: Boolean!
 
+  relative_price: Float!
+
   price: Float!
+
+  image_url: String
 
   description: String
 
@@ -406,10 +438,34 @@ type ListDeliveryAddressOutput {
   delivery_address: [DeliveryAddress!]!
 }
 
+type ListItemAddonOutput {
+  addons: [ItemAddon!]!
+
+  total_addons: Int!
+}
+
+type ListItemVariantOutput {
+  variants: [ItemVariant!]!
+
+  total_variants: Int!
+}
+
 type ListMedicineCategoryOutput {
   medicine_category_list: [MedicineCategory!]!
 
   total_category: Int!
+}
+
+type ListMedicineItemOutput {
+  medicine_items: [MedicineItem!]!
+
+  total_items: Int!
+}
+
+type ListMenuItemOutput {
+  menu_items: [MenuItem!]!
+
+  total_items: Int!
 }
 
 type ListRestaurantMenuOutput {
@@ -422,6 +478,12 @@ type ListRetailCategoryOutput {
   retail_category_list: [RetailCategory!]!
 
   total_category: Int!
+}
+
+type ListRetailItemOutput {
+  retail_items: [RetailItem!]!
+
+  total_items: Int!
 }
 
 input ListShopsInput {
@@ -449,9 +511,9 @@ type MedicineCategory {
 
   category_name: String!
 
-  shop_id: String!
+  image_url: String
 
-  medicine_items: [MedicineItem]!
+  shop_id: String!
 
   created_at: DateTime!
 
@@ -467,7 +529,9 @@ type MedicineItem {
 
   price: Float!
 
-  description: String!
+  image_url: String
+
+  description: String
 
   category_id: String!
 
@@ -483,21 +547,21 @@ type MenuItem {
 
   name: String!
 
-  description: String
-
   price: Float!
 
+  image_url: String
+
+  description: String
+
+  variants: [ItemVariant!]!
+
+  addons: [ItemAddon!]!
+
   menu_id: String!
-
-  variants: [ItemVariant]!
-
-  addons: [ItemAddon]!
 
   created_at: DateTime!
 
   updated_at: DateTime!
-
-  deleted_at: DateTime
 }
 
 type Mutation {
@@ -507,21 +571,21 @@ type Mutation {
 
   SignInWithGoogle(input: SignInWithGoogleInput!): SignInOutput!
 
-  RefreshToken(session_id: ID!): SignInOutput!
+  RefreshToken(sessionID: ID!): SignInOutput!
 
-  LogOut(session_id: ID!): SignInOutput!
+  LogOut(sessionID: ID!): SignInOutput!
 
   CreateProfile(input: CreateProfileInput!): Profile!
 
-  UpdateProfile(input: UpdateProfileInput!): Profile!
-
   CreateDeliveryAddress(input: CreateDeliveryAddressInput!): DeliveryAddress!
+
+  UpdateProfile(input: UpdateProfileInput!): Profile!
 
   UpdateDeliveryAddress(input: UpdateDeliveryAddressInput!): DeliveryAddress!
 
   UpdateDefaultDeliveryAddress(input: UpdateDefaultDeliveryAddressInput!): UpdateOutput!
 
-  DeleteDeliveryAddress(addressId: ID!): DeleteOutput!
+  DeleteDeliveryAddress(addressID: ID!): DeleteOutput!
 
   CreateShop(input: CreateShopInput!): Shop!
 
@@ -537,27 +601,77 @@ type Mutation {
 
   DeleteShop(id: ID!): UpdateShopOutput!
 
-  CreateItemVariant(input: CreateItemVariantInput!): ItemVariant!
-
-  CreateItemAddon(input: CreateItemAddonInput!): ItemAddon!
-
   CreateRestaurantMenu(input: CreateRestaurantMenuInput!): RestaurantMenu!
 
   CreateMenuItem(input: CreateMenuItemInput!): MenuItem!
+
+  CreateMenuItemVariant(input: CreateItemVariantInput!): ItemVariant!
+
+  CreateMenuItemAddon(input: CreateItemAddonInput!): ItemAddon!
 
   CreateRetailCategory(input: CreateRetailCategoryInput!): RetailCategory!
 
   CreateRetailItem(input: CreateRetailItemInput!): RetailItem!
 
+  CreateRetailItemVariant(input: CreateItemVariantInput!): ItemVariant!
+
   CreateMedicineCategory(input: CreateMedicineCategoryInput!): MedicineCategory!
 
   CreateMedicineItem(input: CreateMedicineItemInput!): MedicineItem!
+
+  UpdateRestaurantMenu(input: UpdateRestaurantMenuInput!): UpdateOutput!
+
+  UpdateMenuItem(input: UpdateMenuItemInput!): UpdateOutput!
+
+  UpdateMenuItemVariant(input: UpdateItemVariantInput!): UpdateOutput!
+
+  UpdateMenuItemAddon(input: UpdateItemAddonInput!): UpdateOutput!
+
+  UpdateRetailCategory(input: UpdateRetailCategoryInput!): UpdateOutput!
+
+  UpdateRetailItem(input: UpdateRetailItemInput!): UpdateOutput!
+
+  UpdateRetailItemVariant(input: UpdateItemVariantInput!): UpdateOutput!
+
+  UpdateMedicineCategory(input: UpdateMedicineCategoryInput!): UpdateOutput!
+
+  UpdateMedicineItem(input: UpdateMedicineItemInput!): UpdateOutput!
+
+  DeleteRestaurantMenu(menuID: ID!): DeleteOutput!
+
+  DeleteMenuItem(itemID: ID!): DeleteOutput!
+
+  DeleteMenuItemVariant(input: DeleteItemVariantInput!): DeleteOutput!
+
+  DeleteMenuItemAddon(input: DeleteItemAddonInput!): DeleteOutput!
+
+  DeleteRetailCategory(categoryID: ID!): DeleteOutput!
+
+  DeleteRetailItem(itemID: ID!): DeleteOutput!
+
+  DeleteRetailItemVariant(input: DeleteItemVariantInput!): DeleteOutput!
+
+  DeleteMedicineCategory(categoryID: ID!): DeleteOutput!
+
+  DeleteMedicineItem(itemID: ID!): DeleteOutput!
 
   CreateItemStock(input: CreateItemStockInput!): ItemStock!
 
   CreateVariantStock(input: CreateVariantStockInput!): VariantStock!
 
   CreateAddonStock(input: CreateAddonStockInput!): AddonStock!
+
+  UpdateItemStock(input: UpdateItemStockInput!): ItemStock!
+
+  UpdateVariantStock(input: UpdateVariantStockInput!): VariantStock!
+
+  UpdateAddonStock(input: UpdateAddonStockInput!): AddonStock!
+
+  DeleteItemStock(id: ID!): DeleteOutput!
+
+  DeleteVariantStock(id: ID!): DeleteOutput!
+
+  DeleteAddonStock(id: ID!): DeleteOutput!
 }
 
 enum OrderBy {
@@ -595,33 +709,57 @@ type Query {
 
   GetDeliveryAddress(id: ID!): DeliveryAddress!
 
-  ListDeliveryAddress(authId: ID!): ListDeliveryAddressOutput!
+  GetDefaultDeliveryAddress(authID: ID!): DeliveryAddress!
 
-  GetDeliveryAddressDetail(addressId: ID!): AddressDetail!
+  GetDeliveryAddressDetail(addressID: ID!): AddressDetail!
+
+  ListDeliveryAddress(authID: ID!): ListDeliveryAddressOutput!
 
   GetShop(id: ID!): Shop!
 
   ListShops(input: ListShopsInput): ListShopsOutput!
 
-  GetItemVariant(id: ID!): ItemVariant!
-
-  GetItemAddon(id: ID!): ItemAddon!
-
-  GetItemVariants(itemId: ID!): GetItemVariantsOutput!
-
-  GetItemAddons(itemId: ID!): GetItemAddonsOutput!
-
   GetRestaurantMenu(id: ID!): RestaurantMenu!
 
-  ListRestaurantMenu(shopId: ID!): ListRestaurantMenuOutput!
+  GetMenuItem(itemID: ID!): MenuItem!
+
+  GetMenuItemVariant(input: GetItemVariantInput!): ItemVariant!
+
+  GetMenuItemAddon(input: GetItemAddonInput!): ItemAddon!
 
   GetRetailCategory(id: ID!): RetailCategory!
 
-  ListRetailCategory(shopId: ID!): ListRetailCategoryOutput
+  GetRetailItem(itemID: ID!): RetailItem!
+
+  GetRetailItemVariant(input: GetItemVariantInput!): ItemVariant!
 
   GetMedicineCategory(id: ID!): MedicineCategory!
 
-  ListMedicineCategory(shopId: ID!): ListMedicineCategoryOutput
+  GetMedicineItem(itemID: ID!): MedicineItem!
+
+  ListRestaurantMenu(shopID: ID!): ListRestaurantMenuOutput!
+
+  ListMenuItem(menuID: ID!): ListMenuItemOutput!
+
+  ListMenuItemVariant(itemID: ID!): ListItemVariantOutput!
+
+  ListMenuItemAddon(itemID: ID!): ListItemAddonOutput!
+
+  ListRetailCategory(shopID: ID!): ListRetailCategoryOutput
+
+  ListRetailItem(categoryID: ID!): ListRetailItemOutput!
+
+  ListRetailItemVariant(itemID: ID!): ListItemVariantOutput!
+
+  ListMedicineCategory(shopID: ID!): ListMedicineCategoryOutput
+
+  ListMedicineItem(categoryID: ID!): ListMedicineItemOutput!
+
+  GetItemStock(id: ID!): ItemStock!
+
+  GetVariantStock(id: ID!): VariantStock!
+
+  GetAddonStock(id: ID!): AddonStock!
 }
 
 type RestaurantMenu {
@@ -629,15 +767,13 @@ type RestaurantMenu {
 
   menu_name: String!
 
-  shop_id: String!
+  image_url: String
 
-  menu_items: [MenuItem]!
+  shop_id: String!
 
   created_at: DateTime!
 
   updated_at: DateTime!
-
-  deleted_at: DateTime
 }
 
 type RetailCategory {
@@ -645,15 +781,13 @@ type RetailCategory {
 
   category_name: String!
 
-  shop_id: String!
+  image_url: String
 
-  retail_items: [RetailItem]!
+  shop_id: String!
 
   created_at: DateTime!
 
   updated_at: DateTime!
-
-  deleted_at: DateTime
 }
 
 type RetailItem {
@@ -661,21 +795,19 @@ type RetailItem {
 
   name: String!
 
-  description: String!
-
   price: Float!
+
+  image_url: String
+
+  description: String
 
   category_id: String!
 
-  variants: [ItemVariant]!
-
-  addons: [ItemAddon]!
+  variants: [ItemVariant!]!
 
   created_at: DateTime!
 
   updated_at: DateTime!
-
-  deleted_at: DateTime
 }
 
 type Session {
@@ -824,6 +956,14 @@ input SignInWithPhoneInput {
 
 scalar Time
 
+input UpdateAddonStockInput {
+  id: ID!
+
+  quantity: Int!
+
+  restock_qty: Int!
+}
+
 input UpdateDefaultDeliveryAddressInput {
   delivery_address_id: String!
 
@@ -852,6 +992,78 @@ input UpdateDeliveryAddressInput {
   auth_id: String!
 }
 
+input UpdateItemAddonInput {
+  id: ID!
+
+  addon_name: String
+
+  addon_price: Float
+
+  image_url: String
+
+  description: String
+
+  item_id: String!
+}
+
+input UpdateItemStockInput {
+  id: ID!
+
+  quantity: Int!
+
+  restock_qty: Int!
+}
+
+input UpdateItemVariantInput {
+  id: ID!
+
+  variant_name: String
+
+  relative_pricing: Boolean
+
+  relative_price: Float
+
+  price: Float
+
+  image_url: String
+
+  description: String
+
+  item_id: String!
+}
+
+input UpdateMedicineCategoryInput {
+  id: ID!
+
+  category_name: String
+
+  image_url: String
+}
+
+input UpdateMedicineItemInput {
+  id: ID!
+
+  name: String
+
+  price: Float
+
+  image_url: String
+
+  description: String
+}
+
+input UpdateMenuItemInput {
+  id: ID!
+
+  name: String
+
+  price: Float
+
+  image_url: String
+
+  description: String
+}
+
 type UpdateOutput {
   message: String!
 }
@@ -870,6 +1082,34 @@ input UpdateProfileInput {
   gender: Gender
 
   auth_id: String!
+}
+
+input UpdateRestaurantMenuInput {
+  id: ID!
+
+  menu_name: String
+
+  image_url: String
+}
+
+input UpdateRetailCategoryInput {
+  id: ID!
+
+  category_name: String
+
+  image_url: String
+}
+
+input UpdateRetailItemInput {
+  id: ID!
+
+  name: String
+
+  price: Float
+
+  image_url: String
+
+  description: String
 }
 
 input UpdateShopAddressInput {
@@ -932,6 +1172,14 @@ input UpdateShopTimingInput {
   opens_at: Time
 
   closes_at: Time
+}
+
+input UpdateVariantStockInput {
+  id: ID!
+
+  quantity: Int!
+
+  restock_qty: Int!
 }
 
 type VariantStock {
