@@ -23,7 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -82,8 +81,7 @@ fun AddressDetailBottomSheet(viewModel: NewAddressViewModel) {
             Text(
                 text = "Location details",
                 color = AppTheme.colorScheme.onSurface,
-                style = AppTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold,
+                style = AppTheme.typography.titleMedium,
                 modifier = Modifier.padding(vertical = 12.dp)
             )
 
@@ -121,7 +119,7 @@ fun AddressDetailBottomSheet(viewModel: NewAddressViewModel) {
                 itemToString = {
                     it.name.lowercase().replaceFirstChar { char -> char.uppercase() }
                 },
-                placeholder = "Select Address Alias",
+                placeholderText = "Select Address Alias",
                 isError = addressAliasError != null,
                 errorMessage = addressAliasError ?: ""
             )
@@ -150,7 +148,7 @@ fun AddressDetailBottomSheet(viewModel: NewAddressViewModel) {
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start,
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
@@ -162,9 +160,7 @@ fun AddressDetailBottomSheet(viewModel: NewAddressViewModel) {
                 Text(
                     text = "Set as Default Address",
                     color = AppTheme.colorScheme.onSurface,
-                    style = AppTheme.typography.labelMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.padding(start = 12.dp)
+                    style = AppTheme.typography.titleSmall,
                 )
             }
         }
@@ -180,7 +176,7 @@ fun AddressDetailBottomSheet(viewModel: NewAddressViewModel) {
         ) {
             Text(
                 text = "Save Address",
-                style = AppTheme.typography.labelLarge
+                style = AppTheme.typography.titleMedium
             )
         }
     }

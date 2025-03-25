@@ -104,7 +104,7 @@ fun CreateProfileScreen(
                     itemToString = {
                         it.name.lowercase().replaceFirstChar { char -> char.uppercase() }
                     },
-                    placeholder = "Select Gender",
+                    placeholderText = "Select Gender",
                 )
 
                 DateSelectionField(

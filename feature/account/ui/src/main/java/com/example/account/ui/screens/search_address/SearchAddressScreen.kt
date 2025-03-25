@@ -1,15 +1,16 @@
 package com.example.account.ui.screens.search_address
 
-import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -23,6 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Search
 import com.example.account.ui.components.search_address.AddressCard
+import com.example.account.ui.components.search_address.AddressCardSkeleton
 import com.example.common.ui.components.TextInput
 import com.example.common.ui.components.TopBar
 import com.example.common.utils.UiText
@@ -52,12 +54,11 @@ fun SearchAddressScreen(
                 value = searchQuery,
                 onValueChange = { viewModel.onEvent(SearchAddress.Event.UpdateSearchQuery(it)) },
                 placeholderText = "Search for an address",
-                trailingIcon = {
+                leadingIcon = {
                     Icon(
                         imageVector = Lucide.Search,
                         contentDescription = "Search",
                         modifier = Modifier.height(18.dp),
-                        tint = MaterialTheme.colorScheme.tertiary
                     )
                 }
             )
@@ -66,23 +67,27 @@ fun SearchAddressScreen(
 
             when {
                 uiState.isLoading -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(14.dp),
+                        modifier = Modifier.fillMaxWidth()
                     ) {
-                        CircularProgressIndicator()
+                        items(3) {
+                            AddressCardSkeleton()
+                            HorizontalDivider()
+                        }
                     }
                 }
 
                 uiState.error !is UiText.Idle -> {
                     Box(
                         modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
+                        contentAlignment = Alignment.TopCenter
                     ) {
                         Text(
                             text = uiState.error.toString(),
                             color = MaterialTheme.colorScheme.error,
-                            style = MaterialTheme.typography.bodyMedium
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(horizontal = 24.dp)
                         )
                     }
                 }
@@ -94,14 +99,15 @@ fun SearchAddressScreen(
                     ) {
                         Text(
                             text = if (searchQuery.isEmpty()) "" else "No addresses found",
-                            style = MaterialTheme.typography.headlineSmall
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(horizontal = 24.dp)
                         )
                     }
                 }
 
                 else -> {
-                    Log.d("check", "${uiState.data.size}")
                     LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(14.dp),
                         modifier = Modifier.fillMaxSize()
                     ) {
                         items(uiState.data) {
@@ -111,6 +117,8 @@ fun SearchAddressScreen(
                                     viewModel.onEvent(SearchAddress.Event.GoToNewAddressScreen(it))
                                 }
                             )
+
+                            HorizontalDivider()
                         }
                     }
                 }

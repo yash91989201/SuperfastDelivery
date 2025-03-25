@@ -26,9 +26,7 @@ fun HeaderSkeleton() {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(0.75f)
@@ -71,7 +69,7 @@ fun HeaderSkeleton() {
 
         Box(
             modifier = Modifier
-                .size(width = 52.dp, height = 36.dp)
+                .size(width = 60.dp, height = 40.dp)
                 .clip(AppTheme.shape.extraLarge)
                 .shimmerEffect()
         )

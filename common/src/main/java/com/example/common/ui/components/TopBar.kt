@@ -23,13 +23,13 @@ fun TopBar(
     TopAppBar(
         navigationIcon = {
             IconButton(
-                modifier = Modifier.size(36.dp),
+                modifier = Modifier.size(40.dp),
                 onClick = onGoBack
             ) {
                 Icon(
                     imageVector = Lucide.ChevronLeft,
                     contentDescription = "Go back",
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(28.dp)
                 )
             }
         },

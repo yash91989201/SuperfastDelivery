@@ -67,10 +67,10 @@ fun TextInput(
             Text(
                 text = placeholderText,
                 style = AppTheme.typography.bodyLarge,
-                color = AppTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(start = 14.dp, bottom = 6.dp)
+                modifier = Modifier.padding(start = 16.dp, bottom = 6.dp)
             )
         }
+
         TextField(
             value = value ?: "",
             onValueChange = {
@@ -84,9 +84,6 @@ fun TextInput(
                     color = borderColor
                 ),
             enabled = enabled,
-            textStyle = AppTheme.typography.bodyLarge.copy(
-                color = AppTheme.colorScheme.onSurface
-            ),
             singleLine = maxLines == 1,
             maxLines = maxLines,
             leadingIcon = leadingIcon,
@@ -94,8 +91,6 @@ fun TextInput(
                 if (showPlaceholder) {
                     Text(
                         text = placeholderText,
-                        style = AppTheme.typography.bodyLarge,
-                        color = AppTheme.colorScheme.tertiary
                     )
                 }
             },
@@ -111,8 +106,7 @@ fun TextInput(
                             Icon(
                                 imageVector = Lucide.X,
                                 contentDescription = "Clear text input",
-                                modifier = Modifier.size(18.dp),
-                                tint = AppTheme.colorScheme.tertiary
+                                modifier = Modifier.size(18.dp)
                             )
                         }
                     }
@@ -120,14 +114,10 @@ fun TextInput(
             },
             shape = AppTheme.shape.medium,
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = AppTheme.colorScheme.surface,
-                unfocusedContainerColor = AppTheme.colorScheme.surface,
-                disabledContainerColor = AppTheme.colorScheme.surface.copy(alpha = 0.5f),
-                cursorColor = AppTheme.colorScheme.primary,
-                errorCursorColor = AppTheme.colorScheme.error,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                errorIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+                errorIndicatorColor = Color.Transparent
             ),
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,
@@ -149,15 +139,15 @@ fun TextInput(
             Text(
                 text = errorMessage,
                 color = AppTheme.colorScheme.error,
-                style = AppTheme.typography.labelSmall,
-                modifier = Modifier.padding(start = 14.dp, top = 6.dp)
+                style = AppTheme.typography.labelLarge,
+                modifier = Modifier.padding(start = 16.dp, top = 6.dp)
             )
         }
 
         if (maxLength != Int.MAX_VALUE) {
             Text(
                 text = "${value?.length}/$maxLength",
-                style = AppTheme.typography.labelSmall,
+                style = AppTheme.typography.labelMedium,
                 color = AppTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                 modifier = Modifier.align(Alignment.End)
             )

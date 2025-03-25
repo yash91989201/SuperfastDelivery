@@ -9,18 +9,22 @@ import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,7 +40,7 @@ class SearchAddressViewModel @Inject constructor(
     val uiState: StateFlow<SearchAddress.UiState> = _searchQuery
         .debounce(400)
         .filter { it.length > 3 }
-        .mapLatest { autoComplete(it) }
+        .flatMapLatest { fetchAutoCompleteResults(it) }
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
@@ -57,25 +61,30 @@ class SearchAddressViewModel @Inject constructor(
         }
     }
 
-    private suspend fun autoComplete(query: String): SearchAddress.UiState {
-        return try {
+    private fun fetchAutoCompleteResults(query: String): Flow<SearchAddress.UiState> = flow {
+        emit(SearchAddress.UiState(isLoading = true))
+
+        try {
             val request = FindAutocompletePredictionsRequest.builder()
                 .setCountries("IN")
                 .setQuery(query)
                 .build()
 
-            val response = placesClient.findAutocompletePredictions(request).await()
+            val response = withContext(Dispatchers.IO) {
+                placesClient.findAutocompletePredictions(request).await()
+            }
 
-            SearchAddress.UiState(data = response.autocompletePredictions)
+            emit(SearchAddress.UiState(data = response.autocompletePredictions))
         } catch (exception: Exception) {
-            SearchAddress.UiState(
-                error = UiText.RemoteString(
-                    exception.localizedMessage ?: "An unexpected error occurred"
+            emit(
+                SearchAddress.UiState(
+                    error = UiText.RemoteString(
+                        exception.localizedMessage ?: "An unexpected error occurred"
+                    )
                 )
             )
         }
     }
-
 }
 
 object SearchAddress {

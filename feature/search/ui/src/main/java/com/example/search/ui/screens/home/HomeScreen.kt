@@ -25,8 +25,6 @@ fun HomeScreen(
     viewModel: HomeViewModel,
     modifier: Modifier = Modifier,
 ) {
-
-
     val defaultAddressState by viewModel.defaultAddressState.collectAsStateWithLifecycle()
 
     Scaffold(

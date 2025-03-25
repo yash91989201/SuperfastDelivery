@@ -18,7 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -29,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -39,7 +39,7 @@ import com.composables.icons.lucide.Trash2
 import com.example.account.domain.model.AddressAlias
 import com.example.common.ui.theme.AppTheme
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddressCard(
     title: AddressAlias,
@@ -57,7 +57,10 @@ fun AddressCard(
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent
         ),
-        border = BorderStroke(width = 1.dp, color = AppTheme.colorScheme.outlineVariant),
+        border = BorderStroke(
+            width = 1.dp,
+            color = AppTheme.colorScheme.outlineVariant
+        ),
         modifier = Modifier
             .fillMaxWidth()
     ) {
@@ -70,10 +73,6 @@ fun AddressCard(
             RadioButton(
                 selected = selected,
                 onClick = onSelect,
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = AppTheme.colorScheme.primary,
-                    unselectedColor = AppTheme.colorScheme.scrim,
-                )
             )
 
             Spacer(modifier = Modifier.width(8.dp))
@@ -87,7 +86,7 @@ fun AddressCard(
                         .toString()
                         .lowercase()
                         .replaceFirstChar { it.uppercase() },
-                    style = AppTheme.typography.labelSmall,
+                    style = AppTheme.typography.labelLarge,
                     color = AppTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
@@ -104,7 +103,7 @@ fun AddressCard(
                 Icon(
                     imageVector = Lucide.EllipsisVertical,
                     contentDescription = "More options",
-                    tint = AppTheme.colorScheme.scrim
+                    tint = AppTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -114,7 +113,6 @@ fun AddressCard(
         ModalBottomSheet(
             onDismissRequest = { showBottomSheet = false },
             sheetState = sheetState,
-            containerColor = AppTheme.colorScheme.surfaceContainer,
             shape = AppTheme.shape.large.copy(
                 bottomEnd = CornerSize(0.dp),
                 bottomStart = CornerSize(0.dp),
@@ -127,62 +125,58 @@ fun AddressCard(
             ) {
                 Text(
                     text = "Manage location",
-                    style = AppTheme.typography.titleLarge,
+                    style = AppTheme.typography.titleMedium,
                     color = AppTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(bottom = 12.dp)
                 )
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            showBottomSheet = false
-                            onEdit()
-                        }
-                        .padding(12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Lucide.Pencil,
-                        contentDescription = "Edit",
-                        tint = AppTheme.colorScheme.primary,
-                        modifier = Modifier
-                            .padding(end = 12.dp)
-                            .size(18.dp)
-                    )
-                    Text(
-                        text = "Edit",
-                        style = AppTheme.typography.bodyMedium,
-                        color = AppTheme.colorScheme.onSurface
-                    )
-                }
+                OptionRow(
+                    icon = Lucide.Pencil,
+                    iconTint = AppTheme.colorScheme.primary,
+                    text = "Edit",
+                    onClick = {
+                        showBottomSheet = false
+                        onEdit()
+                    }
+                )
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            showBottomSheet = false
-                            onDelete()
-                        }
-                        .padding(12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Lucide.Trash2,
-                        contentDescription = "Delete",
-                        tint = AppTheme.colorScheme.error,
-                        modifier = Modifier
-                            .padding(end = 12.dp)
-                            .size(18.dp)
-                    )
-                    Text(
-                        text = "Delete",
-                        style = AppTheme.typography.bodyMedium,
-                        color = AppTheme.colorScheme.onSurface
-                    )
-                }
+                OptionRow(
+                    icon = Lucide.Trash2,
+                    iconTint = AppTheme.colorScheme.error,
+                    text = "Delete",
+                    onClick = {
+                        showBottomSheet = false
+                        onDelete()
+                    }
+                )
             }
         }
     }
 }
+
+@Composable
+fun OptionRow(icon: ImageVector, iconTint: Color, text: String, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .padding(AppTheme.size.small),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = text,
+            tint = iconTint,
+            modifier = Modifier
+                .padding(end = 12.dp)
+                .size(18.dp)
+        )
+        Text(
+            text = text,
+            style = AppTheme.typography.bodyLarge,
+            color = AppTheme.colorScheme.onSurface
+        )
+    }
+}
+
 

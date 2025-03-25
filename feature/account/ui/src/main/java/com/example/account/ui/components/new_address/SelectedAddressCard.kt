@@ -1,10 +1,12 @@
 package com.example.account.ui.components.new_address
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -24,21 +26,23 @@ fun SelectedAddressCard(address: String?, onChange: () -> Unit) {
     Card(
         shape = AppTheme.shape.medium,
         colors = CardDefaults.cardColors(
-            containerColor = AppTheme.colorScheme.surfaceContainer
+            containerColor = AppTheme.colorScheme.surfaceContainerHighest
         ),
+        border = BorderStroke(1.dp, AppTheme.colorScheme.outlineVariant),
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
-                .padding(16.dp)
+                .padding(horizontal = AppTheme.size.medium, vertical = AppTheme.size.small)
                 .fillMaxWidth(),
         ) {
             Icon(
                 imageVector = Lucide.MapPinned,
-                contentDescription = null,
-                tint = AppTheme.colorScheme.primary
+                contentDescription = "Selected Location",
+                tint = AppTheme.colorScheme.primary,
+                modifier = Modifier.size(24.dp)
             )
 
             Text(
@@ -51,12 +55,13 @@ fun SelectedAddressCard(address: String?, onChange: () -> Unit) {
             )
 
             TextButton(
-                modifier = Modifier
-                    .padding(0.dp)
-                    .defaultMinSize(0.dp, 0.dp),
-                onClick = onChange
+                onClick = onChange,
+                modifier = Modifier.defaultMinSize(minWidth = 0.dp, minHeight = 0.dp)
             ) {
-                Text(text = "Change")
+                Text(
+                    text = "Change",
+                    style = AppTheme.typography.titleSmall
+                )
             }
         }
     }

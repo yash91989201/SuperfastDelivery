@@ -1,11 +1,8 @@
 package com.example.common.ui.components
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,7 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,7 +32,7 @@ fun <T> DropdownInput(
     expanded: Boolean,
     onExpandedChange: (Boolean) -> Unit,
     itemToString: (T) -> String,
-    placeholder: String = "Select an option",
+    placeholderText: String = "Select an option",
     enabled: Boolean = true,
     isError: Boolean = false,
     errorMessage: String? = null,
@@ -44,16 +40,6 @@ fun <T> DropdownInput(
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val isFocused by interactionSource.collectIsFocusedAsState()
-
-    val borderColor by animateColorAsState(
-        targetValue = when {
-            isError -> AppTheme.colorScheme.error
-            isFocused -> AppTheme.colorScheme.primary
-            else -> AppTheme.colorScheme.outlineVariant
-        },
-        label = "borderColor"
-    )
 
     Column(modifier = modifier.fillMaxWidth()) {
         ExposedDropdownMenuBox(
@@ -62,16 +48,12 @@ fun <T> DropdownInput(
             modifier = Modifier.fillMaxWidth()
         ) {
             TextField(
-                value = selectedItem?.let(itemToString) ?: placeholder,
+                value = selectedItem?.let(itemToString) ?: placeholderText,
                 onValueChange = {},
                 readOnly = true,
                 enabled = enabled,
                 singleLine = true,
                 shape = AppTheme.shape.medium,
-                textStyle = AppTheme.typography.bodyLarge.copy(
-                    color = if (selectedItem != null) AppTheme.colorScheme.onSurface
-                    else AppTheme.colorScheme.tertiary
-                ),
                 leadingIcon = leadingIcon,
                 trailingIcon = {
                     if (trailingIcon != null) {
@@ -81,24 +63,14 @@ fun <T> DropdownInput(
                     }
                 },
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = AppTheme.colorScheme.surface,
-                    unfocusedContainerColor = AppTheme.colorScheme.surface,
-                    disabledContainerColor = AppTheme.colorScheme.surface.copy(alpha = 0.5f),
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
-                    errorIndicatorColor = Color.Transparent,
-                    unfocusedTextColor = AppTheme.colorScheme.tertiary.copy(alpha = 0.8f),
-                    focusedTextColor = AppTheme.colorScheme.onSurface,
-                    errorTextColor = AppTheme.colorScheme.error,
+                    disabledIndicatorColor = Color.Transparent,
+                    errorIndicatorColor = Color.Transparent
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .menuAnchor(type = MenuAnchorType.PrimaryNotEditable, enabled = true)
-                    .border(
-                        width = 1.25.dp,
-                        color = if (isError) AppTheme.colorScheme.error else borderColor,
-                        shape = AppTheme.shape.small
-                    )
                     .clickable(enabled = enabled) { onExpandedChange(!expanded) },
                 interactionSource = interactionSource,
                 isError = isError
@@ -133,8 +105,8 @@ fun <T> DropdownInput(
             Text(
                 text = errorMessage,
                 color = AppTheme.colorScheme.error,
-                style = AppTheme.typography.labelSmall,
-                modifier = Modifier.padding(start = 12.dp, top = 4.dp)
+                style = AppTheme.typography.labelLarge,
+                modifier = Modifier.padding(start = 16.dp, top = 4.dp)
             )
         }
     }

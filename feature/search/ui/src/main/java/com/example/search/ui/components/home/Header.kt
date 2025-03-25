@@ -8,9 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -91,13 +90,9 @@ fun Header(
             }
         }
 
-        IconButton(
+        FilledTonalIconButton(
             onClick = onProfileClick,
-            colors = IconButtonDefaults.iconButtonColors(
-                contentColor = AppTheme.colorScheme.onSecondaryContainer,
-                containerColor = AppTheme.colorScheme.secondaryContainer,
-            ),
-            modifier = Modifier.size(width = 52.dp, height = 36.dp)
+            modifier = Modifier.size(width = 60.dp, height = 40.dp)
         ) {
             Icon(
                 imageVector = Lucide.UserRound,
