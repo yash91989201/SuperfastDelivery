@@ -2,13 +2,13 @@ package com.example.search.ui.components.home
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -30,11 +29,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.lerp
 import com.example.common.ui.theme.AppTheme
 import com.example.search.domain.model.DeliverableCategory
 import com.example.search.ui.R
+import kotlin.math.absoluteValue
 
 val categoryList = listOf(
     DeliverableCategory("Food", R.drawable.food),
@@ -44,69 +47,63 @@ val categoryList = listOf(
 
 @Composable
 fun BrowseCategories() {
-    Column {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
         Text(
             text = "Browse Categories",
-            style = AppTheme.typography.titleLarge,
-            fontSize = AppTheme.typography.headlineSmall.fontSize,
+            style = AppTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
             color = AppTheme.colorScheme.primary,
-            modifier = Modifier.padding(bottom = 8.dp)
         )
 
         val pagerState = rememberPagerState { categoryList.size }
 
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            HorizontalPager(
-                state = pagerState,
-                pageSpacing = 8.dp,
+        HorizontalPager(
+            state = pagerState,
+            pageSpacing = 8.dp,
+            contentPadding = PaddingValues(horizontal = 24.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) { page ->
+            CategoryCard(
+                category = categoryList[page],
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(140.dp)
-            ) { page ->
-                val scale by animateFloatAsState(
-                    targetValue = if (page == pagerState.currentPage) 1f else 0.8f,
-                    animationSpec = tween(durationMillis = 300), label = ""
-                )
+                    .graphicsLayer {
+                        val pageOffset =
+                            (pagerState.currentPage - page + pagerState.currentPageOffsetFraction).absoluteValue
 
-                Box(
-                    modifier = Modifier
-                        .graphicsLayer {
-                            scaleX = scale
-                            scaleY = scale
+                        lerp(
+                            start = 75.dp,
+                            stop = 100.dp,
+                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                        ).also { scale ->
+                            scaleY = scale / 100.dp
                         }
-                ) {
-                    CategoryItem(categoryList[page])
-                }
-            }
+                    }
+            )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
-
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 12.dp),
-            horizontalArrangement = Arrangement.Start,
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
             repeat(categoryList.size) { index ->
                 val isSelected = pagerState.currentPage == index
+
                 val width by animateDpAsState(
                     targetValue = if (isSelected) 24.dp else 10.dp,
                     animationSpec = tween(durationMillis = 300), label = ""
                 )
+
                 val color by animateColorAsState(
-                    targetValue = if (isSelected) AppTheme.colorScheme.primary else AppTheme.colorScheme.tertiary,
-                    animationSpec = tween(durationMillis = 300), label = ""
+                    targetValue = if (isSelected) AppTheme.colorScheme.primary else AppTheme.colorScheme.surfaceDim,
+                    animationSpec = tween(durationMillis = 500), label = ""
                 )
 
                 Box(
                     modifier = Modifier
                         .size(height = 10.dp, width = width)
-                        .background(color, shape = RoundedCornerShape(50))
+                        .background(color, shape = AppTheme.shape.extraLarge)
                 )
 
                 Spacer(modifier = Modifier.width(4.dp))
@@ -116,16 +113,16 @@ fun BrowseCategories() {
 }
 
 @Composable
-fun CategoryItem(category: DeliverableCategory) {
+fun CategoryCard(
+    category: DeliverableCategory,
+    modifier: Modifier = Modifier,
+) {
     Card(
-        modifier = Modifier
+        shape = AppTheme.shape.medium,
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        modifier = modifier
             .fillMaxWidth()
             .height(180.dp),
-        shape = AppTheme.shape.small,
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = AppTheme.colorScheme.surfaceVariant
-        )
     ) {
         Box {
             Image(
@@ -134,12 +131,15 @@ fun CategoryItem(category: DeliverableCategory) {
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
+
             Text(
                 text = category.name,
+                textAlign = TextAlign.Center,
                 style = AppTheme.typography.titleSmall.copy(color = AppTheme.colorScheme.onPrimary),
                 modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .background(AppTheme.colorScheme.scrim.copy(alpha = 0.6f))
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .background(AppTheme.colorScheme.inverseSurface.copy(alpha = 0.6f))
                     .padding(8.dp)
             )
         }
