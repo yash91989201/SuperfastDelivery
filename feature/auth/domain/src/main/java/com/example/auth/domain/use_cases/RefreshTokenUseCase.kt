@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class RefreshTokenUseCase @Inject constructor(private val authRepository: AuthRepository) {
-    operator fun invoke(sessionId: String) = flow<NetworkResult<SignInResponse>> {
+    operator fun invoke(refreshToken: String) = flow<NetworkResult<SignInResponse>> {
         emit(NetworkResult.Loading())
-        authRepository.refreshToken(sessionId)
+        authRepository.refreshToken(refreshToken)
             .onSuccess { emit(NetworkResult.Success(it)) }
             .onFailure { emit(NetworkResult.Error(it.localizedMessage)) }
     }

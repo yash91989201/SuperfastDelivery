@@ -24,9 +24,8 @@ class SessionStateHolderImpl @Inject constructor(private val sessionDataStore: S
     override fun updateSession(session: Session) {
         coroutineScope.launch {
             sessionDataStore.saveSession(
-                sessionId = session.id,
                 accessToken = session.accessToken,
-                accessTokenExpiresAt = session.accessTokenExpiresAt,
+                refreshToken = session.refreshToken
             )
         }
     }

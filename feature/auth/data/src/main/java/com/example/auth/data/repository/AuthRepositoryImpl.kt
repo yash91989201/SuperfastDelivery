@@ -35,9 +35,8 @@ class AuthRepositoryImpl(
         signInRes?.session?.let {
             applicationStateHolder.sessionStateHolder.updateSession(
                 StoreSession(
-                    id = it.id,
                     accessToken = it.access_token,
-                    accessTokenExpiresAt = it.access_token_expires_at
+                    refreshToken = it.refresh_token
                 )
             )
         }
@@ -97,13 +96,13 @@ class AuthRepositoryImpl(
         response.data?.SignInWithGoogle?.toDomain() ?: throw Exception("No Data returned")
     }
 
-    override suspend fun refreshToken(sessionId: String) = runCatching {
-        val response = authGraphQLService.refreshToken(sessionId = sessionId)
+    override suspend fun refreshToken(refreshToken: String) = runCatching {
+        val response = authGraphQLService.refreshToken(sessionId = refreshToken)
         response.exception?.let { throw Exception(it.toString()) }
 
         response.errors?.firstOrNull()?.message?.let { throw Exception(it) }
 
 
-        response.data?.RefreshToken?.toDomain() ?: throw Exception("No Data returned")
+        response.data?.RefreshAccessToken?.toDomain() ?: throw Exception("No Data returned")
     }
 }

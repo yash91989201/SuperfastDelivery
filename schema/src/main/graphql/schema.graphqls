@@ -506,6 +506,12 @@ type ListShopsOutput {
   total: Int!
 }
 
+type LogOutOutput {
+  success: Boolean!
+
+  message: String!
+}
+
 type MedicineCategory {
   id: ID!
 
@@ -571,9 +577,9 @@ type Mutation {
 
   SignInWithGoogle(input: SignInWithGoogleInput!): SignInOutput!
 
-  RefreshToken(sessionID: ID!): SignInOutput!
+  RefreshAccessToken(refreshToken: String!): SignInOutput!
 
-  LogOut(sessionID: ID!): SignInOutput!
+  LogOut: LogOutOutput!
 
   CreateProfile(input: CreateProfileInput!): Profile!
 
@@ -811,11 +817,9 @@ type RetailItem {
 }
 
 type Session {
-  id: String!
-
   access_token: String!
 
-  access_token_expires_at: DateTime!
+  refresh_token: String!
 }
 
 type Shop {
@@ -1359,6 +1363,8 @@ directive @include (if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
 The `@oneOf` _built-in directive_ is used within the type system definition language to indicate an Input Object is a OneOf Input Object.
 """
 directive @oneOf on INPUT_OBJECT
+
+directive @requireAuthRole (roles: [AuthRole!]!) on FIELD_DEFINITION
 
 """
 The @skip directive may be provided for fields, fragment spreads, and inline fragments, and allows for conditional exclusion during execution as described by the if argument.

@@ -1,6 +1,6 @@
 package com.example.auth.data.mappers
 
-import com.example.schema.RefreshTokenMutation
+import com.example.schema.RefreshAccessTokenMutation
 import com.example.schema.SignInWithEmailMutation
 import com.example.schema.SignInWithGoogleMutation
 import com.example.schema.SignInWithPhoneMutation
@@ -36,7 +36,7 @@ fun SignInWithGoogleMutation.Profile.toDomain() = DomainProfile(
     authId = this.auth_id
 )
 
-fun RefreshTokenMutation.Profile.toDomain() = DomainProfile(
+fun RefreshAccessTokenMutation.Profile.toDomain() = DomainProfile(
     id = this.id,
     name = this.name,
     imageUrl = this.image_url,

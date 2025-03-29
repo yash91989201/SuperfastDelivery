@@ -2,7 +2,6 @@ package com.example.auth.data.data_store
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.core.app_state.data_store.SessionDataStore
@@ -10,7 +9,6 @@ import com.example.core.app_state.models.Session
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.time.Instant
 import javax.inject.Inject
 
 private const val SESSION_DATASTORE = "session"
@@ -24,33 +22,28 @@ class SessionDataStoreImpl @Inject constructor(
     private val dataStore = context.sessionDataStore
 
     companion object {
-        private val SESSION_ID = stringPreferencesKey("session_id")
         private val ACCESS_TOKEN = stringPreferencesKey("access_token")
-        private val ACCESS_TOKEN_EXPIRES_AT = longPreferencesKey("access_token_expires_at")
+        private val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
     }
 
     override suspend fun saveSession(
-        sessionId: String,
+        refreshToken: String,
         accessToken: String,
-        accessTokenExpiresAt: Instant,
     ) {
         dataStore.edit { prefs ->
             prefs[ACCESS_TOKEN] = accessToken
-            prefs[ACCESS_TOKEN_EXPIRES_AT] = accessTokenExpiresAt.epochSecond
-            prefs[SESSION_ID] = sessionId
+            prefs[REFRESH_TOKEN] = refreshToken
         }
     }
 
     override fun getSession(): Flow<Session?> = dataStore.data.map { prefs ->
         val accessToken = prefs[ACCESS_TOKEN]
-        val accessTokenExpiresAt = prefs[ACCESS_TOKEN_EXPIRES_AT]
-        val sessionId = prefs[SESSION_ID]
+        val refreshToken = prefs[REFRESH_TOKEN]
 
-        if (accessToken != null && accessTokenExpiresAt != null && sessionId != null)
+        if (accessToken != null && refreshToken != null)
             Session(
                 accessToken = accessToken,
-                accessTokenExpiresAt = Instant.ofEpochSecond(accessTokenExpiresAt),
-                id = sessionId
+                refreshToken = refreshToken
             )
         else null
     }

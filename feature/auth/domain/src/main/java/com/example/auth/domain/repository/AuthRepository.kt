@@ -17,5 +17,5 @@ interface AuthRepository {
     ): Result<SignInResponse>
 
     suspend fun signInWithGoogle(idToken: String, authRole: AuthRole): Result<SignInResponse>
-    suspend fun refreshToken(sessionId: String): Result<SignInResponse>
+    suspend fun refreshToken(refreshToken: String): Result<SignInResponse>
 }

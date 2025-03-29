@@ -8,9 +8,8 @@ mutation SignInWithEmail( $input: SignInWithEmailInput!){
             auth_role
         }
         session{
-            id
             access_token
-            access_token_expires_at
+            refresh_token
         }
         profile {
             id
@@ -36,9 +35,8 @@ mutation SignInWithPhone( $input: SignInWithPhoneInput!){
             auth_role
         }
         session{
-            id
             access_token
-            access_token_expires_at
+            refresh_token
         }
         profile {
             id
@@ -66,9 +64,8 @@ mutation SignInWithGoogle( $input: SignInWithGoogleInput!){
             auth_role
         }
         session{
-            id
             access_token
-            access_token_expires_at
+            refresh_token
         }
         profile {
             id
@@ -82,8 +79,8 @@ mutation SignInWithGoogle( $input: SignInWithGoogleInput!){
     }
 }
 
-mutation RefreshToken( $sessionId: ID!){
-    RefreshToken(sessionID: $sessionId){
+mutation RefreshAccessToken( $refreshToken: String!){
+    RefreshAccessToken(refreshToken: $refreshToken){
         auth {
             id
             email
@@ -92,9 +89,8 @@ mutation RefreshToken( $sessionId: ID!){
             auth_role
         }
         session{
-            id
             access_token
-            access_token_expires_at
+            refresh_token
         }
         profile {
             id

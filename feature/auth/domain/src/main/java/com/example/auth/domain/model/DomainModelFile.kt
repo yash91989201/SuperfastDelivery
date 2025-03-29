@@ -1,6 +1,5 @@
 package com.example.auth.domain.model
 
-import java.time.Instant
 import java.time.LocalDate
 
 enum class AuthRole {
@@ -20,9 +19,8 @@ data class Auth(
 )
 
 data class Session(
-    val id: String,
     val accessToken: String,
-    val accessTokenExpiresAt: Instant?
+    val refreshToken: String,
 )
 
 data class Profile(

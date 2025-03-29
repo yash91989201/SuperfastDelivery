@@ -1,7 +1,7 @@
 package com.example.auth.data.mappers
 
 import com.example.auth.domain.model.Auth
-import com.example.schema.RefreshTokenMutation
+import com.example.schema.RefreshAccessTokenMutation
 import com.example.schema.SignInWithEmailMutation
 import com.example.schema.SignInWithGoogleMutation
 import com.example.schema.SignInWithPhoneMutation
@@ -32,7 +32,7 @@ fun SignInWithGoogleMutation.Auth.toDomain() = Auth(
     authRole = this.auth_role.toDomain()
 )
 
-fun RefreshTokenMutation.Auth.toDomain() = Auth(
+fun RefreshAccessTokenMutation.Auth.toDomain() = Auth(
     id = this.id,
     email = this.email,
     emailVerified = this.email_verified,
