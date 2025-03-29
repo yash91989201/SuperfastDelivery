@@ -59,4 +59,8 @@ dependencies {
 
     // Collect as State (For interaction states)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+
+    // Unit Testing and Instrumentation Testing
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
 }

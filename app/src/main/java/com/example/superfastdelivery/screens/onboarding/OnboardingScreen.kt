@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.core.ui.theme.AppTheme
 import kotlinx.coroutines.launch
+import androidx.core.content.edit
 
 
 @Composable
@@ -146,7 +147,7 @@ fun OnboardingScreen(
 
 private fun setOnboardingFinished(context: Context) {
     val sharedPreferences = context.getSharedPreferences("onboarding", Context.MODE_PRIVATE)
-    val editor = sharedPreferences.edit()
-    editor.putBoolean("finished", true)
-    editor.apply()
+    sharedPreferences.edit() {
+        putBoolean("finished", true)
+    }
 }
