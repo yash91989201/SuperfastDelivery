@@ -17,9 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.common.ui.theme.AppTheme
 import com.example.search.ui.components.home.BrowseCategories
@@ -111,16 +109,5 @@ fun HomeScreen(
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun HomeScreenPreview() {
-    AppTheme {
-        HomeScreen(
-            modifier = Modifier,
-            viewModel = hiltViewModel<HomeViewModel>(),
-        )
     }
 }
