@@ -39,6 +39,8 @@ android {
 dependencies {
     // module
     implementation(projects.core.navigation)
+    implementation(projects.core.ui)
+    implementation(projects.core.utils)
     implementation(projects.common)
     implementation(projects.feature.search.domain)
     implementation(projects.feature.account.domain)

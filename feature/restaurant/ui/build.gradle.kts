@@ -40,6 +40,7 @@ android {
 dependencies {
     // module
     implementation(projects.core.navigation)
+    implementation(projects.core.ui)
     implementation(projects.common)
     // hilt
     implementation(libs.hilt.android)

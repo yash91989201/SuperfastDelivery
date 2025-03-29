@@ -36,7 +36,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.auth.ui.components.otp_field.OtpAction
 import com.example.auth.ui.components.otp_field.OtpField
 import com.example.auth.ui.components.otp_field.OtpViewModel
-import com.example.common.ui.theme.AppTheme
+import com.example.core.ui.theme.AppTheme
 
 @Composable
 fun VerifyPhoneScreen(

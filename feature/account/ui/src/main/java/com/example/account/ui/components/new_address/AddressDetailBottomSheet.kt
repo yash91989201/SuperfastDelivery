@@ -29,10 +29,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.account.domain.model.AddressAlias
 import com.example.account.ui.screens.new_address.NewAddress
 import com.example.account.ui.screens.new_address.NewAddressViewModel
-import com.example.common.ui.components.DropdownInput
-import com.example.common.ui.components.RoundedCheckbox
-import com.example.common.ui.components.TextInput
-import com.example.common.ui.theme.AppTheme
+import com.example.core.ui.components.DropdownInput
+import com.example.core.ui.components.RoundedCheckbox
+import com.example.core.ui.components.TextInput
+import com.example.core.ui.theme.AppTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)

@@ -28,7 +28,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.composables.icons.lucide.ImageOff
 import com.composables.icons.lucide.Lucide
-import com.example.common.ui.theme.AppTheme
+import com.example.core.ui.theme.AppTheme
 import com.example.search.domain.model.Shop
 import com.example.search.domain.model.ShopStatus
 

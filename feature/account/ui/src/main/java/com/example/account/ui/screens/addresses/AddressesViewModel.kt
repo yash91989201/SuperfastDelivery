@@ -9,8 +9,8 @@ import com.example.account.domain.use_cases.ListDeliveryAddressesUseCase
 import com.example.account.domain.use_cases.UpdateDefaultDeliveryAddressUseCase
 import com.example.core.navigation.Navigator
 import com.example.common.state_holder.ApplicationStateHolder
-import com.example.common.utils.NetworkResult
-import com.example.common.utils.UiText
+import com.example.core.utils.NetworkResult
+import com.example.core.utils.UiText
 import com.example.core.navigation.NavigationSubGraphDest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi

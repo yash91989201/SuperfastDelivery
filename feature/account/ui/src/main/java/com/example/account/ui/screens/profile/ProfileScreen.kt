@@ -25,10 +25,10 @@ import com.example.account.domain.model.Gender
 import com.example.account.domain.model.UpdateProfileInput
 import com.example.account.ui.components.create_profile.DateSelectionField
 import com.example.account.ui.components.create_profile.ProfileImagePicker
-import com.example.common.ui.components.DropdownInput
-import com.example.common.ui.components.FullScreenLoader
-import com.example.common.ui.components.TextInput
-import com.example.common.ui.components.TopBar
+import com.example.core.ui.components.DropdownInput
+import com.example.core.ui.components.FullScreenLoader
+import com.example.core.ui.components.TextInput
+import com.example.core.ui.components.TopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

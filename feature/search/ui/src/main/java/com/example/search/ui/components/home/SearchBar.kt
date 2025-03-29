@@ -8,7 +8,7 @@ import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Filter
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Search
-import com.example.common.ui.components.TextInput
+import com.example.core.ui.components.TextInput
 
 @Composable
 fun SearchBar(query: String, onQueryChange: (String) -> Unit) {

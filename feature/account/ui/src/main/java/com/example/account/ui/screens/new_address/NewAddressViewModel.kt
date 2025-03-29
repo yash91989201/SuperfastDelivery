@@ -6,10 +6,10 @@ import com.example.account.domain.model.AddressAlias
 import com.example.account.domain.model.CreateDeliveryAddressInput
 import com.example.account.domain.use_cases.CreateDeliveryAddressUseCase
 import com.example.common.state_holder.ApplicationStateHolder
-import com.example.common.utils.AppLocationManager
-import com.example.common.utils.GeocoderHelper
-import com.example.common.utils.NetworkResult
-import com.example.common.utils.UiText
+import com.example.core.utils.AppLocationManager
+import com.example.core.utils.GeocoderHelper
+import com.example.core.utils.NetworkResult
+import com.example.core.utils.UiText
 import com.example.core.navigation.NavigationSubGraphDest
 import com.example.core.navigation.Navigator
 import com.google.android.gms.maps.model.LatLng

@@ -2,7 +2,7 @@ package com.example.account.domain.use_cases
 
 import com.example.account.domain.model.DefaultDeliveryAddress
 import com.example.account.domain.repository.AccountRepository
-import com.example.common.utils.NetworkResult
+import com.example.core.utils.NetworkResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn

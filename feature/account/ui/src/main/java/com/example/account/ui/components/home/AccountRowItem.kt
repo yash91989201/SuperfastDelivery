@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.ChevronRight
 import com.composables.icons.lucide.Lucide
-import com.example.common.ui.theme.AppTheme
+import com.example.core.ui.theme.AppTheme
 
 @Composable
 fun AccountRowItem(

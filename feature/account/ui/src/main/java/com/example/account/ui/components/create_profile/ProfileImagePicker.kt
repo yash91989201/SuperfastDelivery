@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.example.common.ui.theme.AppTheme
+import com.example.core.ui.theme.AppTheme
 
 @Composable
 fun ProfileImagePicker(

@@ -10,7 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.common.state_holder.ApplicationStateHolder
-import com.example.common.ui.theme.AppTheme
+import com.example.core.ui.theme.AppTheme
 import com.example.core.navigation.Navigator
 import com.example.superfastdelivery.navigation.AppNavigationRoot
 import com.example.superfastdelivery.navigation.NavigationRoutes

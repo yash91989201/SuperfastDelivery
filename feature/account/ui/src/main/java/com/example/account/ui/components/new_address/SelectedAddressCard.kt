@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.MapPinned
-import com.example.common.ui.theme.AppTheme
+import com.example.core.ui.theme.AppTheme
 
 @Composable
 fun SelectedAddressCard(address: String?, onChange: () -> Unit) {

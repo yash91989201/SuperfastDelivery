@@ -1,7 +1,7 @@
 package com.example.account.domain.use_cases
 
 import com.example.account.domain.repository.AccountRepository
-import com.example.common.utils.NetworkResult
+import com.example.core.utils.NetworkResult
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 

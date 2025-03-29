@@ -1,6 +1,6 @@
 package com.example.search.domain.use_cases
 
-import com.example.common.utils.NetworkResult
+import com.example.core.utils.NetworkResult
 import com.example.search.domain.model.ListShopsInput
 import com.example.search.domain.model.Shop
 import com.example.search.domain.repository.SearchRepository

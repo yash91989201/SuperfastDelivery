@@ -23,7 +23,7 @@ import com.composables.icons.lucide.ChevronDown
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.UserRound
 import com.example.account.domain.model.DefaultDeliveryAddress
-import com.example.common.ui.theme.AppTheme
+import com.example.core.ui.theme.AppTheme
 
 @Composable
 fun Header(

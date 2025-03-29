@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.common.ui.components.TopBar
+import com.example.core.ui.components.TopBar
 
 @Composable
 fun TermsOfServiceScreen(

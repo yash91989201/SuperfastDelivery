@@ -9,8 +9,8 @@ import com.example.account.domain.use_cases.CreateProfileUseCase
 import com.example.common.models.Auth
 import com.example.core.navigation.Navigator
 import com.example.common.state_holder.ApplicationStateHolder
-import com.example.common.utils.NetworkResult
-import com.example.common.utils.UiText
+import com.example.core.utils.NetworkResult
+import com.example.core.utils.UiText
 import com.example.core.navigation.NavigationSubGraphDest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

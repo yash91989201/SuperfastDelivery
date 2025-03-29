@@ -23,9 +23,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.account.ui.components.new_address.AddressDetailBottomSheet
 import com.example.account.ui.components.new_address.GoogleMapView
 import com.example.account.ui.components.new_address.SelectedAddressCard
-import com.example.common.ui.components.FullScreenLoader
-import com.example.common.ui.components.TopBar
-import com.example.common.ui.theme.AppTheme
+import com.example.core.ui.components.FullScreenLoader
+import com.example.core.ui.components.TopBar
+import com.example.core.ui.theme.AppTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import kotlinx.coroutines.launch

@@ -34,7 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
-import com.example.common.ui.theme.AppTheme
+import com.example.core.ui.theme.AppTheme
 import com.example.search.domain.model.DeliverableCategory
 import com.example.search.ui.R
 import kotlin.math.absoluteValue

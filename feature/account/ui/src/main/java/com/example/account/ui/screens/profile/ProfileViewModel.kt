@@ -8,8 +8,8 @@ import com.example.account.domain.model.UpdateProfileInput
 import com.example.account.domain.use_cases.UpdateProfileUseCase
 import com.example.common.models.Auth
 import com.example.common.state_holder.ApplicationStateHolder
-import com.example.common.utils.NetworkResult
-import com.example.common.utils.UiText
+import com.example.core.utils.NetworkResult
+import com.example.core.utils.UiText
 import com.example.core.navigation.NavigationSubGraphDest
 import com.example.core.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel

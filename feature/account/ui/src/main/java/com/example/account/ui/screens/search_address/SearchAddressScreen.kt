@@ -25,9 +25,9 @@ import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Search
 import com.example.account.ui.components.search_address.AddressCard
 import com.example.account.ui.components.search_address.AddressCardSkeleton
-import com.example.common.ui.components.TextInput
-import com.example.common.ui.components.TopBar
-import com.example.common.utils.UiText
+import com.example.core.ui.components.TextInput
+import com.example.core.ui.components.TopBar
+import com.example.core.utils.UiText
 
 @Composable
 fun SearchAddressScreen(

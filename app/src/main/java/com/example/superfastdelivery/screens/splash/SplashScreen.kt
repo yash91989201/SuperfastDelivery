@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.common.ui.theme.AppTheme
+import com.example.core.ui.theme.AppTheme
 import com.example.core.navigation.NavigationSubGraph
 import com.example.superfastdelivery.R
 import kotlinx.coroutines.Dispatchers

@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.account.domain.model.DefaultDeliveryAddress
 import com.example.account.domain.use_cases.GetDefaultDeliveryAddressUseCase
 import com.example.common.state_holder.ApplicationStateHolder
-import com.example.common.utils.NetworkResult
-import com.example.common.utils.UiText
+import com.example.core.utils.NetworkResult
+import com.example.core.utils.UiText
 import com.example.core.navigation.NavigationSubGraphDest
 import com.example.core.navigation.Navigator
 import com.example.search.domain.model.ListShopsInput

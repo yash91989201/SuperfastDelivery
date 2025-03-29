@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.common.ui.theme.AppTheme
+import com.example.core.ui.theme.AppTheme
 import com.example.search.ui.components.home.BrowseCategories
 import com.example.search.ui.components.home.Header
 import com.example.search.ui.components.home.HeaderSkeleton

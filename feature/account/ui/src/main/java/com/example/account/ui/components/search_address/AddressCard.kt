@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.ArrowRight
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.MapPin
-import com.example.common.ui.theme.AppTheme
+import com.example.core.ui.theme.AppTheme
 import com.google.android.libraries.places.api.model.AutocompletePrediction
 
 @Composable

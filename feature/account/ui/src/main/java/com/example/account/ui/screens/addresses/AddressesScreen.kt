@@ -27,9 +27,9 @@ import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Plus
 import com.example.account.ui.components.addresses.AddressCard
 import com.example.account.ui.components.addresses.AddressCardSkeleton
-import com.example.common.ui.components.TopBar
-import com.example.common.ui.theme.AppTheme
-import com.example.common.utils.UiText
+import com.example.core.ui.components.TopBar
+import com.example.core.ui.theme.AppTheme
+import com.example.core.utils.UiText
 
 @Composable
 fun AddressesScreen(

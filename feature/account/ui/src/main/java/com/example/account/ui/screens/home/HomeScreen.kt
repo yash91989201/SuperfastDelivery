@@ -41,8 +41,8 @@ import com.composables.icons.lucide.Settings2
 import com.composables.icons.lucide.TicketPercent
 import com.example.account.ui.components.home.AccountRowItem
 import com.example.account.ui.components.home.AccountToggleItem
-import com.example.common.ui.components.TopBar
-import com.example.common.ui.theme.AppTheme
+import com.example.core.ui.components.TopBar
+import com.example.core.ui.theme.AppTheme
 
 @Composable
 fun HomeScreen(

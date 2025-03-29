@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Layers
 import com.composables.icons.lucide.LocateFixed
 import com.composables.icons.lucide.Lucide
-import com.example.common.ui.theme.AppTheme
+import com.example.core.ui.theme.AppTheme
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng

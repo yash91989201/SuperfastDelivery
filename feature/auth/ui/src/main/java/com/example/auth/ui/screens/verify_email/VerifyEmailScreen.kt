@@ -43,8 +43,8 @@ import com.example.auth.ui.components.otp_field.OTP_LENGTH
 import com.example.auth.ui.components.otp_field.OtpAction
 import com.example.auth.ui.components.otp_field.OtpField
 import com.example.auth.ui.components.otp_field.OtpViewModel
-import com.example.common.ui.theme.AppTheme
-import com.example.common.utils.UiText
+import com.example.core.ui.theme.AppTheme
+import com.example.core.utils.UiText
 
 @Composable
 fun VerifyEmailScreen(

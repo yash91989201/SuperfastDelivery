@@ -3,7 +3,7 @@ package com.example.auth.domain.use_cases
 import com.example.auth.domain.model.AuthRole
 import com.example.auth.domain.model.SignInResponse
 import com.example.auth.domain.repository.AuthRepository
-import com.example.common.utils.NetworkResult
+import com.example.core.utils.NetworkResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn

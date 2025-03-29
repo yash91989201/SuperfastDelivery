@@ -54,6 +54,8 @@ dependencies {
     // modules
     implementation(projects.common)
     implementation(projects.core.navigation)
+    implementation(projects.core.ui)
+    implementation(projects.core.di)
     // auth feature
     implementation(projects.feature.auth.data)
     implementation(projects.feature.auth.domain)

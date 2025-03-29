@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.ArrowRight
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.MapPin
-import com.example.common.ui.shimmerEffect
-import com.example.common.ui.theme.AppTheme
+import com.example.core.ui.shimmerEffect
+import com.example.core.ui.theme.AppTheme
 
 @Composable
 fun AddressCardSkeleton(
