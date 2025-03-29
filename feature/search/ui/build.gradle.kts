@@ -37,29 +37,36 @@ android {
 }
 
 dependencies {
-    // module
+    // Modules - Core components and feature-specific modules
     implementation(projects.core.navigation)
     implementation(projects.core.ui)
     implementation(projects.core.utils)
     implementation(projects.core.appState)
     implementation(projects.feature.search.domain)
     implementation(projects.feature.account.domain)
-    // hilt
+
+    // Dependency Injection
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)
-    // navigation
+
+    // Navigation
     implementation(libs.navigation.compose)
-    // serialization
+
+    // Serialization
     implementation(libs.kotlinx.serialization.json)
-    // compose foundation
+
+    // Compose Foundation
     implementation(libs.androidx.compose.foundation)
-    // lucide icons
+
+    // Icons
     implementation(libs.lucide)
-    // coil
+
+    // Image Loading
     implementation(libs.coil)
     implementation(libs.coil.compose)
-    //
+
+    // AndroidX Core Libraries
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(platform(libs.androidx.compose.bom))
@@ -67,11 +74,18 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // Unit Testing
     testImplementation(libs.junit)
+
+    // Instrumentation Testing
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+
+    // Debug Tools
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
 }

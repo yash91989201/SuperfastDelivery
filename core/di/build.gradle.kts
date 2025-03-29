@@ -36,21 +36,32 @@ android {
 }
 
 dependencies {
+    // Core Module - Common utilities and helper functions
     implementation(projects.core.utils)
+
+    // Google Play Services - Location services for geolocation
     implementation(libs.play.services.location)
-    implementation(libs.javax.inject)
-    // dagger hilt
+
+    // Dependency Injection - Dagger Hilt for DI
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-    // apollo
+    implementation(libs.javax.inject)
+
+    // Apollo - GraphQL client for network operations
     implementation(libs.apollo.runtime)
-    // logging interceptor
+
+    // Networking - Logging interceptor for network requests
     implementation(libs.logging.interceptor)
 
+    // AndroidX Core Libraries - Essential AndroidX components
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+
+    // Unit Testing
     testImplementation(libs.junit)
+
+    // Instrumentation Testing
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

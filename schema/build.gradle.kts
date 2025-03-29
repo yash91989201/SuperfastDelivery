@@ -34,14 +34,19 @@ android {
 }
 
 dependencies {
-    // apollo
+    // Apollo - GraphQL client
     implementation(libs.apollo.runtime)
     implementation(libs.apollo.adapters.core)
-    //
+
+    // AndroidX Core Libraries
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+
+    // Unit Testing
     testImplementation(libs.junit)
+
+    // Instrumentation Testing
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

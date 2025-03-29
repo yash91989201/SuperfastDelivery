@@ -36,7 +36,7 @@ android {
 }
 
 dependencies {
-    // Jetpack Compose dependencies
+    // Jetpack Compose - Core UI components and tools for building UIs
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.material3)
@@ -44,23 +44,26 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
 
-    // Compose Runtime
+    // Compose Runtime - Lifecycle and Activity support for Compose
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
 
-    // Icons - Lucide Icons
+    // Icons - Lucide Icons for modern and customizable icons
     implementation(libs.lucide)
 
-    // Compose Window for Dialogs
+    // Compose Window - Dialog and window support
     implementation(libs.androidx.appcompat)
 
-    // Keyboard interactions (Used in TextField)
+    // Keyboard Interactions - Handling keyboard input in TextFields
     implementation(libs.androidx.ui)
 
-    // Collect as State (For interaction states)
+    // State Management - Collecting state in Compose
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
-    // Unit Testing and Instrumentation Testing
+    // Unit Testing
     testImplementation(libs.junit)
+
+    // Instrumentation Testing
     androidTestImplementation(libs.androidx.junit)
+
 }

@@ -34,14 +34,21 @@ android {
 }
 
 dependencies {
-    // protobuf javalite
-    implementation(libs.protobuf.javalite)
+    // Google Play Services - Location services for geolocation and mapping features
     implementation(libs.play.services.location)
 
+    // Protocol Buffers - Lightweight data interchange format (protobuf) support
+    implementation(libs.protobuf.javalite)
+
+    // AndroidX Core Libraries - Essential AndroidX components for modern app development
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+
+    // Unit Testing - JUnit for unit testing
     testImplementation(libs.junit)
+
+    // Instrumentation Testing - Libraries for UI and instrumentation testing
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

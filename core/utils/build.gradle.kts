@@ -38,13 +38,23 @@ android {
 }
 
 dependencies {
+    // Jetpack Compose - Core UI components and tools
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
+
+    // Google Play Services - Location services for geolocation
     implementation(libs.play.services.location)
+
+    // AndroidX Core Libraries - Essential Android components
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+
+    // Unit Testing
     testImplementation(libs.junit)
+
+    // Instrumentation Testing
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 }

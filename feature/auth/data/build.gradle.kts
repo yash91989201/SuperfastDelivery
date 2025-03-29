@@ -36,27 +36,35 @@ android {
 }
 
 dependencies {
-    // modules
+    // Modules - Core components and feature-specific modules
     implementation(projects.core.appState)
     implementation(projects.schema)
     implementation(projects.feature.auth.domain)
-    // dagger hilt
+
+    // Dependency Injection - Dagger Hilt for DI
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-    // apollo
+
+    // Apollo - GraphQL client for network operations
     implementation(libs.apollo.runtime)
     implementation(libs.apollo.adapters.core)
-    // logging interceptor
+
+    // Networking - Logging interceptor for HTTP requests
     implementation(libs.logging.interceptor)
-    // datastore preferences
+
+    // Data Storage - Preferences and ProtoBuf support
     implementation(libs.androidx.datastore.preferences)
-    // protobuf javalite
     implementation(libs.protobuf.javalite)
-    //
+
+    // AndroidX Core Libraries - Essential Android components
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+
+    // Unit Testing
     testImplementation(libs.junit)
+
+    // Instrumentation Testing
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

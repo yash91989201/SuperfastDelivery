@@ -51,37 +51,46 @@ android {
 }
 
 dependencies {
-    // modules
+    // Core Modules - Core components for app architecture and utilities
     implementation(projects.core.appState)
     implementation(projects.core.navigation)
     implementation(projects.core.ui)
     implementation(projects.core.di)
-    // auth feature
+
+    // Auth Feature - Manages authentication-related functionality
     implementation(projects.feature.auth.data)
     implementation(projects.feature.auth.domain)
     implementation(projects.feature.auth.ui)
-    // account feature
+
+    // Account Feature - Handles user account and profile management
     implementation(projects.feature.account.data)
     implementation(projects.feature.account.domain)
     implementation(projects.feature.account.ui)
-    // search feature
+
+    // Search Feature - Provides search functionality across the app
     implementation(projects.feature.search.data)
     implementation(projects.feature.search.domain)
     implementation(projects.feature.search.ui)
-    // restaurant feature
+
+    // Restaurant Feature - Manages restaurant-related features and data
     implementation(projects.feature.restaurant.data)
     implementation(projects.feature.restaurant.domain)
     implementation(projects.feature.restaurant.ui)
-    // splash screen
+
+    // Splash Screen - AndroidX SplashScreen API for a smooth launch experience
     implementation(libs.androidx.core.splashscreen)
-    // hilt
+
+    // Dependency Injection (Hilt) - Provides Hilt for dependency injection
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-    // navigation
+
+    // Navigation - Manages in-app navigation using Jetpack Compose Navigation
     implementation(libs.navigation.compose)
-    // serialization
+
+    // Serialization - JSON serialization/deserialization support
     implementation(libs.kotlinx.serialization.json)
-    //
+
+    // AndroidX Core - Core libraries and Compose UI for modern Android development
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -90,11 +99,17 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // Unit Testing - JUnit for unit testing
     testImplementation(libs.junit)
+
+    // Instrumentation Testing - Libraries for Android UI and instrumentation testing
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+
+    // Debug Tools - Compose UI debugging tools for development
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

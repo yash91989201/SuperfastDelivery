@@ -60,33 +60,40 @@ android {
 }
 
 dependencies {
-    // modules
+    // Modules - Core components and feature-specific modules
     implementation(projects.core.navigation)
     implementation(projects.core.utils)
     implementation(projects.core.ui)
     implementation(projects.core.appState)
     implementation(projects.feature.account.domain)
-    // hilt
+
+    // Dependency Injection - Dagger Hilt for DI
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)
-    // navigation
+
+    // Navigation - Jetpack Compose Navigation for in-app routing
     implementation(libs.navigation.compose)
-    // serialization
+
+    // Serialization - JSON serialization/deserialization support
     implementation(libs.kotlinx.serialization.json)
-    // coil
+
+    // Image Loading - Coil for image handling in Compose
     implementation(libs.coil)
     implementation(libs.coil.compose)
-    // lucide icons
+
+    // Icons - Lucide Icons for modern and customizable icons
     implementation(libs.lucide)
-    // map related dependencies
+
+    // Maps and Location - Map and location-related dependencies
     implementation(libs.maps.compose)
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
     implementation(libs.android.maps.utils)
     implementation(libs.accompanist.permissions)
     implementation(libs.places)
-    //
+
+    // AndroidX Core Libraries - Essential Android components
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(platform(libs.androidx.compose.bom))
@@ -94,11 +101,17 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // Unit Testing
     testImplementation(libs.junit)
+
+    // Instrumentation Testing
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+
+    // Debug Tools - Compose UI debugging tools
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

@@ -35,19 +35,26 @@ android {
 }
 
 dependencies {
-    // modules
+    // Modules - Core components
     implementation(projects.core.appState)
     implementation(projects.core.utils)
-    // javax inject
+
+    // Dependency Injection
     implementation(libs.javax.inject)
-    // dagger hilt
+
+    // Dagger Hilt - Dependency Injection framework
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-    //
+
+    // AndroidX Core Libraries
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+
+    // Unit Testing
     testImplementation(libs.junit)
+
+    // Instrumentation Testing
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
