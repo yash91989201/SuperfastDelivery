@@ -73,7 +73,7 @@ apollo {
         )
 
         introspection {
-            endpointUrl.set("http://192.168.1.3:8081/graphql")
+            endpointUrl.set("http://192.168.1.8:8081/graphql")
             schemaFile.set(file("src/main/graphql/schema.graphqls"))
         }
     }

@@ -1,8 +1,7 @@
 package com.example.account.ui.screens.terms_of_service
 
-
 import androidx.lifecycle.ViewModel
-import com.example.common.navigation.Navigator
+import com.example.core.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

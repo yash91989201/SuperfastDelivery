@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.example.common.ui.theme.AppTheme
 import kotlinx.coroutines.launch
 
+
 @Composable
 fun OnboardingScreen(
     onSignInClick: () -> Unit,

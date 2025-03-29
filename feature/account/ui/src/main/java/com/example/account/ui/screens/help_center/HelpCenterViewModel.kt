@@ -1,9 +1,9 @@
 package com.example.account.ui.screens.help_center
 
 import androidx.lifecycle.ViewModel
-import com.example.common.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import com.example.core.navigation.Navigator
 
 @HiltViewModel
 class HelpCenterViewModel @Inject constructor(

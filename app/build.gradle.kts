@@ -53,6 +53,7 @@ android {
 dependencies {
     // modules
     implementation(projects.common)
+    implementation(projects.core.navigation)
     // auth feature
     implementation(projects.feature.auth.data)
     implementation(projects.feature.auth.domain)

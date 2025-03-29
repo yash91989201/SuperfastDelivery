@@ -12,9 +12,9 @@ import com.example.auth.ui.screens.sign_in.SignInScreen
 import com.example.auth.ui.screens.verify_email.VerifyEmailScreen
 import com.example.auth.ui.screens.verify_email.VerifyEmailViewModel
 import com.example.auth.ui.screens.verify_phone.VerifyPhoneScreen
-import com.example.common.navigation.Feature
-import com.example.common.navigation.NavigationSubGraph
-import com.example.common.navigation.NavigationSubGraphDest
+import com.example.core.navigation.Feature
+import com.example.core.navigation.NavigationSubGraph
+import com.example.core.navigation.NavigationSubGraphDest
 
 interface AuthFeature : Feature
 

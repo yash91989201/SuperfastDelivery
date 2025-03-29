@@ -1,4 +1,4 @@
-package com.example.common.navigation
+package com.example.core.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController

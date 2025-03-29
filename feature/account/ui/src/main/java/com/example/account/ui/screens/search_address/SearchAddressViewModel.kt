@@ -2,9 +2,9 @@ package com.example.account.ui.screens.search_address
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.common.navigation.NavigationSubGraphDest
-import com.example.common.navigation.Navigator
 import com.example.common.utils.UiText
+import com.example.core.navigation.NavigationSubGraphDest
+import com.example.core.navigation.Navigator
 import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient

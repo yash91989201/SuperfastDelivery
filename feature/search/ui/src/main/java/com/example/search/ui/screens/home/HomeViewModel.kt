@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.account.domain.model.DefaultDeliveryAddress
 import com.example.account.domain.use_cases.GetDefaultDeliveryAddressUseCase
-import com.example.common.navigation.NavigationSubGraphDest
-import com.example.common.navigation.Navigator
 import com.example.common.state_holder.ApplicationStateHolder
 import com.example.common.utils.NetworkResult
 import com.example.common.utils.UiText
+import com.example.core.navigation.NavigationSubGraphDest
+import com.example.core.navigation.Navigator
 import com.example.search.domain.model.ListShopsInput
 import com.example.search.domain.model.Shop
 import com.example.search.domain.model.ShopType

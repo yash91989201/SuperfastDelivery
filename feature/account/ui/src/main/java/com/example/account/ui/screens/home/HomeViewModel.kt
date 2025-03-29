@@ -1,9 +1,9 @@
 package com.example.account.ui.screens.home
 
 import androidx.lifecycle.ViewModel
-import com.example.common.navigation.NavigationSubGraphDest
-import com.example.common.navigation.Navigator
 import com.example.common.state_holder.ApplicationStateHolder
+import com.example.core.navigation.NavigationSubGraphDest
+import com.example.core.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

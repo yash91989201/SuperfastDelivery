@@ -5,13 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.account.domain.model.AddressAlias
 import com.example.account.domain.model.CreateDeliveryAddressInput
 import com.example.account.domain.use_cases.CreateDeliveryAddressUseCase
-import com.example.common.navigation.NavigationSubGraphDest
-import com.example.common.navigation.Navigator
 import com.example.common.state_holder.ApplicationStateHolder
 import com.example.common.utils.AppLocationManager
 import com.example.common.utils.GeocoderHelper
 import com.example.common.utils.NetworkResult
 import com.example.common.utils.UiText
+import com.example.core.navigation.NavigationSubGraphDest
+import com.example.core.navigation.Navigator
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest

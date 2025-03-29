@@ -5,11 +5,12 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.example.common.navigation.Feature
-import com.example.common.navigation.NavigationSubGraph
-import com.example.common.navigation.NavigationSubGraphDest
 import com.example.search.ui.screens.home.HomeScreen
 import com.example.search.ui.screens.home.HomeViewModel
+import com.example.core.navigation.Feature
+import com.example.core.navigation.NavigationSubGraph
+import com.example.core.navigation.NavigationSubGraphDest
+import com.example.core.navigation.Navigator
 
 interface SearchFeature : Feature
 

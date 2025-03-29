@@ -7,11 +7,11 @@ import com.example.account.domain.model.ListDeliveryAddress
 import com.example.account.domain.use_cases.DeleteDeliveryAddressUseCase
 import com.example.account.domain.use_cases.ListDeliveryAddressesUseCase
 import com.example.account.domain.use_cases.UpdateDefaultDeliveryAddressUseCase
-import com.example.common.navigation.NavigationSubGraphDest
-import com.example.common.navigation.Navigator
+import com.example.core.navigation.Navigator
 import com.example.common.state_holder.ApplicationStateHolder
 import com.example.common.utils.NetworkResult
 import com.example.common.utils.UiText
+import com.example.core.navigation.NavigationSubGraphDest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow

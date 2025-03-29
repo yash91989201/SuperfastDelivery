@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.auth.domain.model.AuthRole
 import com.example.auth.domain.model.SignInResponse
 import com.example.auth.domain.use_cases.SignInWithEmailUseCase
-import com.example.common.navigation.NavigationSubGraphDest
-import com.example.common.navigation.Navigator
 import com.example.common.utils.NetworkResult
 import com.example.common.utils.UiText
+import com.example.core.navigation.NavigationSubGraphDest
+import com.example.core.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

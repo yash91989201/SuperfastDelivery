@@ -38,6 +38,7 @@ android {
 
 dependencies {
     // module
+    implementation(projects.core.navigation)
     implementation(projects.common)
     implementation(projects.feature.auth.domain)
     // hilt

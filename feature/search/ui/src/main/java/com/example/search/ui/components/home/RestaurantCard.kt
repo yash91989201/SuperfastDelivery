@@ -47,7 +47,7 @@ fun RestaurantCard(restaurant: Shop) {
             if (restaurant.image.isNotEmpty()) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(restaurant.image.first().imageUrl.replace("localhost", "192.168.1.3"))
+                        .data(restaurant.image.first().imageUrl.replace("localhost", "192.168.1.8"))
                         .build(),
                     contentScale = ContentScale.Crop,
                     modifier = Modifier

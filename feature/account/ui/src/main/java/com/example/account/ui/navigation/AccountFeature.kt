@@ -31,9 +31,9 @@ import com.example.account.ui.screens.search_address.SearchAddressScreen
 import com.example.account.ui.screens.search_address.SearchAddressViewModel
 import com.example.account.ui.screens.terms_of_service.TermsOfServiceScreen
 import com.example.account.ui.screens.terms_of_service.TermsOfServiceViewModel
-import com.example.common.navigation.Feature
-import com.example.common.navigation.NavigationSubGraph
-import com.example.common.navigation.NavigationSubGraphDest
+import com.example.core.navigation.Feature
+import com.example.core.navigation.NavigationSubGraph
+import com.example.core.navigation.NavigationSubGraphDest
 
 interface AccountFeature : Feature
 
