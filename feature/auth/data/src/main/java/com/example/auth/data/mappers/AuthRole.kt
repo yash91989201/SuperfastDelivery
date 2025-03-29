@@ -1,8 +1,8 @@
 package com.example.auth.data.mappers
 
 import com.example.auth.domain.model.AuthRole as DomainAuthRole
-import com.example.common.AuthRole as ProtoAuthRole
-import com.example.common.models.AuthRole as StoreAuthRole
+import com.example.core.app_state.AuthRole as ProtoAuthRole
+import com.example.core.app_state.models.AuthRole as StoreAuthRole
 import com.example.schema.type.AuthRole as SchemaAuthRole
 
 fun ProtoAuthRole.toStore() = when (this) {

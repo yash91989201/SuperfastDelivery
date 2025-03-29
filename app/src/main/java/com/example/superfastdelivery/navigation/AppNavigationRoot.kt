@@ -7,7 +7,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.common.state_holder.ApplicationStateHolder
+import com.example.core.app_state.state_holder.ApplicationStateHolder
 import com.example.core.navigation.NavigationSubGraph
 import com.example.core.navigation.NavigationSubGraphDest
 import com.example.core.navigation.Navigator

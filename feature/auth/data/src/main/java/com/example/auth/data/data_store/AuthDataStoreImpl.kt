@@ -6,16 +6,16 @@ import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
 import com.example.auth.data.mappers.toStore
 import com.example.auth.data.mappers.toProto
-import com.example.common.Auth
-import com.example.common.data_store.AuthDataStore
+import com.example.core.app_state.Auth
+import com.example.core.app_state.data_store.AuthDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
-import com.example.common.models.Auth as StoreAuth
-import com.example.common.models.AuthRole as StoreAuthRole
+import com.example.core.app_state.models.Auth as StoreAuth
+import com.example.core.app_state.models.AuthRole as StoreAuthRole
 
 private val Context.authDataStore: DataStore<Auth> by dataStore(
     fileName = "auth.pb",

@@ -7,7 +7,7 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntime = "2.8.7"
 activityCompose = "1.10.1"
-composeBom = "2025.03.00"
+composeBom = "2025.03.01"
 daggerHilt = "2.52"
 ksp = "2.0.21-1.0.25"
 navigationCompose = "2.8.9"
@@ -22,7 +22,7 @@ apollo = "4.1.1"
 javaxInject = "1"
 loggingInterceptor = "4.12.0"
 apolloAdapter = "0.0.4"
-datastorePreferences = "1.1.3"
+datastorePreferences = "1.1.4"
 composeFoundation = "1.7.8"
 lucide = "1.0.0"
 protobufJavalite = "4.30.0"
@@ -32,7 +32,9 @@ accompanistPermissions = "0.37.2"
 playServicesLocation = "21.3.0"
 playServicesMaps = "19.1.0"
 androidMapsUtils = "3.11.1"
-places = "4.1.0"
+places = "4.2.0"
+jetbrainsKotlinJvm = "2.0.21"
+securityCrypto = "1.1.0-alpha06"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -103,6 +105,9 @@ android-maps-utils = { module = "com.google.maps.android:android-maps-utils", ve
 
 places = { module = "com.google.android.libraries.places:places", version.ref = "places" }
 
+# for encrypted data preferences
+security-crypto = { module = "androidx.security:security-crypto", version.ref="securityCrypto"}
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -114,3 +119,4 @@ jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serializati
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize" }
 apollo = { id = "com.apollographql.apollo", version.ref = "apollo" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobuf" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }

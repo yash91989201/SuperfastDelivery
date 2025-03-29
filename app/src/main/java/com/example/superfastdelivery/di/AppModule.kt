@@ -2,10 +2,10 @@ package com.example.superfastdelivery.di
 
 import com.example.account.ui.navigation.AccountFeature
 import com.example.auth.ui.navigation.AuthFeature
-import com.example.common.state_holder.ApplicationStateHolder
-import com.example.common.state_holder.AuthStateHolder
-import com.example.common.state_holder.ProfileStateHolder
-import com.example.common.state_holder.SessionStateHolder
+import com.example.core.app_state.state_holder.ApplicationStateHolder
+import com.example.core.app_state.state_holder.AuthStateHolder
+import com.example.core.app_state.state_holder.ProfileStateHolder
+import com.example.core.app_state.state_holder.SessionStateHolder
 import com.example.restaurant.ui.navigation.RestaurantFeature
 import com.example.search.ui.navigation.SearchFeature
 import com.example.superfastdelivery.ApplicationStateHolderImpl

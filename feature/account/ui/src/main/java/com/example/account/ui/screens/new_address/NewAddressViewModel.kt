@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.account.domain.model.AddressAlias
 import com.example.account.domain.model.CreateDeliveryAddressInput
 import com.example.account.domain.use_cases.CreateDeliveryAddressUseCase
-import com.example.common.state_holder.ApplicationStateHolder
+import com.example.core.app_state.state_holder.ApplicationStateHolder
 import com.example.core.utils.AppLocationManager
 import com.example.core.utils.GeocoderHelper
 import com.example.core.utils.NetworkResult

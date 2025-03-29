@@ -41,7 +41,7 @@ dependencies {
     implementation(projects.core.navigation)
     implementation(projects.core.ui)
     implementation(projects.core.utils)
-    implementation(projects.common)
+    implementation(projects.core.appState)
     implementation(projects.feature.search.domain)
     implementation(projects.feature.account.domain)
     // hilt

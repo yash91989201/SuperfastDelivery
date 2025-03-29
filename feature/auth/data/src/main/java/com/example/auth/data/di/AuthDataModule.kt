@@ -10,11 +10,11 @@ import com.example.auth.data.repository.AuthRepositoryImpl
 import com.example.auth.data.state_holder.AuthStateHolderImpl
 import com.example.auth.data.state_holder.SessionStateHolderImpl
 import com.example.auth.domain.repository.AuthRepository
-import com.example.common.data_store.AuthDataStore
-import com.example.common.data_store.SessionDataStore
-import com.example.common.state_holder.ApplicationStateHolder
-import com.example.common.state_holder.AuthStateHolder
-import com.example.common.state_holder.SessionStateHolder
+import com.example.core.app_state.data_store.AuthDataStore
+import com.example.core.app_state.data_store.SessionDataStore
+import com.example.core.app_state.state_holder.ApplicationStateHolder
+import com.example.core.app_state.state_holder.AuthStateHolder
+import com.example.core.app_state.state_holder.SessionStateHolder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

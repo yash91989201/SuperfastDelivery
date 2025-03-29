@@ -7,8 +7,8 @@ import com.example.account.domain.model.CreateDeliveryAddressInput
 import com.example.account.domain.model.CreateProfileInput
 import com.example.account.domain.model.UpdateProfileInput
 import com.example.account.domain.repository.AccountRepository
-import com.example.common.state_holder.ApplicationStateHolder
-import com.example.common.models.Profile as StoreProfile
+import com.example.core.app_state.state_holder.ApplicationStateHolder
+import com.example.core.app_state.models.Profile as StoreProfile
 
 class AccountRepositoryImpl(
     private val accountGraphQLService: AccountGraphQLService,

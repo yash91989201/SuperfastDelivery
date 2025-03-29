@@ -37,7 +37,7 @@ android {
 
 dependencies {
     // modules
-    implementation(projects.common)
+    implementation(projects.core.appState)
     implementation(projects.schema)
     implementation(projects.feature.auth.domain)
     // dagger hilt

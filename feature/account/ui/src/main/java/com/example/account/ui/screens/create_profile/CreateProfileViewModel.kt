@@ -6,9 +6,9 @@ import com.example.account.domain.model.CreateProfileInput
 import com.example.account.domain.model.Gender
 import com.example.account.domain.model.Profile
 import com.example.account.domain.use_cases.CreateProfileUseCase
-import com.example.common.models.Auth
+import com.example.core.app_state.models.Auth
 import com.example.core.navigation.Navigator
-import com.example.common.state_holder.ApplicationStateHolder
+import com.example.core.app_state.state_holder.ApplicationStateHolder
 import com.example.core.utils.NetworkResult
 import com.example.core.utils.UiText
 import com.example.core.navigation.NavigationSubGraphDest

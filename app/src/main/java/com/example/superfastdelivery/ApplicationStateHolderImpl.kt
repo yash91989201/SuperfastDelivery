@@ -1,9 +1,9 @@
 package com.example.superfastdelivery
 
-import com.example.common.state_holder.ApplicationStateHolder
-import com.example.common.state_holder.AuthStateHolder
-import com.example.common.state_holder.ProfileStateHolder
-import com.example.common.state_holder.SessionStateHolder
+import com.example.core.app_state.state_holder.ApplicationStateHolder
+import com.example.core.app_state.state_holder.AuthStateHolder
+import com.example.core.app_state.state_holder.ProfileStateHolder
+import com.example.core.app_state.state_holder.SessionStateHolder
 
 
 class ApplicationStateHolderImpl(

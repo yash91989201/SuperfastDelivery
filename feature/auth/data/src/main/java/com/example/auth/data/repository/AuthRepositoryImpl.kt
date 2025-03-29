@@ -6,10 +6,10 @@ import com.example.auth.data.mappers.toStore
 import com.example.auth.data.remote.AuthGraphQLService
 import com.example.auth.domain.model.AuthRole
 import com.example.auth.domain.repository.AuthRepository
-import com.example.common.state_holder.ApplicationStateHolder
-import com.example.common.models.Auth as StoreAuth
-import com.example.common.models.Profile as StoreProfile
-import com.example.common.models.Session as StoreSession
+import com.example.core.app_state.state_holder.ApplicationStateHolder
+import com.example.core.app_state.models.Auth as StoreAuth
+import com.example.core.app_state.models.Profile as StoreProfile
+import com.example.core.app_state.models.Session as StoreSession
 
 class AuthRepositoryImpl(
     private val authGraphQLService: AuthGraphQLService,

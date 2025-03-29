@@ -6,10 +6,10 @@ import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
 import com.example.account.data.mappers.toProto
 import com.example.account.data.mappers.toStore
-import com.example.common.Date
-import com.example.common.Profile
-import com.example.common.data_store.ProfileDataStore
-import com.example.common.models.Gender
+import com.example.core.app_state.Date
+import com.example.core.app_state.Profile
+import com.example.core.app_state.data_store.ProfileDataStore
+import com.example.core.app_state.models.Gender
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -17,7 +17,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.time.LocalDate
 import javax.inject.Inject
-import com.example.common.models.Profile as StoreProfile
+import com.example.core.app_state.models.Profile as StoreProfile
 
 private val Context.profileDataStore: DataStore<Profile> by dataStore(
     fileName = "profile.pb",

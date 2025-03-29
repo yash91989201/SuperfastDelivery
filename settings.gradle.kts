@@ -23,7 +23,6 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "SuperfastDelivery"
 include(":app")
-include(":common")
 include(":feature:auth:ui")
 include(":feature:search:ui")
 include(":feature:auth:data")
@@ -41,3 +40,4 @@ include(":core:navigation")
 include(":core:ui")
 include(":core:utils")
 include(":core:di")
+include(":core:app_state")

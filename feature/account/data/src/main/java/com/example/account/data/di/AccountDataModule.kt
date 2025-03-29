@@ -8,9 +8,9 @@ import com.example.account.data.remote.AccountGraphQLServiceImpl
 import com.example.account.data.repository.AccountRepositoryImpl
 import com.example.account.data.state_holder.ProfileStateHolderImpl
 import com.example.account.domain.repository.AccountRepository
-import com.example.common.data_store.ProfileDataStore
-import com.example.common.state_holder.ApplicationStateHolder
-import com.example.common.state_holder.ProfileStateHolder
+import com.example.core.app_state.data_store.ProfileDataStore
+import com.example.core.app_state.state_holder.ApplicationStateHolder
+import com.example.core.app_state.state_holder.ProfileStateHolder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

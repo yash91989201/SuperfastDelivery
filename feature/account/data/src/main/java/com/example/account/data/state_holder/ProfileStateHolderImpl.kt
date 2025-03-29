@@ -1,8 +1,8 @@
 package com.example.account.data.state_holder
 
-import com.example.common.data_store.ProfileDataStore
-import com.example.common.models.Profile
-import com.example.common.state_holder.ProfileStateHolder
+import com.example.core.app_state.data_store.ProfileDataStore
+import com.example.core.app_state.models.Profile
+import com.example.core.app_state.state_holder.ProfileStateHolder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

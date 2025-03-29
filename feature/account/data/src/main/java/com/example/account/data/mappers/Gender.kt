@@ -1,8 +1,8 @@
 package com.example.account.data.mappers
 
 import com.example.account.domain.model.Gender as DomainGender
-import com.example.common.Gender as ProtoGender
-import com.example.common.models.Gender as StoreGender
+import com.example.core.app_state.Gender as ProtoGender
+import com.example.core.app_state.models.Gender as StoreGender
 import com.example.schema.type.Gender as SchemaGender
 
 fun ProtoGender.toStore(): StoreGender = when (this) {

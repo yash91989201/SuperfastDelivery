@@ -41,7 +41,7 @@ dependencies {
     // module
     implementation(projects.core.navigation)
     implementation(projects.core.ui)
-    implementation(projects.common)
+    implementation(projects.core.appState)
     // hilt
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)

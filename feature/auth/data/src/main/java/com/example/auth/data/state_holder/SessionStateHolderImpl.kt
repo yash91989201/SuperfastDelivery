@@ -1,8 +1,8 @@
 package com.example.auth.data.state_holder
 
-import com.example.common.data_store.SessionDataStore
-import com.example.common.models.Session
-import com.example.common.state_holder.SessionStateHolder
+import com.example.core.app_state.data_store.SessionDataStore
+import com.example.core.app_state.models.Session
+import com.example.core.app_state.state_holder.SessionStateHolder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

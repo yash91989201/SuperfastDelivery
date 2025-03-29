@@ -1,7 +1,7 @@
 package com.example.auth.data.mappers
 
 import com.example.auth.domain.model.Gender as DomainGender
-import com.example.common.models.Gender as StoreGender
+import com.example.core.app_state.models.Gender as StoreGender
 import com.example.schema.type.Gender as SchemaGender
 
 fun SchemaGender.toStore() = when (this) {

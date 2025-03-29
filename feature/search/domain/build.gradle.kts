@@ -36,7 +36,7 @@ android {
 
 dependencies {
     // modules
-    implementation(projects.common)
+    implementation(projects.core.appState)
     implementation(projects.core.utils)
     // javax inject
     implementation(libs.javax.inject)

@@ -38,7 +38,7 @@ android {
 dependencies {
     // modules
     implementation(projects.schema)
-    implementation(projects.common)
+    implementation(projects.core.appState)
     implementation(projects.feature.restaurant.domain)
     // dagger hilt
     implementation(libs.hilt.android)

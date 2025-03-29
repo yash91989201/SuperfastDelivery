@@ -6,8 +6,8 @@ import com.example.schema.UpdateProfileMutation
 import com.example.account.domain.model.CreateProfileInput as DomainCreateProfileInput
 import com.example.account.domain.model.Profile as DomainProfile
 import com.example.account.domain.model.UpdateProfileInput as DomainUpdateProfileInput
-import com.example.common.Profile as ProtoProfile
-import com.example.common.models.Profile as StoreProfile
+import com.example.core.app_state.Profile as ProtoProfile
+import com.example.core.app_state.models.Profile as StoreProfile
 import com.example.schema.type.CreateProfileInput as SchemaCreateProfileInput
 import com.example.schema.type.UpdateProfileInput as SchemaUpdateProfileInput
 

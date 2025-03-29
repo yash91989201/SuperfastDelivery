@@ -64,7 +64,7 @@ dependencies {
     implementation(projects.core.navigation)
     implementation(projects.core.utils)
     implementation(projects.core.ui)
-    implementation(projects.common)
+    implementation(projects.core.appState)
     implementation(projects.feature.account.domain)
     // hilt
     implementation(libs.hilt.android)
