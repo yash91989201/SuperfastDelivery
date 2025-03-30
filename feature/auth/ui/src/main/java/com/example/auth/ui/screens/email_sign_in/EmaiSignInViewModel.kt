@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.auth.domain.model.AuthRole
 import com.example.auth.domain.model.SignInResponse
 import com.example.auth.domain.use_cases.SignInWithEmailUseCase
-import com.example.core.utils.NetworkResult
-import com.example.core.utils.UiText
 import com.example.core.navigation.NavigationSubGraphDest
 import com.example.core.navigation.Navigator
+import com.example.core.utils.NetworkResult
+import com.example.core.utils.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -53,28 +53,26 @@ class EmailSignInViewModel @Inject constructor(
     private fun signInWithEmail(email: String) {
         signInWithEmailUseCase(email, AuthRole.CUSTOMER).onEach { result ->
             when (result) {
+                is NetworkResult.Loading -> {
+                    _uiState.update { it.copy(isLoading = true) }
+                }
+
+                is NetworkResult.Success -> {
+                    _uiState.update { it.copy(isLoading = false) }
+
+                    result.data?.let {
+                        if (it.verityOtp) {
+                            onEvent(EmailSignIn.Event.GoToVerifyEmailScreen)
+                        }
+                    }
+                }
+
                 is NetworkResult.Error -> {
                     _uiState.update {
                         it.copy(
                             isLoading = false,
                             error = UiText.RemoteString(result.message ?: "Unknown Error")
                         )
-                    }
-                }
-
-                is NetworkResult.Loading -> {
-                    _uiState.update {
-                        it.copy(
-                            isLoading = true
-                        )
-                    }
-                }
-
-                is NetworkResult.Success -> {
-                    result.data?.let {
-                        if (it.verityOtp) {
-                            onEvent(EmailSignIn.Event.GoToVerifyEmailScreen)
-                        }
                     }
                 }
             }

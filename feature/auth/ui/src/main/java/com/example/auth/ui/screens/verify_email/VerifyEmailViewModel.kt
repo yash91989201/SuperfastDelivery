@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.auth.domain.model.AuthRole
 import com.example.auth.domain.model.SignInResponse
 import com.example.auth.domain.use_cases.SignInWithEmailUseCase
-import com.example.core.utils.NetworkResult
-import com.example.core.utils.UiText
 import com.example.core.navigation.NavigationSubGraphDest
 import com.example.core.navigation.Navigator
+import com.example.core.utils.NetworkResult
+import com.example.core.utils.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -56,6 +56,21 @@ class VerifyEmailViewModel @Inject constructor(
         viewModelScope.launch {
             signInWithEmailUseCase(email, AuthRole.CUSTOMER, otp).collect { result ->
                 when (result) {
+                    is NetworkResult.Loading -> {
+                        _uiState.update { it.copy(isVerifyingOtp = true) }
+                    }
+
+                    is NetworkResult.Success -> {
+                        _uiState.update { it.copy(isVerifyingOtp = false) }
+
+                        result.data?.let { signInRes ->
+                            if (signInRes.createProfile) {
+                                onEvent(VerifyEmail.Event.GoToAccountCreateProfileScreen)
+                            }
+                            onEvent(VerifyEmail.Event.GoToSearchHomeScreen)
+                        }
+                    }
+
                     is NetworkResult.Error -> {
                         _uiState.update {
                             it.copy(
@@ -64,25 +79,6 @@ class VerifyEmailViewModel @Inject constructor(
                                     result.message ?: "Unknown Error"
                                 )
                             )
-                        }
-                    }
-
-                    is NetworkResult.Loading -> {
-                        _uiState.update {
-                            it.copy(isVerifyingOtp = true)
-                        }
-                    }
-
-                    is NetworkResult.Success -> {
-                        _uiState.update {
-                            it.copy(isVerifyingOtp = false)
-                        }
-
-                        result.data?.let { signInRes ->
-                            if (signInRes.createProfile) {
-                                onEvent(VerifyEmail.Event.GoToAccountCreateProfileScreen)
-                            }
-                            onEvent(VerifyEmail.Event.GoToSearchHomeScreen)
                         }
                     }
                 }

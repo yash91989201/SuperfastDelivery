@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -43,15 +42,12 @@ fun FullScreenLoader(text: String) {
                 ) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(32.dp),
-                        color = AppTheme.colorScheme.primary,
-                        strokeWidth = 2.5.dp
+                        strokeWidth = 3.dp
                     )
 
                     Text(
                         text = text,
-                        style = AppTheme.typography.labelLarge,
-                        color = AppTheme.colorScheme.onSurface,
-                        fontWeight = FontWeight.SemiBold
+                        style = AppTheme.typography.titleMedium,
                     )
                 }
             }
