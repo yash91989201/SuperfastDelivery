@@ -32,7 +32,6 @@ fun SplashScreen(
     navHost: NavHostController,
     isLoggedIn: Boolean,
 ) {
-
     LaunchedEffect(isLoggedIn) {
         delay(2000)
 

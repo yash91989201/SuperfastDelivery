@@ -2,10 +2,4 @@
 <resources>
 
     <style name="Theme.SuperfastDelivery" parent="android:Theme.Material.Light.NoActionBar" />
-    <style name="Theme.AppSplashScreen" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="windowSplashScreenBackground">#fe724c</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_image</item>
-        <item name="windowSplashScreenAnimationDuration">800</item>
-        <item name="postSplashScreenTheme">@style/Theme.SuperfastDelivery</item>
-    </style>
 </resources>
