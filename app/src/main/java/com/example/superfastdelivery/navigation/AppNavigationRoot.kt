@@ -11,7 +11,6 @@ import com.example.core.app_state.state_holder.ApplicationStateHolder
 import com.example.core.navigation.NavigationSubGraph
 import com.example.core.navigation.NavigationSubGraphDest
 import com.example.core.navigation.Navigator
-import com.example.superfastdelivery.screens.onboarding.OnboardingScreen
 import com.example.superfastdelivery.screens.splash.SplashScreen
 import kotlinx.coroutines.flow.collectLatest
 
@@ -49,15 +48,6 @@ fun AppNavigationRoot(
 
         composable<NavigationSubGraph.Splash> {
             SplashScreen(isLoggedIn = isLoggedIn, navHost = navHost)
-        }
-
-        composable<NavigationSubGraph.Onboarding> {
-            OnboardingScreen(
-                onSignInClick = {
-                    navHost.popBackStack()
-                    navHost.navigate(NavigationSubGraphDest.AuthSignIn)
-                }
-            )
         }
 
         navigationRoutes.authFeature.registerGraph(

@@ -7,9 +7,6 @@ sealed class NavigationSubGraph {
     data object Splash : NavigationSubGraph()
 
     @Serializable
-    data object Onboarding : NavigationSubGraph()
-
-    @Serializable
     data object Auth : NavigationSubGraph()
 
     @Serializable

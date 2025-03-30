@@ -1,6 +1,5 @@
 package com.example.superfastdelivery.screens.splash
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -24,32 +22,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.core.ui.theme.AppTheme
 import com.example.core.navigation.NavigationSubGraph
+import com.example.core.ui.theme.AppTheme
 import com.example.superfastdelivery.R
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 
 @Composable
 fun SplashScreen(
     navHost: NavHostController,
     isLoggedIn: Boolean,
 ) {
-    val context = LocalContext.current
 
     LaunchedEffect(isLoggedIn) {
         delay(2000)
 
-        val isOnboardingCompleted = withContext(Dispatchers.IO) {
-            isOnboardingFinished(context)
-        }
-
-        val destination: NavigationSubGraph = when {
-            isLoggedIn -> NavigationSubGraph.Search
-            isOnboardingCompleted -> NavigationSubGraph.Auth
-            else -> NavigationSubGraph.Onboarding
-        }
+        val destination: NavigationSubGraph =
+            if (isLoggedIn) NavigationSubGraph.Search else NavigationSubGraph.Auth
 
         navHost.navigate(destination) {
             popUpTo(0) { inclusive = true }
@@ -80,11 +68,6 @@ fun SplashScreen(
             fontWeight = FontWeight.Bold
         )
     }
-}
-
-private fun isOnboardingFinished(context: Context): Boolean {
-    val sharedPreferences = context.getSharedPreferences("onboarding", Context.MODE_PRIVATE)
-    return sharedPreferences.getBoolean("finished", false)
 }
 
 @Preview(showBackground = true, showSystemUi = true)
