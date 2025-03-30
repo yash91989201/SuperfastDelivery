@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface ProfileStateHolder {
     val profile: StateFlow<Profile?>
-    fun updateProfile(profile: Profile)
-    fun clearProfile()
+    suspend fun updateProfile(profile: Profile)
+    suspend fun clearProfile()
 }

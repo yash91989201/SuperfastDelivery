@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface AuthStateHolder {
     val auth: StateFlow<Auth?>
-    fun updateAuth(auth: Auth)
-    fun clearAuth()
+    suspend fun updateAuth(auth: Auth)
+    suspend fun clearAuth()
 }

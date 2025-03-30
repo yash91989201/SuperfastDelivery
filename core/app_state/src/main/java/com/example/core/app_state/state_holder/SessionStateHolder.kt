@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface SessionStateHolder {
     val session: StateFlow<Session?>
-    fun updateSession(session: Session)
-    fun clearSession()
+    suspend fun updateSession(session: Session)
+    suspend fun clearSession()
 }
