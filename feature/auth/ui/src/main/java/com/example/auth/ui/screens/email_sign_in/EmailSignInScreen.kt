@@ -53,6 +53,8 @@ fun EmailSignInScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
+                Spacer(modifier = Modifier.height(16.dp))
+                
                 TextInput(
                     placeholderText = "abc@xyz.com",
                     value = emailValue,
@@ -70,13 +72,16 @@ fun EmailSignInScreen(
                 )
 
                 if (uiState.error !is UiText.Idle) {
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
+
                     Text(
                         text = uiState.error.getString(),
                         color = AppTheme.colorScheme.error,
                         style = AppTheme.typography.titleMedium,
                     )
                 }
+
+                Spacer(modifier = Modifier.height(16.dp))
 
                 Button(
                     shape = AppTheme.shape.small,
