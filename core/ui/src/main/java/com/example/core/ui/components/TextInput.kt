@@ -91,6 +91,7 @@ fun TextInput(
                 if (showPlaceholder) {
                     Text(
                         text = placeholderText,
+                        color = AppTheme.colorScheme.onSurfaceVariant
                     )
                 }
             },

@@ -1,7 +1,6 @@
 package com.example.auth.ui.screens.home
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,43 +10,53 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Email
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.Mail
 import com.example.auth.ui.R
+import com.example.core.ui.components.TextInput
 import com.example.core.ui.theme.AppTheme
+
 
 @Composable
 fun HomeScreen(
     onPhoneSignIn: () -> Unit,
     onEmailSignIn: () -> Unit
 ) {
+    var phone by remember { mutableStateOf("") }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Box {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(240.dp)
+        ) {
             Image(
                 painter = painterResource(R.drawable.sign_in_img),
                 contentDescription = "Sign in and get items delivered",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.height(260.dp)
+                contentScale = ContentScale.Crop
             )
         }
+
         Column(
             modifier = Modifier
                 .fillMaxWidth(0.85f)
@@ -56,86 +65,48 @@ fun HomeScreen(
         ) {
             Text(
                 text = "Sign In",
-                fontWeight = FontWeight.Bold,
-                color = AppTheme.colorScheme.primary,
-                style = AppTheme.typography.headlineMedium,
+                style = AppTheme.typography.headlineMedium.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = AppTheme.colorScheme.primary
+                ),
                 modifier = Modifier.padding(bottom = 24.dp)
             )
+
             Text(
                 text = "Enter your Phone number",
-                style = AppTheme.typography.bodyMedium,
-                color = AppTheme.colorScheme.onSurfaceVariant,
-                fontWeight = FontWeight.Bold,
+                style = AppTheme.typography.bodyMedium.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = AppTheme.colorScheme.onSurfaceVariant
+                ),
                 modifier = Modifier.padding(bottom = 12.dp)
             )
-            TextField(
-                value = "",
-                onValueChange = {},
-                singleLine = true,
-                shape = AppTheme.shape.medium,
+
+            TextInput(
+                placeholderText = "8547 9621 584",
+                value = phone,
+                onValueChange = { phone = it },
                 leadingIcon = {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            8.dp,
-                            Alignment.CenterHorizontally
-                        ),
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(start = 16.dp, end = 4.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.india_flag),
-                            contentDescription = "India",
-                            tint = Color.Unspecified,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Text(
-                            text = "+91",
-                            style = AppTheme.typography.bodySmall,
-                            fontWeight = FontWeight.SemiBold,
-                            color = AppTheme.colorScheme.tertiary
-                        )
-                    }
-                },
-                placeholder = {
-                    Text(
-                        text = "8547 9621 584",
-                        style = AppTheme.typography.bodySmall,
-                        color = AppTheme.colorScheme.tertiary,
-                        fontWeight = FontWeight.SemiBold,
+                    Icon(
+                        painter = painterResource(R.drawable.india_flag),
+                        contentDescription = "India",
+                        tint = Color.Unspecified,
+                        modifier = Modifier.size(24.dp)
                     )
                 },
-                colors = TextFieldDefaults.colors(
-                    unfocusedContainerColor = Color.White,
-                    focusedContainerColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent,
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(
-                        width = 1.25.dp,
-                        color = AppTheme.colorScheme.outlineVariant,
-                        shape = AppTheme.shape.small
-                    )
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
-                onClick = {
-                    onPhoneSignIn()
-                },
+                onClick = { onPhoneSignIn() },
+                shape = AppTheme.shape.small,
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .height(48.dp)
             ) {
                 Text(
                     text = "Continue",
-                    style = AppTheme.typography.titleMedium,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    style = AppTheme.typography.titleMedium
                 )
             }
         }
@@ -146,87 +117,66 @@ fun HomeScreen(
                 .padding(vertical = 24.dp)
         ) {
             Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                HorizontalDivider(
-                    thickness = 1.25.dp,
-                    color = AppTheme.colorScheme.tertiaryContainer,
-                    modifier = Modifier.weight(1f)
-                )
+                HorizontalDivider(modifier = Modifier.weight(1f))
                 Text(
-                    text = "Or Sign in with",
-                    style = AppTheme.typography.titleSmall,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.padding(horizontal = 12.dp)
+                    text = "Or Sign In With",
+                    style = AppTheme.typography.titleSmall
                 )
-                HorizontalDivider(
-                    thickness = 1.25.dp,
-                    color = AppTheme.colorScheme.tertiaryContainer,
-                    modifier = Modifier.weight(1f)
-                )
+                HorizontalDivider(modifier = Modifier.weight(1f))
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Row(
-                horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Button(
-                    elevation = ButtonDefaults.elevatedButtonElevation(
-                        defaultElevation = 3.dp
-                    ),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = AppTheme.colorScheme.inverseSurface
-                    ),
+                ElevatedButton(
                     onClick = {},
                     modifier = Modifier
                         .weight(1f)
-                        .padding(vertical = 8.dp, horizontal = 4.dp)
+                        .height(48.dp)
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.google),
-                        contentDescription = "Google Icon",
+                        contentDescription = "Sign in with Google",
                         tint = Color.Unspecified,
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(24.dp)
                     )
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
                     Text(
                         text = "Google",
-                        style = AppTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.Medium
-                        ),
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                        style = AppTheme.typography.titleMedium,
                     )
                 }
-                Button(
-                    elevation = ButtonDefaults.elevatedButtonElevation(
-                        defaultElevation = 3.dp
-                    ),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = AppTheme.colorScheme.inverseSurface
-                    ),
+
+                ElevatedButton(
                     onClick = onEmailSignIn,
                     modifier = Modifier
                         .weight(1f)
-                        .padding(vertical = 8.dp, horizontal = 4.dp)
+                        .height(48.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.Email,
-                        contentDescription = "Email Icon",
-                        modifier = Modifier.size(20.dp)
+                        imageVector = Lucide.Mail,
+                        contentDescription = "Sign in with email",
+                        modifier = Modifier.size(24.dp)
                     )
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
                     Text(
                         text = "E-mail",
-                        style = AppTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.Medium
-                        ),
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                        style = AppTheme.typography.titleMedium,
                     )
                 }
             }
+
         }
     }
 }
