@@ -74,10 +74,7 @@ fun HomeScreen(
 
             Text(
                 text = "Enter your Phone number",
-                style = AppTheme.typography.bodyMedium.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = AppTheme.colorScheme.onSurfaceVariant
-                ),
+                style = AppTheme.typography.titleSmall,
                 modifier = Modifier.padding(bottom = 12.dp)
             )
 
