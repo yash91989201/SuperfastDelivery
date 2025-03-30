@@ -8,7 +8,7 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.auth.ui.screens.email_sign_in.EmailSignInScreen
 import com.example.auth.ui.screens.email_sign_in.EmailSignInViewModel
-import com.example.auth.ui.screens.sign_in.SignInScreen
+import com.example.auth.ui.screens.home.HomeScreen
 import com.example.auth.ui.screens.verify_email.VerifyEmailScreen
 import com.example.auth.ui.screens.verify_email.VerifyEmailViewModel
 import com.example.auth.ui.screens.verify_phone.VerifyPhoneScreen
@@ -23,9 +23,9 @@ class AuthFeatureImpl : AuthFeature {
         navHostController: NavHostController,
         navGraphBuilder: NavGraphBuilder,
     ) {
-        navGraphBuilder.navigation<NavigationSubGraph.Auth>(startDestination = NavigationSubGraphDest.AuthSignIn) {
-            composable<NavigationSubGraphDest.AuthSignIn> {
-                SignInScreen(
+        navGraphBuilder.navigation<NavigationSubGraph.Auth>(startDestination = NavigationSubGraphDest.AuthHome) {
+            composable<NavigationSubGraphDest.AuthHome> {
+                HomeScreen(
                     onPhoneSignIn = {
                         navHostController.navigate(NavigationSubGraphDest.AuthVerifyPhone)
                     },
@@ -54,7 +54,7 @@ class AuthFeatureImpl : AuthFeature {
             composable<NavigationSubGraphDest.AuthVerifyPhone> {
                 VerifyPhoneScreen(
                     onGoBack = {
-                        navHostController.navigate(NavigationSubGraphDest.AuthSignIn)
+                        navHostController.navigate(NavigationSubGraphDest.AuthHome)
                     }
                 )
             }

@@ -24,7 +24,7 @@ sealed class NavigationSubGraphDest {
     object Back : NavigationSubGraphDest()
 
     @Serializable
-    data object AuthSignIn : NavigationSubGraphDest()
+    data object AuthHome : NavigationSubGraphDest()
 
     @Serializable
     data object AuthEmailSignIn : NavigationSubGraphDest()

@@ -1,4 +1,4 @@
-package com.example.auth.ui.screens.sign_in
+package com.example.auth.ui.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -33,7 +33,7 @@ import com.example.auth.ui.R
 import com.example.core.ui.theme.AppTheme
 
 @Composable
-fun SignInScreen(
+fun HomeScreen(
     onPhoneSignIn: () -> Unit,
     onEmailSignIn: () -> Unit
 ) {
