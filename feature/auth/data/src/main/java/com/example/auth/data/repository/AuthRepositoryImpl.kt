@@ -176,8 +176,8 @@ class AuthRepositoryImpl(
         signInRes?.toDomain() ?: throw Exception("No data returned")
     }
 
-    override suspend fun refreshToken(refreshToken: String) = runCatching {
-        val response = authGraphQLService.refreshToken(sessionId = refreshToken)
+    override suspend fun refreshAccessToken(refreshToken: String) = runCatching {
+        val response = authGraphQLService.refreshAccessToken(refreshToken)
 
         response.exception?.let { throw Exception(it.toString()) }
 

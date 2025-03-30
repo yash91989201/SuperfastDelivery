@@ -19,7 +19,7 @@ interface AccountGraphQLService {
         newProfile: CreateProfileInput
     ): ApolloResponse<CreateProfileMutation.Data>
 
-    suspend fun updateProfile(profile: UpdateProfileInput): ApolloResponse<UpdateProfileMutation.Data>
+    suspend fun updateProfile(updatedProfile: UpdateProfileInput): ApolloResponse<UpdateProfileMutation.Data>
 
     suspend fun createDeliveryAddress(newDeliveryAddress: CreateDeliveryAddressInput): ApolloResponse<CreateDeliveryAddressMutation.Data>
 

@@ -31,7 +31,7 @@ interface AuthGraphQLService {
         authRole: AuthRole,
     ): ApolloResponse<SignInWithGoogleMutation.Data>
 
-    suspend fun refreshToken(sessionId: String): ApolloResponse<RefreshAccessTokenMutation.Data>
+    suspend fun refreshAccessToken(refreshToken: String): ApolloResponse<RefreshAccessTokenMutation.Data>
 }
 
 class AuthGraphQLServiceImpl(private val apolloClient: ApolloClient) : AuthGraphQLService {
@@ -87,7 +87,7 @@ class AuthGraphQLServiceImpl(private val apolloClient: ApolloClient) : AuthGraph
         return response
     }
 
-    override suspend fun refreshToken(refreshToken: String): ApolloResponse<RefreshAccessTokenMutation.Data> {
+    override suspend fun refreshAccessToken(refreshToken: String): ApolloResponse<RefreshAccessTokenMutation.Data> {
         val response = apolloClient.mutation(
             RefreshAccessTokenMutation(refreshToken)
         ).execute()

@@ -9,7 +9,7 @@ import javax.inject.Inject
 class RefreshTokenUseCase @Inject constructor(private val authRepository: AuthRepository) {
     operator fun invoke(refreshToken: String) = flow<NetworkResult<SignInResponse>> {
         emit(NetworkResult.Loading())
-        authRepository.refreshToken(refreshToken)
+        authRepository.refreshAccessToken(refreshToken)
             .onSuccess { emit(NetworkResult.Success(it)) }
             .onFailure { emit(NetworkResult.Error(it.localizedMessage)) }
     }
