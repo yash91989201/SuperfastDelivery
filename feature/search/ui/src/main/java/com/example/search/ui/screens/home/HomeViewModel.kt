@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.account.domain.model.DefaultDeliveryAddress
 import com.example.account.domain.use_cases.GetDefaultDeliveryAddressUseCase
 import com.example.core.app_state.state_holder.ApplicationStateHolder
-import com.example.core.utils.NetworkResult
-import com.example.core.utils.UiText
 import com.example.core.navigation.NavigationSubGraphDest
 import com.example.core.navigation.Navigator
+import com.example.core.utils.NetworkResult
+import com.example.core.utils.UiText
 import com.example.search.domain.model.ListShopsInput
 import com.example.search.domain.model.Shop
 import com.example.search.domain.model.ShopType
@@ -16,7 +16,6 @@ import com.example.search.domain.use_cases.ListShopsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,7 +23,6 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val navigator: Navigator,
-    applicationStateHolder: ApplicationStateHolder,
     private val getDefaultDeliveryAddressUseCase: GetDefaultDeliveryAddressUseCase,
     private val listShopsUseCase: ListShopsUseCase,
 ) : ViewModel() {
@@ -37,8 +35,6 @@ class HomeViewModel @Inject constructor(
         MutableStateFlow<HomeModel.NearbyRestaurantsState>(HomeModel.NearbyRestaurantsState())
     val nearbyRestaurants: StateFlow<HomeModel.NearbyRestaurantsState> = _nearbyRestaurants
 
-    val auth = applicationStateHolder.authStateHolder.auth
-
     init {
         fetchDefaultAddress()
         fetchNearbyRestaurants()
@@ -46,43 +42,36 @@ class HomeViewModel @Inject constructor(
 
     private fun fetchDefaultAddress() {
         viewModelScope.launch {
-            auth.collectLatest { auth ->
-                if (auth == null) {
-                    _defaultAddressState.update { it.copy(error = UiText.RemoteString(message = "Not logged in")) }
-                    return@collectLatest
-                }
-
-                getDefaultDeliveryAddressUseCase(auth.id)
-                    .collect { result ->
-                        when (result) {
-                            is NetworkResult.Loading -> {
-                                _defaultAddressState.update {
-                                    it.copy(
-                                        isLoading = true,
-                                    )
-                                }
+            getDefaultDeliveryAddressUseCase()
+                .collect { result ->
+                    when (result) {
+                        is NetworkResult.Loading -> {
+                            _defaultAddressState.update {
+                                it.copy(
+                                    isLoading = true,
+                                )
                             }
+                        }
 
-                            is NetworkResult.Success -> {
-                                _defaultAddressState.update {
-                                    it.copy(
-                                        isLoading = false,
-                                        data = result.data
-                                    )
-                                }
+                        is NetworkResult.Success -> {
+                            _defaultAddressState.update {
+                                it.copy(
+                                    isLoading = false,
+                                    data = result.data
+                                )
                             }
+                        }
 
-                            is NetworkResult.Error -> {
-                                _defaultAddressState.update {
-                                    it.copy(
-                                        isLoading = false,
-                                        error = UiText.RemoteString(message = "Error")
-                                    )
-                                }
+                        is NetworkResult.Error -> {
+                            _defaultAddressState.update {
+                                it.copy(
+                                    isLoading = false,
+                                    error = UiText.RemoteString(message = "Error")
+                                )
                             }
                         }
                     }
-            }
+                }
         }
 
     }

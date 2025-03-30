@@ -12,11 +12,8 @@ interface AccountRepository {
     suspend fun createProfile(newProfile: CreateProfileInput): Result<Profile>
     suspend fun updateProfile(updatedProfile: UpdateProfileInput): Result<Profile>
     suspend fun createDeliveryAddress(newDeliveryAddress: CreateDeliveryAddressInput): Result<DeliveryAddress>
-    suspend fun getDefaultDeliveryAddress(authId: String): Result<DefaultDeliveryAddress>
-    suspend fun listDeliveryAddresses(authId: String): Result<ListDeliveryAddress>
-    suspend fun updateDefaultDeliveryAddress(
-        deliveryAddressId: String,
-        authId: String
-    ): Result<String>
+    suspend fun getDefaultDeliveryAddress(): Result<DefaultDeliveryAddress>
+    suspend fun listDeliveryAddresses(): Result<ListDeliveryAddress>
+    suspend fun updateDefaultDeliveryAddress(deliveryAddressId: String): Result<String>
     suspend fun deleteDeliveryAddress(addressId: String): Result<String>
 }

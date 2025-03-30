@@ -1,13 +1,11 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
     alias(libs.plugins.apollo)
 }
 
 android {
-    namespace = "com.example.core.di"
+    namespace = "com.example.core.network"
     compileSdk = 35
 
     defaultConfig {
@@ -36,18 +34,7 @@ android {
 }
 
 dependencies {
-    // Core Module - Common utilities and helper functions
-    implementation(projects.core.utils)
-    implementation(projects.core.network)
     implementation(projects.core.appState)
-
-    // Google Play Services - Location services for geolocation
-    implementation(libs.play.services.location)
-
-    // Dependency Injection - Dagger Hilt for DI
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
-    implementation(libs.javax.inject)
 
     // Apollo - GraphQL client for network operations
     implementation(libs.apollo.runtime)
@@ -55,15 +42,13 @@ dependencies {
     // Networking - Logging interceptor for network requests
     implementation(libs.logging.interceptor)
 
-    // AndroidX Core Libraries - Essential AndroidX components
+    // Android Core Libraries
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
-    // Unit Testing
+    // Testing Libraries
     testImplementation(libs.junit)
-
-    // Instrumentation Testing
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

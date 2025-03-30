@@ -39,15 +39,15 @@ mutation CreateDeliveryAddress( $input: CreateDeliveryAddressInput!){
     }
 }
 
-query GetDefaultDeliveryAddress($authID: ID!){
-    GetDefaultDeliveryAddress(authID: $authID){
+query GetDefaultDeliveryAddress{
+    GetDefaultDeliveryAddress{
         address
         address_alias
     }
 }
 
-query ListDeliveryAddress( $authId: ID!){
-    ListDeliveryAddress( authID: $authId){
+query ListDeliveryAddress{
+    ListDeliveryAddress{
         delivery_address {
             id
             receiver_name
@@ -65,8 +65,8 @@ query ListDeliveryAddress( $authId: ID!){
     }
 }
 
-mutation UpdateDefaultDeliveryAddress( $input: UpdateDefaultDeliveryAddressInput!){
-    UpdateDefaultDeliveryAddress( input: $input){
+mutation UpdateDefaultDeliveryAddress( $deliveryAddressId: ID!){
+    UpdateDefaultDeliveryAddress( deliveryAddressID: $deliveryAddressId){
         message
     }
 }

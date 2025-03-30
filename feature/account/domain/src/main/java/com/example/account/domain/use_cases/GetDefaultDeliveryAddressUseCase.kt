@@ -11,10 +11,10 @@ import javax.inject.Inject
 class GetDefaultDeliveryAddressUseCase @Inject constructor(
     private val accountRepository: AccountRepository
 ) {
-    operator fun invoke(authId: String) = flow<NetworkResult<DefaultDeliveryAddress>> {
+    operator fun invoke() = flow<NetworkResult<DefaultDeliveryAddress>> {
         emit(NetworkResult.Loading())
 
-        accountRepository.getDefaultDeliveryAddress(authId = authId)
+        accountRepository.getDefaultDeliveryAddress()
             .onSuccess { emit(NetworkResult.Success(it)) }
             .onFailure { emit(NetworkResult.Error(it.message ?: "Unknown Error occurred")) }
     }.flowOn(Dispatchers.IO)

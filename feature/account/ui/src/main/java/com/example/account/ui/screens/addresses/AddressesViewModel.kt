@@ -7,18 +7,16 @@ import com.example.account.domain.model.ListDeliveryAddress
 import com.example.account.domain.use_cases.DeleteDeliveryAddressUseCase
 import com.example.account.domain.use_cases.ListDeliveryAddressesUseCase
 import com.example.account.domain.use_cases.UpdateDefaultDeliveryAddressUseCase
-import com.example.core.navigation.Navigator
 import com.example.core.app_state.state_holder.ApplicationStateHolder
+import com.example.core.navigation.NavigationSubGraphDest
+import com.example.core.navigation.Navigator
 import com.example.core.utils.NetworkResult
 import com.example.core.utils.UiText
-import com.example.core.navigation.NavigationSubGraphDest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -33,24 +31,21 @@ class AddressesViewModel @Inject constructor(
     private val listDeliveryAddressesUseCase: ListDeliveryAddressesUseCase,
     private val updateDefaultDeliveryAddressUseCase: UpdateDefaultDeliveryAddressUseCase,
     private val deleteDeliveryAddressUseCase: DeleteDeliveryAddressUseCase,
-    applicationStateHolder: ApplicationStateHolder,
 ) : ViewModel() {
 
-    val auth = applicationStateHolder.authStateHolder.auth
     private val refreshTrigger = MutableSharedFlow<Unit>(extraBufferCapacity = 1, replay = 1)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val uiState: StateFlow<Addresses.UiState> =
-        combine(
-            auth.filterNotNull(),
-            refreshTrigger.onStart { emit(Unit) }
-        ) { auth, _ -> auth.id }
+        refreshTrigger
+            .onStart { emit(Unit) }
             .flatMapLatest {
-                listDeliveryAddressesUseCase(it).map { result ->
+                listDeliveryAddressesUseCase().map { result ->
                     when (result) {
                         is NetworkResult.Loading -> Addresses.UiState(isLoading = true)
                         is NetworkResult.Success -> Addresses.UiState(
-                            isLoading = false, data = result.data
+                            isLoading = false,
+                            data = result.data
                         )
 
                         is NetworkResult.Error -> Addresses.UiState(
@@ -59,7 +54,8 @@ class AddressesViewModel @Inject constructor(
                         )
                     }
                 }
-            }.stateIn(
+            }
+            .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = Addresses.UiState(isLoading = true)
@@ -91,27 +87,22 @@ class AddressesViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun updateDefaultDeliveryAddress(deliveryAddressId: String) {
-        auth
-            .filterNotNull()
-            .flatMapLatest {
-                updateDefaultDeliveryAddressUseCase(
-                    deliveryAddressId = deliveryAddressId,
-                    authId = it.id
-                ).map {
-                    when (it) {
-                        is NetworkResult.Loading -> Addresses.UiState(isLoading = true)
-                        is NetworkResult.Success -> {
-                            Addresses.UiState(isLoading = false)
-                            refreshTrigger.emit(Unit)
-                        }
-
-                        is NetworkResult.Error -> Addresses.UiState(
-                            isLoading = false,
-                            error = UiText.RemoteString(it.message ?: "Unknown Error")
-                        )
-                    }
+        updateDefaultDeliveryAddressUseCase(
+            deliveryAddressId = deliveryAddressId
+        ).map {
+            when (it) {
+                is NetworkResult.Loading -> Addresses.UiState(isLoading = true)
+                is NetworkResult.Success -> {
+                    Addresses.UiState(isLoading = false)
+                    refreshTrigger.emit(Unit)
                 }
-            }.launchIn(viewModelScope)
+
+                is NetworkResult.Error -> Addresses.UiState(
+                    isLoading = false,
+                    error = UiText.RemoteString(it.message ?: "Unknown Error")
+                )
+            }
+        }.launchIn(viewModelScope)
     }
 
     private fun editDeliveryAddress(addressId: String) {

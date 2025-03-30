@@ -374,10 +374,6 @@ input GetItemVariantInput {
   variant_id: ID!
 }
 
-input GetProfileInput {
-  auth_id: String!
-}
-
 type ItemAddon {
   id: ID!
 
@@ -589,7 +585,7 @@ type Mutation {
 
   UpdateDeliveryAddress(input: UpdateDeliveryAddressInput!): DeliveryAddress!
 
-  UpdateDefaultDeliveryAddress(input: UpdateDefaultDeliveryAddressInput!): UpdateOutput!
+  UpdateDefaultDeliveryAddress(deliveryAddressID: ID!): UpdateOutput!
 
   DeleteDeliveryAddress(addressID: ID!): DeleteOutput!
 
@@ -711,15 +707,15 @@ type Query {
 
   GetAuthById(input: GetAuthByIdInput!): Auth!
 
-  GetProfile(input: GetProfileInput!): Profile!
+  GetProfile: Profile!
 
   GetDeliveryAddress(id: ID!): DeliveryAddress!
 
-  GetDefaultDeliveryAddress(authID: ID!): DeliveryAddress!
+  GetDefaultDeliveryAddress: DeliveryAddress!
 
   GetDeliveryAddressDetail(addressID: ID!): AddressDetail!
 
-  ListDeliveryAddress(authID: ID!): ListDeliveryAddressOutput!
+  ListDeliveryAddress: ListDeliveryAddressOutput!
 
   GetShop(id: ID!): Shop!
 
@@ -968,13 +964,9 @@ input UpdateAddonStockInput {
   restock_qty: Int!
 }
 
-input UpdateDefaultDeliveryAddressInput {
-  delivery_address_id: String!
-
-  auth_id: String!
-}
-
 input UpdateDeliveryAddressInput {
+  id: ID!
+
   receiver_name: String
 
   receiver_phone: String
@@ -992,8 +984,6 @@ input UpdateDeliveryAddressInput {
   delivery_instruction: String
 
   is_default: Boolean!
-
-  auth_id: String!
 }
 
 input UpdateItemAddonInput {

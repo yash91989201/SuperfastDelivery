@@ -13,7 +13,6 @@ import com.example.schema.GetDefaultDeliveryAddressQuery
 import com.example.schema.ListDeliveryAddressQuery
 import com.example.schema.UpdateDefaultDeliveryAddressMutation
 import com.example.schema.UpdateProfileMutation
-import com.example.schema.type.UpdateDefaultDeliveryAddressInput
 
 interface AccountGraphQLService {
     suspend fun createProfile(
@@ -24,16 +23,11 @@ interface AccountGraphQLService {
 
     suspend fun createDeliveryAddress(newDeliveryAddress: CreateDeliveryAddressInput): ApolloResponse<CreateDeliveryAddressMutation.Data>
 
-    suspend fun getDefaultDeliveryAddress(authId: String): ApolloResponse<GetDefaultDeliveryAddressQuery.Data>
+    suspend fun getDefaultDeliveryAddress(): ApolloResponse<GetDefaultDeliveryAddressQuery.Data>
 
-    suspend fun listDeliveryAddresses(
-        authId: String
-    ): ApolloResponse<ListDeliveryAddressQuery.Data>
+    suspend fun listDeliveryAddresses(): ApolloResponse<ListDeliveryAddressQuery.Data>
 
-    suspend fun updateDefaultDeliveryAddress(
-        deliveryAddressId: String,
-        authId: String
-    ): ApolloResponse<UpdateDefaultDeliveryAddressMutation.Data>
+    suspend fun updateDefaultDeliveryAddress(deliveryAddressId: String): ApolloResponse<UpdateDefaultDeliveryAddressMutation.Data>
 
     suspend fun deleteDeliveryAddress(addressId: String): ApolloResponse<DeleteDeliveryAddressMutation.Data>
 }
@@ -52,24 +46,18 @@ class AccountGraphQLServiceImpl(private val apolloClient: ApolloClient) : Accoun
             .mutation(CreateDeliveryAddressMutation(newDeliveryAddress.toSchema()))
             .execute()
 
-    override suspend fun getDefaultDeliveryAddress(authId: String) = apolloClient
-        .query(GetDefaultDeliveryAddressQuery(authID = authId))
+    override suspend fun getDefaultDeliveryAddress() = apolloClient
+        .query(GetDefaultDeliveryAddressQuery())
         .execute()
 
-    override suspend fun listDeliveryAddresses(authId: String) = apolloClient
-        .query(ListDeliveryAddressQuery(authId = authId))
+    override suspend fun listDeliveryAddresses() = apolloClient
+        .query(ListDeliveryAddressQuery())
         .execute()
 
     override suspend fun updateDefaultDeliveryAddress(
         deliveryAddressId: String,
-        authId: String
     ): ApolloResponse<UpdateDefaultDeliveryAddressMutation.Data> = apolloClient.mutation(
-        UpdateDefaultDeliveryAddressMutation(
-            UpdateDefaultDeliveryAddressInput(
-                delivery_address_id = deliveryAddressId,
-                auth_id = authId
-            )
-        )
+        UpdateDefaultDeliveryAddressMutation(deliveryAddressId)
     ).execute()
 
     override suspend fun deleteDeliveryAddress(addressId: String) = apolloClient.mutation(

@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class ListDeliveryAddressesUseCase @Inject constructor(private val accountRepository: AccountRepository) {
-    operator fun invoke(authId: String) = flow<NetworkResult<ListDeliveryAddress>> {
+    operator fun invoke() = flow<NetworkResult<ListDeliveryAddress>> {
         emit(NetworkResult.Loading())
 
-        accountRepository.listDeliveryAddresses(authId = authId)
+        accountRepository.listDeliveryAddresses()
             .onSuccess { emit(NetworkResult.Success(it)) }
             .onFailure { emit(NetworkResult.Error(it.message ?: "Unknown Error occurred")) }
     }.flowOn(Dispatchers.IO)
