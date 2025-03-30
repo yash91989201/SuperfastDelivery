@@ -10,8 +10,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.core.app_state.state_holder.ApplicationStateHolder
-import com.example.core.ui.theme.AppTheme
 import com.example.core.navigation.Navigator
+import com.example.core.ui.theme.AppTheme
 import com.example.superfastdelivery.navigation.AppNavigationRoot
 import com.example.superfastdelivery.navigation.NavigationRoutes
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,8 +31,15 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
-        installSplashScreen()
+
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                !applicationStateHolder.sessionStateHolder.isSessionLoaded.value
+            }
+        }
+
         setContent {
             AppTheme {
                 Surface(

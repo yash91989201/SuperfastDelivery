@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -20,12 +21,23 @@ class SessionStateHolderImpl @Inject constructor(private val sessionDataStore: S
         .getSession()
         .stateIn(
             coroutineScope,
-            SharingStarted.Lazily,
+            SharingStarted.Eagerly,
             null
+        )
+
+    private val _isSessionLoaded = _session
+        .map { true }
+        .stateIn(
+            coroutineScope,
+            SharingStarted.Eagerly,
+            false
         )
 
     override val session: StateFlow<Session?>
         get() = _session
+
+    override val isSessionLoaded: StateFlow<Boolean>
+        get() = _isSessionLoaded
 
     override suspend fun updateSession(session: Session) {
         sessionDataStore.saveSession(

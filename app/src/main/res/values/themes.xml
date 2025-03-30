@@ -2,4 +2,10 @@
 <resources>
 
     <style name="Theme.SuperfastDelivery" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#fff8F6ff</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Theme.SuperfastDelivery</item>
+    </style>
 </resources>

@@ -6,7 +6,7 @@ import com.example.core.utils.NetworkResult
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class RefreshTokenUseCase @Inject constructor(private val authRepository: AuthRepository) {
+class RefreshAccessTokenUseCase @Inject constructor(private val authRepository: AuthRepository) {
     operator fun invoke(refreshToken: String) = flow<NetworkResult<SignInResponse>> {
         emit(NetworkResult.Loading())
         authRepository.refreshAccessToken(refreshToken)

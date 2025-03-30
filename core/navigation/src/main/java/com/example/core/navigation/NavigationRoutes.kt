@@ -4,9 +4,6 @@ import kotlinx.serialization.Serializable
 
 sealed class NavigationSubGraph {
     @Serializable
-    data object Splash : NavigationSubGraph()
-
-    @Serializable
     data object Auth : NavigationSubGraph()
 
     @Serializable

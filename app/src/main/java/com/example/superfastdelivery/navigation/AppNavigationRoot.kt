@@ -5,13 +5,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.core.app_state.state_holder.ApplicationStateHolder
 import com.example.core.navigation.NavigationSubGraph
 import com.example.core.navigation.NavigationSubGraphDest
 import com.example.core.navigation.Navigator
-import com.example.superfastdelivery.screens.splash.SplashScreen
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -22,52 +20,49 @@ fun AppNavigationRoot(
 ) {
     val navHost = rememberNavController()
     val session by applicationStateHolder.sessionStateHolder.session.collectAsStateWithLifecycle()
-    val isLoggedIn = session != null
+    val isSessionLoaded by applicationStateHolder.sessionStateHolder.isSessionLoaded.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        navigator.navigation.collectLatest { destination ->
-            when (destination) {
-                NavigationSubGraphDest.Back -> {
-                    navHost.popBackStack()
-                }
+    if (isSessionLoaded) {
+        NavHost(
+            navController = navHost,
+            startDestination = if (session == null) NavigationSubGraph.Auth else NavigationSubGraph.Search
+        ) {
+            navigationRoutes.authFeature.registerGraph(
+                navHostController = navHost,
+                navGraphBuilder = this,
+            )
 
-                else -> {
-                    navHost.navigate(destination) {
-                        launchSingleTop = true
-                        restoreState = true
+            navigationRoutes.searchFeature.registerGraph(
+                navHostController = navHost,
+                navGraphBuilder = this,
+            )
+
+            navigationRoutes.accountFeature.registerGraph(
+                navHostController = navHost,
+                navGraphBuilder = this,
+            )
+
+            navigationRoutes.restaurantFeature.registerGraph(
+                navHostController = navHost,
+                navGraphBuilder = this,
+            )
+        }
+
+        LaunchedEffect(navigator, navHost) {
+            navigator.navigation.collectLatest { destination ->
+                when (destination) {
+                    NavigationSubGraphDest.Back -> {
+                        navHost.popBackStack()
+                    }
+
+                    else -> {
+                        navHost.navigate(destination) {
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     }
                 }
             }
         }
-    }
-
-    NavHost(
-        navController = navHost,
-        startDestination = NavigationSubGraph.Splash
-    ) {
-
-        composable<NavigationSubGraph.Splash> {
-            SplashScreen(isLoggedIn = isLoggedIn, navHost = navHost)
-        }
-
-        navigationRoutes.authFeature.registerGraph(
-            navHostController = navHost,
-            navGraphBuilder = this,
-        )
-
-        navigationRoutes.searchFeature.registerGraph(
-            navHostController = navHost,
-            navGraphBuilder = this,
-        )
-
-        navigationRoutes.accountFeature.registerGraph(
-            navHostController = navHost,
-            navGraphBuilder = this,
-        )
-
-        navigationRoutes.restaurantFeature.registerGraph(
-            navHostController = navHost,
-            navGraphBuilder = this,
-        )
     }
 }

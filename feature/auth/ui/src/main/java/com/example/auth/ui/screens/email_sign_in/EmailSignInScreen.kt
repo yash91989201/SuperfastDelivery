@@ -66,7 +66,7 @@ fun EmailSignInScreen(
                             imageVector = Lucide.Mail,
                             contentDescription = "Sign In with email",
                             tint = AppTheme.colorScheme.scrim,
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(18.dp)
                         )
                     },
                 )
