@@ -91,73 +91,68 @@ fun NewAddressScreen(
         },
         modifier = modifier.padding(top = 0.dp, end = 16.dp, bottom = 16.dp, start = 16.dp)
     ) {
-        Box(
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
-                .fillMaxSize()
                 .padding(it)
+                .fillMaxSize()
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                Box(modifier = Modifier.weight(1f)) {
-                    GoogleMapView(
-                        latitude = latitude,
-                        longitude = longitude,
-                        onMarkCurrentLocation = {
-                            coroutineScope.launch {
-                                val location = viewModel.fetchUserLocation()
-                                location?.let {
-                                    viewModel.onEvent(
-                                        NewAddress.Event.UpdateLocation(
-                                            lat = location.latitude,
-                                            lng = location.longitude
-                                        )
+            Box(modifier = Modifier.weight(1f)) {
+                GoogleMapView(
+                    latitude = latitude,
+                    longitude = longitude,
+                    onMarkCurrentLocation = {
+                        coroutineScope.launch {
+                            val location = viewModel.fetchUserLocation()
+                            location?.let {
+                                viewModel.onEvent(
+                                    NewAddress.Event.UpdateLocation(
+                                        lat = location.latitude,
+                                        lng = location.longitude
                                     )
-                                }
-                            }
-                        },
-                        onLocationChange = { latLng ->
-                            viewModel.onEvent(
-                                NewAddress.Event.UpdateLocation(
-                                    latLng.latitude,
-                                    latLng.longitude
                                 )
-                            )
+                            }
                         }
-                    )
-                }
-
-                SelectedAddressCard(
-                    address = address,
-                    onChange = {
-                        viewModel.onEvent(NewAddress.Event.GoToSearchAddressScreen)
+                    },
+                    onLocationChange = { latLng ->
+                        viewModel.onEvent(
+                            NewAddress.Event.UpdateLocation(
+                                latLng.latitude,
+                                latLng.longitude
+                            )
+                        )
                     }
                 )
+            }
 
-                FilledTonalButton(
-                    shape = AppTheme.shape.small,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
-                    onClick = { viewModel.addressDetailBottomSheet.value = true }
-                ) {
-                    Text(
-                        text = "Add Location Details",
-                        style = AppTheme.typography.titleMedium
-                    )
+            SelectedAddressCard(
+                address = address,
+                onChange = {
+                    viewModel.onEvent(NewAddress.Event.GoToSearchAddressScreen)
                 }
-            }
+            )
 
-            if (addressDetailBottomSheet) {
-                AddressDetailBottomSheet(viewModel)
+            FilledTonalButton(
+                shape = AppTheme.shape.small,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                onClick = { viewModel.addressDetailBottomSheet.value = true }
+            ) {
+                Text(
+                    text = "Add Location Details",
+                    style = AppTheme.typography.titleMedium
+                )
             }
+        }
 
-            if (uiState.isLoading) {
-                FullScreenLoader(text = "Creating new address...")
-            }
+        if (addressDetailBottomSheet) {
+            AddressDetailBottomSheet(viewModel)
+        }
+
+        if (uiState.isLoading) {
+            FullScreenLoader(text = "Creating new address...")
         }
     }
 }

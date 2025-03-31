@@ -1,7 +1,6 @@
 package com.example.search.ui.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,72 +37,67 @@ fun HomeScreen(
     Scaffold(
         modifier = modifier.padding(horizontal = 16.dp),
     ) {
-        Box(
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
-                .fillMaxSize()
                 .padding(it)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                if (defaultAddressState.isLoading) {
-                    HeaderSkeleton()
-                } else {
-                    Header(
-                        defaultAddress = defaultAddressState.data,
-                        onSelectDeliveryAddress = {
-                            viewModel.onEvent(HomeModel.Event.GoToAccountAddressScreen)
-                        },
-                        onProfileClick = {
-                            viewModel.onEvent(HomeModel.Event.GoToAccountHomeScreen)
-                        }
+            if (defaultAddressState.isLoading) {
+                HeaderSkeleton()
+            } else {
+                Header(
+                    defaultAddress = defaultAddressState.data,
+                    onSelectDeliveryAddress = {
+                        viewModel.onEvent(HomeModel.Event.GoToAccountAddressScreen)
+                    },
+                    onProfileClick = {
+                        viewModel.onEvent(HomeModel.Event.GoToAccountHomeScreen)
+                    }
+                )
+            }
+
+            SearchBar(query = "") { }
+
+            BrowseCategories()
+
+            if (nearbyRestaurantsState.isLoading) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Text(
+                        text = "Nearby Restaurants",
+                        style = AppTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+                        color = AppTheme.colorScheme.primary,
                     )
-                }
 
-                SearchBar(query = "") { }
-
-                BrowseCategories()
-
-                if (nearbyRestaurantsState.isLoading) {
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    LazyRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        Text(
-                            text = "Nearby Restaurants",
-                            style = AppTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
-                            color = AppTheme.colorScheme.primary,
-                        )
-
-                        LazyRow(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(16.dp)
-                        ) {
-                            items(5) {
-                                RestaurantCardSkeleton()
-                            }
+                        items(5) {
+                            RestaurantCardSkeleton()
                         }
                     }
-                } else {
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
-                        Text(
-                            text = "Nearby Restaurants",
-                            style = AppTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
-                            color = AppTheme.colorScheme.primary,
-                        )
+                }
+            } else {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Text(
+                        text = "Nearby Restaurants",
+                        style = AppTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+                        color = AppTheme.colorScheme.primary,
+                    )
 
-                        LazyRow(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(16.dp)
-                        ) {
-                            items(nearbyRestaurantsState.data) { shop ->
-                                RestaurantCard(shop)
-                            }
+                    LazyRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        items(nearbyRestaurantsState.data) { shop ->
+                            RestaurantCard(shop)
                         }
                     }
                 }

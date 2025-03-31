@@ -1,7 +1,6 @@
 package com.example.auth.ui.screens.verify_email
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -82,107 +81,103 @@ fun VerifyEmailScreen(
         },
         modifier = modifier.padding(top = 0.dp, end = 16.dp, bottom = 16.dp, start = 16.dp)
     ) {
-        Box(
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
-                .fillMaxSize()
                 .padding(it)
+                .fillMaxSize()
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxSize()
-            ) {
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Code has been sent to $email",
+                fontWeight = FontWeight.Bold,
+                color = AppTheme.colorScheme.onSurfaceVariant,
+                style = AppTheme.typography.titleSmall,
+                textAlign = TextAlign.Center,
+            )
+
+            OtpField(
+                state = otpState,
+                focusRequesters = focusRequesters,
+                onAction = { action ->
+                    when (action) {
+                        is OtpAction.OnEnterNumber -> {
+                            if (action.number != null) {
+                                focusRequesters[action.index].freeFocus()
+                            }
+                        }
+
+                        else -> Unit
+                    }
+                    otpViewModel.onAction(action)
+                },
+            )
+
+            if (uiState.verifyOtpError !is UiText.Idle) {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "Code has been sent to $email",
-                    fontWeight = FontWeight.Bold,
-                    color = AppTheme.colorScheme.onSurfaceVariant,
-                    style = AppTheme.typography.titleSmall,
-                    textAlign = TextAlign.Center,
-                )
-
-                OtpField(
-                    state = otpState,
-                    focusRequesters = focusRequesters,
-                    onAction = { action ->
-                        when (action) {
-                            is OtpAction.OnEnterNumber -> {
-                                if (action.number != null) {
-                                    focusRequesters[action.index].freeFocus()
-                                }
-                            }
-
-                            else -> Unit
-                        }
-                        otpViewModel.onAction(action)
-                    },
-                )
-
-                if (uiState.verifyOtpError !is UiText.Idle) {
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Text(
-                        text = uiState.verifyOtpError.getString(),
-                        color = AppTheme.colorScheme.error,
-                        style = AppTheme.typography.titleMedium,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    text = uiState.verifyOtpError.getString(),
+                    color = AppTheme.colorScheme.error,
+                    style = AppTheme.typography.titleMedium,
                     modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+
+                Text(
+                    text = "Didn't get e-mail?",
+                    style = AppTheme.typography.titleMedium,
+                )
+
+
+                TextButton(
+                    onClick = {}
                 ) {
-
                     Text(
-                        text = "Didn't get e-mail?",
-                        style = AppTheme.typography.titleMedium,
-                    )
-
-
-                    TextButton(
-                        onClick = {}
-                    ) {
-                        Text(
-                            text = "Resend e-mail",
-                            style = AppTheme.typography.titleMedium,
-                        )
-                    }
-                }
-
-                if (uiState.resendOtpError !is UiText.Idle) {
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Text(
-                        text = uiState.resendOtpError.getString(),
-                        color = AppTheme.colorScheme.error,
+                        text = "Resend e-mail",
                         style = AppTheme.typography.titleMedium,
                     )
                 }
+            }
 
+            if (uiState.resendOtpError !is UiText.Idle) {
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
-                    onClick = {
-                        val otp = otpViewModel.getOtpString() ?: return@Button
-                        viewModel.onEvent(VerifyEmail.Event.VerifyEmail(email = email, otp = otp))
-                    },
-                ) {
-                    Text(
-                        text = "Login",
-                        style = AppTheme.typography.titleMedium,
-                    )
-                }
+                Text(
+                    text = uiState.resendOtpError.getString(),
+                    color = AppTheme.colorScheme.error,
+                    style = AppTheme.typography.titleMedium,
+                )
             }
 
-            if (uiState.isVerifyingOtp) {
-                FullScreenLoader("Verifying OTP")
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                onClick = {
+                    val otp = otpViewModel.getOtpString() ?: return@Button
+                    viewModel.onEvent(VerifyEmail.Event.VerifyEmail(email = email, otp = otp))
+                },
+            ) {
+                Text(
+                    text = "Login",
+                    style = AppTheme.typography.titleMedium,
+                )
             }
+        }
+
+        if (uiState.isVerifyingOtp) {
+            FullScreenLoader("Verifying OTP")
         }
     }
 }

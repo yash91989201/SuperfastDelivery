@@ -1,7 +1,6 @@
 package com.example.account.ui.screens.profile
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -58,86 +57,82 @@ fun ProfileScreen(
         },
         modifier = modifier.padding(top = 0.dp, end = 16.dp, bottom = 16.dp, start = 16.dp)
     ) {
-        Box(
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
-                .fillMaxSize()
                 .padding(it)
+                .fillMaxSize()
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxSize()
-            ) {
-                ProfileImagePicker(imageUrl) { viewModel.updateImageUrl(it) }
+            ProfileImagePicker(imageUrl) { viewModel.updateImageUrl(it) }
 
-                Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-                TextInput(
-                    value = name,
-                    onValueChange = { viewModel.updateName(it) },
-                    placeholderText = "Full Name",
-                )
+            TextInput(
+                value = name,
+                onValueChange = { viewModel.updateName(it) },
+                placeholderText = "Full Name",
+            )
 
-                DropdownInput(
-                    items = Gender.entries,
-                    selectedItem = gender,
-                    onItemSelected = { viewModel.updateGender(it) },
-                    expanded = genderDropdownExpanded,
-                    onExpandedChange = { genderDropdownExpanded = it },
-                    itemToString = {
-                        it.name.lowercase().replaceFirstChar { char -> char.uppercase() }
-                    },
-                    placeholderText = "Select Gender",
-                )
+            DropdownInput(
+                items = Gender.entries,
+                selectedItem = gender,
+                onItemSelected = { viewModel.updateGender(it) },
+                expanded = genderDropdownExpanded,
+                onExpandedChange = { genderDropdownExpanded = it },
+                itemToString = {
+                    it.name.lowercase().replaceFirstChar { char -> char.uppercase() }
+                },
+                placeholderText = "Select Gender",
+            )
 
-                DateSelectionField(
-                    label = "Date of Birth",
-                    date = dob,
-                    onDateSelected = viewModel::updateDob,
-                    showPicker = showDobPicker,
-                    onShowPicker = { showDobPicker = true },
-                    onDismiss = { showDobPicker = false }
-                )
+            DateSelectionField(
+                label = "Date of Birth",
+                date = dob,
+                onDateSelected = viewModel::updateDob,
+                showPicker = showDobPicker,
+                onShowPicker = { showDobPicker = true },
+                onDismiss = { showDobPicker = false }
+            )
 
-                DateSelectionField(
-                    label = "Anniversary",
-                    date = anniversary,
-                    onDateSelected = viewModel::updateAnniversary,
-                    showPicker = showAnniversaryPicker,
-                    onShowPicker = { showAnniversaryPicker = true },
-                    onDismiss = { showAnniversaryPicker = false }
-                )
+            DateSelectionField(
+                label = "Anniversary",
+                date = anniversary,
+                onDateSelected = viewModel::updateAnniversary,
+                showPicker = showAnniversaryPicker,
+                onShowPicker = { showAnniversaryPicker = true },
+                onDismiss = { showAnniversaryPicker = false }
+            )
 
-                Button(
-                    onClick = {
-                        auth?.let { auth ->
-                            profile?.let { profile ->
-                                viewModel.onEvent(
-                                    ProfileScreenState.Event.UpdateProfile(
-                                        UpdateProfileInput(
-                                            name = name,
-                                            imageUrl = imageUrl,
-                                            dob = dob,
-                                            anniversary = anniversary,
-                                            gender = gender ?: Gender.OTHERS,
-                                            authId = auth.id,
-                                            id = profile.id
-                                        )
+            Button(
+                onClick = {
+                    auth?.let { auth ->
+                        profile?.let { profile ->
+                            viewModel.onEvent(
+                                ProfileScreenState.Event.UpdateProfile(
+                                    UpdateProfileInput(
+                                        name = name,
+                                        imageUrl = imageUrl,
+                                        dob = dob,
+                                        anniversary = anniversary,
+                                        gender = gender ?: Gender.OTHERS,
+                                        authId = auth.id,
+                                        id = profile.id
                                     )
                                 )
-                            }
+                            )
                         }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    enabled = name.isNotBlank() && gender != null
-                ) {
-                    Text("Update Profile")
-                }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = name.isNotBlank() && gender != null
+            ) {
+                Text("Update Profile")
             }
+        }
 
-            if (uiState.isLoading) {
-                FullScreenLoader(text = "Updating your profile...")
-            }
+        if (uiState.isLoading) {
+            FullScreenLoader(text = "Updating your profile...")
         }
     }
 }

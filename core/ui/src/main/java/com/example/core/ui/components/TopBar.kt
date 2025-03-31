@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.composables.icons.lucide.ChevronLeft
 import com.composables.icons.lucide.Lucide
 import com.example.core.ui.theme.AppTheme
@@ -23,20 +24,23 @@ fun TopBar(
     TopAppBar(
         navigationIcon = {
             IconButton(
-                modifier = Modifier.size(40.dp),
+                modifier = Modifier.size(36.dp),
                 onClick = onGoBack
             ) {
                 Icon(
                     imageVector = Lucide.ChevronLeft,
                     contentDescription = "Go back",
-                    modifier = Modifier.size(28.dp)
+                    modifier = Modifier.size(24.dp)
                 )
             }
         },
         title = {
             Text(
                 text = title,
-                style = AppTheme.typography.titleLarge.copy(fontWeight = FontWeight.Medium),
+                style = AppTheme.typography.titleLarge.copy(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Medium,
+                ),
             )
         },
     )

@@ -2,7 +2,6 @@ package com.example.account.ui.screens.home
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -63,231 +62,223 @@ fun HomeScreen(
                 viewModel.onEvent(AccountHome.Event.GoBack)
             }
         },
-        modifier = modifier.padding(top = 0.dp, end = 16.dp, bottom = 16.dp, start = 16.dp)
+        modifier = modifier.padding(horizontal = 16.dp)
     ) {
-        Box(
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
-                .fillMaxSize()
                 .padding(it)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
         ) {
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
+                verticalArrangement = Arrangement.spacedBy(24.dp),
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
+                    profile?.imageUrl?.let {
+                        AsyncImage(
+                            model = it,
+                            contentDescription = "Profile picture",
+                            modifier = Modifier
+                                .size(56.dp)
+                                .clip(AppTheme.shape.extraLarge)
+                        )
+                    }
+
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.weight(1f)
                     ) {
-                        profile?.imageUrl?.let {
-                            AsyncImage(
-                                model = it,
-                                contentDescription = "Profile picture",
-                                modifier = Modifier
-                                    .size(64.dp)
-                                    .clip(AppTheme.shape.extraLarge)
+                        profile?.let {
+                            Text(
+                                text = it.name,
+                                color = AppTheme.colorScheme.primary,
+                                style = AppTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold),
                             )
                         }
 
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(4.dp),
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            profile?.let {
+                        auth?.phone?.takeIf { it.isNotEmpty() }?.let {
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = Lucide.Phone,
+                                    contentDescription = "Phone",
+                                    modifier = Modifier.size(14.dp),
+                                    tint = AppTheme.colorScheme.secondary
+                                )
                                 Text(
-                                    text = it.name,
-                                    color = AppTheme.colorScheme.primary,
-                                    style = AppTheme.typography.headlineSmall,
-                                    fontWeight = FontWeight.Bold
+                                    text = "+91 $it",
+                                    color = AppTheme.colorScheme.tertiary,
+                                    style = AppTheme.typography.bodyMedium,
+                                    fontWeight = FontWeight.SemiBold,
                                 )
                             }
+                        }
 
-                            if (auth != null) {
-                                auth?.phone?.takeIf { it.isNotEmpty() }?.let {
-                                    Row(
-                                        horizontalArrangement = Arrangement.spacedBy(6.dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Icon(
-                                            imageVector = Lucide.Phone,
-                                            contentDescription = "Phone",
-                                            modifier = Modifier.size(14.dp),
-                                            tint = AppTheme.colorScheme.secondary
-                                        )
-                                        Text(
-                                            text = "+91 $it",
-                                            color = AppTheme.colorScheme.tertiary,
-                                            style = AppTheme.typography.bodyMedium,
-                                            fontWeight = FontWeight.SemiBold,
-                                        )
-                                    }
-                                }
-
-                                auth?.email?.takeIf { it.isNotEmpty() }?.let {
-                                    Row(
-                                        horizontalArrangement = Arrangement.spacedBy(6.dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Icon(
-                                            imageVector = Lucide.Mail,
-                                            contentDescription = "Email",
-                                            modifier = Modifier.size(14.dp),
-                                            tint = AppTheme.colorScheme.secondary
-                                        )
-                                        Text(
-                                            text = it,
-                                            color = AppTheme.colorScheme.tertiary,
-                                            style = AppTheme.typography.bodyMedium,
-                                            fontWeight = FontWeight.SemiBold,
-                                        )
-                                    }
-                                }
+                        auth?.email?.takeIf { it.isNotEmpty() }?.let {
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = Lucide.Mail,
+                                    contentDescription = "Email",
+                                    modifier = Modifier.size(16.dp),
+                                    tint = AppTheme.colorScheme.secondary
+                                )
+                                Text(
+                                    text = it,
+                                    color = AppTheme.colorScheme.secondary,
+                                    style = AppTheme.typography.titleSmall,
+                                )
                             }
                         }
 
-                        FilledTonalIconButton(
-                            modifier = Modifier.size(40.dp),
-                            onClick = {
-                                viewModel.onEvent(AccountHome.Event.GoToProfileScreen)
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Lucide.Pencil,
-                                contentDescription = "Edit profile",
-                                modifier = Modifier.size(18.dp)
-                            )
-                        }
                     }
 
-                    FilledTonalButton(
+                    FilledTonalIconButton(
+                        modifier = Modifier.size(40.dp),
                         onClick = {
-                            Log.d("TODO", "Logout User")
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(48.dp)
+                            viewModel.onEvent(AccountHome.Event.GoToProfileScreen)
+                        }
                     ) {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = Lucide.LogOut,
-                                contentDescription = "Log Out",
-                                modifier = Modifier.size(18.dp)
-                            )
-                            Text(
-                                text = "Log Out",
-                                style = AppTheme.typography.titleMedium,
-                            )
-                        }
+                        Icon(
+                            imageVector = Lucide.Pencil,
+                            contentDescription = "Edit profile",
+                            modifier = Modifier.size(18.dp)
+                        )
                     }
                 }
 
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.fillMaxWidth()
+                FilledTonalButton(
+                    onClick = {
+                        Log.d("TODO", "Logout User")
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
                 ) {
-                    AccountRowItem(
-                        title = "My Address",
-                        leadingIcon = Lucide.MapPin,
-                        onClick = {
-                            viewModel.onEvent(AccountHome.Event.GoToAddressesScreen)
-                        }
-                    )
-
-                    AccountRowItem(
-                        title = "My Promotions",
-                        leadingIcon = Lucide.TicketPercent,
-                        onClick = {
-                            viewModel.onEvent(AccountHome.Event.GoToPromotionsScreen)
-                        }
-                    )
-
-                    AccountRowItem(
-                        title = "Payment Methods",
-                        leadingIcon = Lucide.MapPin,
-                        onClick = {
-                            viewModel.onEvent(AccountHome.Event.GoToPaymentMethodsScreen)
-                        }
-                    )
-
-                    AccountRowItem(
-                        title = "Account Settings",
-                        leadingIcon = Lucide.Settings2,
-                        onClick = {
-                            viewModel.onEvent(AccountHome.Event.GoToAccountSettingsScreen)
-                        }
-                    )
-
-                    AccountRowItem(
-                        title = "Help Center",
-                        leadingIcon = Lucide.CircleHelp,
-                        onClick = {
-                            viewModel.onEvent(AccountHome.Event.GoToHelpCenterScreen)
-                        }
-                    )
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Lucide.LogOut,
+                            contentDescription = "Log Out",
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Text(
+                            text = "Log Out",
+                            style = AppTheme.typography.titleMedium,
+                        )
+                    }
                 }
+            }
 
-                HorizontalDivider()
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                AccountRowItem(
+                    title = "My Address",
+                    leadingIcon = Lucide.MapPin,
+                    onClick = {
+                        viewModel.onEvent(AccountHome.Event.GoToAddressesScreen)
+                    }
+                )
 
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    AccountToggleItem(
-                        title = "Push Notification",
-                        isChecked = pushNotificationsEnabled,
-                        onCheckedChange = { pushNotificationsEnabled = it }
-                    )
+                AccountRowItem(
+                    title = "My Promotions",
+                    leadingIcon = Lucide.TicketPercent,
+                    onClick = {
+                        viewModel.onEvent(AccountHome.Event.GoToPromotionsScreen)
+                    }
+                )
 
-                    AccountToggleItem(
-                        title = "Dark Mode",
-                        isChecked = darkModeEnabled,
-                        onCheckedChange = { darkModeEnabled = it }
-                    )
+                AccountRowItem(
+                    title = "Payment Methods",
+                    leadingIcon = Lucide.MapPin,
+                    onClick = {
+                        viewModel.onEvent(AccountHome.Event.GoToPaymentMethodsScreen)
+                    }
+                )
 
-                    AccountToggleItem(
-                        title = "Sound",
-                        isChecked = soundEnabled,
-                        onCheckedChange = { soundEnabled = it }
-                    )
+                AccountRowItem(
+                    title = "Account Settings",
+                    leadingIcon = Lucide.Settings2,
+                    onClick = {
+                        viewModel.onEvent(AccountHome.Event.GoToAccountSettingsScreen)
+                    }
+                )
 
-                    AccountToggleItem(
-                        title = "Automatic Updates",
-                        isChecked = automaticUpdatesEnabled,
-                        onCheckedChange = { automaticUpdatesEnabled = it }
-                    )
+                AccountRowItem(
+                    title = "Help Center",
+                    leadingIcon = Lucide.CircleHelp,
+                    onClick = {
+                        viewModel.onEvent(AccountHome.Event.GoToHelpCenterScreen)
+                    }
+                )
+            }
 
-                    AccountRowItem(
-                        title = "Terms of Service",
-                        onClick = {
-                            viewModel.onEvent(AccountHome.Event.GoToTermsOfServiceScreen)
+            HorizontalDivider()
 
-                        }
-                    )
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                AccountToggleItem(
+                    title = "Push Notification",
+                    isChecked = pushNotificationsEnabled,
+                    onCheckedChange = { pushNotificationsEnabled = it }
+                )
 
-                    AccountRowItem(
-                        title = "Privacy Policy",
-                        onClick = {
-                            viewModel.onEvent(AccountHome.Event.GoToPrivacyPolicyScreen)
-                        }
-                    )
+                AccountToggleItem(
+                    title = "Dark Mode",
+                    isChecked = darkModeEnabled,
+                    onCheckedChange = { darkModeEnabled = it }
+                )
 
-                    AccountRowItem(
-                        title = "About App",
-                        onClick = {
-                            viewModel.onEvent(AccountHome.Event.GoToAboutAppScreen)
-                        }
-                    )
-                }
+                AccountToggleItem(
+                    title = "Sound",
+                    isChecked = soundEnabled,
+                    onCheckedChange = { soundEnabled = it }
+                )
+
+                AccountToggleItem(
+                    title = "Automatic Updates",
+                    isChecked = automaticUpdatesEnabled,
+                    onCheckedChange = { automaticUpdatesEnabled = it }
+                )
+
+                AccountRowItem(
+                    title = "Terms of Service",
+                    onClick = {
+                        viewModel.onEvent(AccountHome.Event.GoToTermsOfServiceScreen)
+
+                    }
+                )
+
+                AccountRowItem(
+                    title = "Privacy Policy",
+                    onClick = {
+                        viewModel.onEvent(AccountHome.Event.GoToPrivacyPolicyScreen)
+                    }
+                )
+
+                AccountRowItem(
+                    title = "About App",
+                    onClick = {
+                        viewModel.onEvent(AccountHome.Event.GoToAboutAppScreen)
+                    }
+                )
             }
         }
     }

@@ -1,7 +1,6 @@
 package com.example.account.ui.screens.create_profile
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -41,8 +40,6 @@ fun CreateProfileScreen(
     modifier: Modifier = Modifier,
     viewModel: CreateProfileViewModel
 ) {
-    val scrollState = rememberScrollState()
-
     var showDobPicker by remember { mutableStateOf(false) }
     var showAnniversaryPicker by remember { mutableStateOf(false) }
     var genderDropdownExpanded by remember { mutableStateOf(false) }
@@ -72,86 +69,80 @@ fun CreateProfileScreen(
         },
         modifier = modifier.padding(top = 0.dp, end = 16.dp, bottom = 16.dp, start = 16.dp)
     ) {
-        Box(
+        Column(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(it)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(scrollState)
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                ProfileImagePicker(imageUrl) { viewModel.updateImageUrl(it) }
+            ProfileImagePicker(imageUrl) { viewModel.updateImageUrl(it) }
 
-                Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-                TextInput(
-                    value = name,
-                    onValueChange = { viewModel.updateName(it) },
-                    placeholderText = "Full Name",
-                )
+            TextInput(
+                value = name,
+                onValueChange = { viewModel.updateName(it) },
+                placeholderText = "Full Name",
+            )
 
-                DropdownInput(
-                    items = Gender.entries,
-                    selectedItem = gender,
-                    onItemSelected = { viewModel.updateGender(it) },
-                    expanded = genderDropdownExpanded,
-                    onExpandedChange = { genderDropdownExpanded = it },
-                    itemToString = {
-                        it.name.lowercase().replaceFirstChar { char -> char.uppercase() }
-                    },
-                    placeholderText = "Select Gender",
-                )
+            DropdownInput(
+                items = Gender.entries,
+                selectedItem = gender,
+                onItemSelected = { viewModel.updateGender(it) },
+                expanded = genderDropdownExpanded,
+                onExpandedChange = { genderDropdownExpanded = it },
+                itemToString = {
+                    it.name.lowercase().replaceFirstChar { char -> char.uppercase() }
+                },
+                placeholderText = "Select Gender",
+            )
 
-                DateSelectionField(
-                    label = "Date of Birth",
-                    date = dob,
-                    onDateSelected = viewModel::updateDob,
-                    showPicker = showDobPicker,
-                    onShowPicker = { showDobPicker = true },
-                    onDismiss = { showDobPicker = false }
-                )
+            DateSelectionField(
+                label = "Date of Birth",
+                date = dob,
+                onDateSelected = viewModel::updateDob,
+                showPicker = showDobPicker,
+                onShowPicker = { showDobPicker = true },
+                onDismiss = { showDobPicker = false }
+            )
 
-                DateSelectionField(
-                    label = "Anniversary",
-                    date = anniversary,
-                    onDateSelected = viewModel::updateAnniversary,
-                    showPicker = showAnniversaryPicker,
-                    onShowPicker = { showAnniversaryPicker = true },
-                    onDismiss = { showAnniversaryPicker = false }
-                )
+            DateSelectionField(
+                label = "Anniversary",
+                date = anniversary,
+                onDateSelected = viewModel::updateAnniversary,
+                showPicker = showAnniversaryPicker,
+                onShowPicker = { showAnniversaryPicker = true },
+                onDismiss = { showAnniversaryPicker = false }
+            )
 
-                Button(
-                    onClick = {
-                        auth?.let {
-                            viewModel.onEvent(
-                                CreateProfile.Event.CreateProfile(
-                                    CreateProfileInput(
-                                        name = name,
-                                        imageUrl = imageUrl,
-                                        dob = dob,
-                                        anniversary = anniversary,
-                                        gender = gender ?: Gender.OTHERS,
-                                        authId = it.id
-                                    )
+            Button(
+                onClick = {
+                    auth?.let {
+                        viewModel.onEvent(
+                            CreateProfile.Event.CreateProfile(
+                                CreateProfileInput(
+                                    name = name,
+                                    imageUrl = imageUrl,
+                                    dob = dob,
+                                    anniversary = anniversary,
+                                    gender = gender ?: Gender.OTHERS,
+                                    authId = it.id
                                 )
                             )
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    enabled = name.isNotBlank() && gender != null
-                ) {
-                    Text("Create Profile")
-                }
+                        )
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = name.isNotBlank() && gender != null
+            ) {
+                Text("Create Profile")
             }
+        }
 
-            if (uiState.isLoading) {
-                FullScreenLoader(text = "Creating your profile...")
-            }
+        if (uiState.isLoading) {
+            FullScreenLoader(text = "Creating your profile...")
         }
     }
 }

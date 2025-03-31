@@ -46,112 +46,107 @@ fun AddressesScreen(
         },
         modifier = modifier.padding(top = 0.dp, end = 16.dp, bottom = 16.dp, start = 16.dp)
     ) {
-        Box(
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
-                .fillMaxSize()
                 .padding(it)
+                .fillMaxSize()
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+            Box(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .weight(1f)
+                    .fillMaxWidth()
             ) {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
-                ) {
-                    when {
-                        uiState.isLoading -> {
-                            LazyColumn(
-                                verticalArrangement = Arrangement.spacedBy(12.dp),
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                items(2) { AddressCardSkeleton() }
-                            }
-                        }
-
-                        uiState.error !is UiText.Idle -> {
-                            Text(
-                                text = uiState.error.toString(),
-                                color = Color.Red,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.align(Alignment.Center)
-                            )
-                        }
-
-                        uiState.data?.deliveryAddress?.isNotEmpty() == true -> {
-                            val addressList =
-                                remember { uiState.data?.deliveryAddress ?: emptyList() }
-
-                            LazyColumn(
-                                verticalArrangement = Arrangement.spacedBy(12.dp),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                            ) {
-                                items(addressList, key = { address -> address.id }) { address ->
-                                    AddressCard(
-                                        title = address.addressAlias,
-                                        address = address.address,
-                                        selected = address.isDefault,
-                                        onSelect = {
-                                            viewModel.onEvent(
-                                                Addresses.Event.UpdateDefaultDeliveryAddress(
-                                                    deliveryAddressId = address.id
-                                                )
-                                            )
-                                        },
-                                        onEdit = {
-                                            viewModel.onEvent(
-                                                Addresses.Event.EditDeliveryAddress(
-                                                    addressId = address.id
-                                                )
-                                            )
-                                        },
-                                        onDelete = {
-                                            viewModel.onEvent(
-                                                Addresses.Event.DeleteDeliveryAddress(
-                                                    addressId = address.id
-                                                )
-                                            )
-                                        }
-                                    )
-                                }
-                            }
-                        }
-
-                        else -> {
-                            Text(
-                                text = "No delivery addresses found.",
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.align(Alignment.Center)
-                            )
+                when {
+                    uiState.isLoading -> {
+                        LazyColumn(
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            items(2) { AddressCardSkeleton() }
                         }
                     }
-                }
 
-                FilledTonalButton(
-                    shape = AppTheme.shape.small,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
-                    onClick = {
-                        viewModel.onEvent(Addresses.Event.GoToNewAddressScreen)
+                    uiState.error !is UiText.Idle -> {
+                        Text(
+                            text = uiState.error.toString(),
+                            color = Color.Red,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.align(Alignment.Center)
+                        )
                     }
-                ) {
-                    Icon(
-                        imageVector = Lucide.Plus,
-                        contentDescription = "Add new delivery address",
-                        modifier = Modifier
-                            .padding(end = 8.dp)
-                            .size(18.dp),
-                    )
-                    Text(
-                        text = "New Address",
-                        style = AppTheme.typography.titleMedium
-                    )
+
+                    uiState.data?.deliveryAddress?.isNotEmpty() == true -> {
+                        val addressList =
+                            remember { uiState.data?.deliveryAddress ?: emptyList() }
+
+                        LazyColumn(
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            items(addressList, key = { address -> address.id }) { address ->
+                                AddressCard(
+                                    title = address.addressAlias,
+                                    address = address.address,
+                                    selected = address.isDefault,
+                                    onSelect = {
+                                        viewModel.onEvent(
+                                            Addresses.Event.UpdateDefaultDeliveryAddress(
+                                                deliveryAddressId = address.id
+                                            )
+                                        )
+                                    },
+                                    onEdit = {
+                                        viewModel.onEvent(
+                                            Addresses.Event.EditDeliveryAddress(
+                                                addressId = address.id
+                                            )
+                                        )
+                                    },
+                                    onDelete = {
+                                        viewModel.onEvent(
+                                            Addresses.Event.DeleteDeliveryAddress(
+                                                addressId = address.id
+                                            )
+                                        )
+                                    }
+                                )
+                            }
+                        }
+                    }
+
+                    else -> {
+                        Text(
+                            text = "No delivery addresses found.",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
                 }
+            }
+
+            FilledTonalButton(
+                shape = AppTheme.shape.small,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                onClick = {
+                    viewModel.onEvent(Addresses.Event.GoToNewAddressScreen)
+                }
+            ) {
+                Icon(
+                    imageVector = Lucide.Plus,
+                    contentDescription = "Add new delivery address",
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                        .size(18.dp),
+                )
+                Text(
+                    text = "New Address",
+                    style = AppTheme.typography.titleMedium
+                )
             }
         }
     }

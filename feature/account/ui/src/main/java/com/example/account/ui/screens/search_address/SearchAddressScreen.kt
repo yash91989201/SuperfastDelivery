@@ -47,8 +47,8 @@ fun SearchAddressScreen(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(it)
+                .fillMaxSize()
         ) {
             TextInput(
                 value = searchQuery,
