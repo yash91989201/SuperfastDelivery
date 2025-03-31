@@ -11,6 +11,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import com.example.core.ui.shimmerEffect
 import com.example.core.ui.theme.AppTheme
@@ -18,8 +19,9 @@ import com.example.core.ui.theme.AppTheme
 @Composable
 fun RestaurantCardSkeleton() {
     Card(
+        shape = RectangleShape,
+        colors = CardDefaults.cardColors(containerColor = AppTheme.colorScheme.surface),
         modifier = Modifier.width(180.dp),
-        colors = CardDefaults.cardColors(containerColor = AppTheme.colorScheme.surface)
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp)

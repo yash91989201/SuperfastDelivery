@@ -181,7 +181,50 @@ class AuthRepositoryImpl(
 
         response.exception?.let { throw Exception(it.toString()) }
 
-        response.errors?.firstOrNull()?.message?.let { throw Exception(it) }
+        response.errors?.firstOrNull()?.message?.let {
+            applicationStateHolder.sessionStateHolder.clearSession()
+            applicationStateHolder.authStateHolder.clearAuth()
+            applicationStateHolder.profileStateHolder.clearProfile()
+
+            throw Exception(it)
+        }
+
+        val refreshAccessTokenRes = response.data?.RefreshAccessToken
+
+        refreshAccessTokenRes?.session?.let {
+            applicationStateHolder.sessionStateHolder.updateSession(
+                StoreSession(
+                    accessToken = it.access_token,
+                    refreshToken = it.refresh_token
+                )
+            )
+        }
+
+        refreshAccessTokenRes?.auth?.let {
+            applicationStateHolder.authStateHolder.updateAuth(
+                StoreAuth(
+                    id = it.id,
+                    email = it.email,
+                    phone = it.phone,
+                    emailVerified = it.email_verified,
+                    authRole = it.auth_role.toStore()
+                )
+            )
+        }
+
+        refreshAccessTokenRes?.profile?.let {
+            applicationStateHolder.profileStateHolder.updateProfile(
+                StoreProfile(
+                    id = it.id,
+                    name = it.name,
+                    imageUrl = it.image_url,
+                    dob = it.dob,
+                    anniversary = it.anniversary,
+                    gender = it.gender?.toStore(),
+                    authId = it.auth_id
+                )
+            )
+        }
 
         response.data?.RefreshAccessToken?.toDomain() ?: throw Exception("No Data returned")
     }

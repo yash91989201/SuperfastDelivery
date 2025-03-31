@@ -37,8 +37,9 @@ android {
 
 dependencies {
     // Modules - Core components and feature-specific modules
-    implementation(projects.core.appState)
     implementation(projects.schema)
+    implementation(projects.core.appState)
+    implementation(projects.core.network)
     implementation(projects.feature.auth.domain)
 
     // Dependency Injection - Dagger Hilt for DI

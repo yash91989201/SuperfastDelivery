@@ -5,6 +5,8 @@ import com.apollographql.apollo.ApolloClient
 import com.example.core.app_state.state_holder.ApplicationStateHolder
 import com.example.core.network.NetworkModule
 import com.example.core.network.TokenInterceptor
+import com.example.core.network.TokenRefreshInterceptor
+import com.example.core.network.TokenRefresher
 import com.example.core.utils.AppLocationManager
 import com.example.core.utils.GeocoderHelper
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -52,9 +54,25 @@ object CoreDIModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(tokenInterceptor: TokenInterceptor): OkHttpClient {
+    fun provideTokenRefreshInterceptor(
+        tokenRefresher: TokenRefresher,
+        applicationStateHolder: ApplicationStateHolder,
+    ): TokenRefreshInterceptor {
+        return TokenRefreshInterceptor(
+            tokenRefresher = tokenRefresher,
+            applicationStateHolder = applicationStateHolder
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(
+        tokenInterceptor: TokenInterceptor,
+        tokenRefreshInterceptor: TokenRefreshInterceptor
+    ): OkHttpClient {
         return NetworkModule.createOkHttpClient(
-            tokenInterceptor
+            tokenInterceptor = tokenInterceptor,
+            tokenRefreshInterceptor = tokenRefreshInterceptor
         )
     }
 

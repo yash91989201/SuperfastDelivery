@@ -7,7 +7,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 
 object NetworkModule {
     fun createOkHttpClient(
-        tokenInterceptor: TokenInterceptor
+        tokenInterceptor: TokenInterceptor,
+        tokenRefreshInterceptor: TokenRefreshInterceptor
     ): OkHttpClient {
         val logging = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
@@ -15,6 +16,7 @@ object NetworkModule {
 
         return OkHttpClient.Builder()
             .addInterceptor(tokenInterceptor)
+            .addInterceptor(tokenRefreshInterceptor)
             .addInterceptor(logging)
             .build()
     }

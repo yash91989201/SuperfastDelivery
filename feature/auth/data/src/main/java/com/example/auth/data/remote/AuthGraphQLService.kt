@@ -75,24 +75,17 @@ class AuthGraphQLServiceImpl(private val apolloClient: ApolloClient) : AuthGraph
     override suspend fun signInWithGoogle(
         idToken: String,
         authRole: AuthRole
-    ): ApolloResponse<SignInWithGoogleMutation.Data> {
-        val response = apolloClient.mutation(
-            SignInWithGoogleMutation(
-                SignInWithGoogleInput(
-                    id_token = idToken,
-                    auth_role = authRole,
-                )
+    ) = apolloClient.mutation(
+        SignInWithGoogleMutation(
+            SignInWithGoogleInput(
+                id_token = idToken,
+                auth_role = authRole,
             )
-        ).execute()
-        return response
-    }
+        )
+    ).execute()
 
-    override suspend fun refreshAccessToken(refreshToken: String): ApolloResponse<RefreshAccessTokenMutation.Data> {
-        val response = apolloClient.mutation(
+    override suspend fun refreshAccessToken(refreshToken: String) = apolloClient
+        .mutation(
             RefreshAccessTokenMutation(refreshToken)
         ).execute()
-
-        return response
-    }
-
 }

@@ -36,6 +36,8 @@ android {
 dependencies {
     implementation(projects.core.appState)
 
+    implementation(libs.javax.inject)
+
     // Apollo - GraphQL client for network operations
     implementation(libs.apollo.runtime)
 
