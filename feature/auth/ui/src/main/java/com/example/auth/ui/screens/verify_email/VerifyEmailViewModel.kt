@@ -2,7 +2,6 @@ package com.example.auth.ui.screens.verify_email
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.auth.domain.model.AuthRole
 import com.example.auth.domain.model.SignInResponse
 import com.example.auth.domain.use_cases.SignInWithEmailUseCase
 import com.example.core.navigation.NavigationSubGraphDest
@@ -16,7 +15,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -46,48 +44,46 @@ class VerifyEmailViewModel @Inject constructor(
                 verifyEmail(email = event.email, otp = event.otp)
             }
 
-            is VerifyEmail.Event.ResendEmail -> {
-                resendEmail(email = event.email)
+            is VerifyEmail.Event.ResendOtp -> {
+                resendOtp(email = event.email)
             }
         }
     }
 
     private fun verifyEmail(email: String, otp: String) {
-        viewModelScope.launch {
-            signInWithEmailUseCase(email, AuthRole.CUSTOMER, otp).collect { result ->
-                when (result) {
-                    is NetworkResult.Loading -> {
-                        _uiState.update { it.copy(isVerifyingOtp = true) }
-                    }
+        signInWithEmailUseCase(email, otp).onEach { result ->
+            when (result) {
+                is NetworkResult.Loading -> {
+                    _uiState.update { it.copy(isVerifyingOtp = true) }
+                }
 
-                    is NetworkResult.Success -> {
-                        _uiState.update { it.copy(isVerifyingOtp = false) }
+                is NetworkResult.Success -> {
+                    _uiState.update { it.copy(isVerifyingOtp = false) }
 
-                        result.data?.let { signInRes ->
-                            if (signInRes.createProfile) {
-                                onEvent(VerifyEmail.Event.GoToAccountCreateProfileScreen)
-                            }
-                            onEvent(VerifyEmail.Event.GoToSearchHomeScreen)
+                    result.data?.let { signInRes ->
+                        if (signInRes.createProfile) {
+                            onEvent(VerifyEmail.Event.GoToAccountCreateProfileScreen)
                         }
+                        onEvent(VerifyEmail.Event.GoToSearchHomeScreen)
                     }
+                }
 
-                    is NetworkResult.Error -> {
-                        _uiState.update {
-                            it.copy(
-                                isVerifyingOtp = false,
-                                verifyOtpError = UiText.RemoteString(
-                                    result.message ?: "Unknown Error"
-                                )
+                is NetworkResult.Error -> {
+                    _uiState.update {
+                        it.copy(
+                            isVerifyingOtp = false,
+                            verifyOtpError = UiText.RemoteString(
+                                result.message ?: "Unknown Error"
                             )
-                        }
+                        )
                     }
                 }
             }
-        }
+        }.launchIn(viewModelScope)
     }
 
-    private fun resendEmail(email: String) {
-        signInWithEmailUseCase(email = email, AuthRole.CUSTOMER).onEach { result ->
+    private fun resendOtp(email: String) {
+        signInWithEmailUseCase(email = email).onEach { result ->
             when (result) {
                 is NetworkResult.Error -> {
                     _uiState.update {
@@ -131,7 +127,7 @@ object VerifyEmail {
     )
 
     sealed interface Event {
-        data class ResendEmail(val email: String) : Event
+        data class ResendOtp(val email: String) : Event
         data class VerifyEmail(val email: String, val otp: String) : Event
 
         // navigation event

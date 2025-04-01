@@ -53,7 +53,7 @@ fun <T> DropdownInput(
                 readOnly = true,
                 enabled = enabled,
                 singleLine = true,
-                shape = AppTheme.shape.medium,
+                shape = AppTheme.shape.small,
                 leadingIcon = leadingIcon,
                 trailingIcon = {
                     if (trailingIcon != null) {
@@ -63,6 +63,7 @@ fun <T> DropdownInput(
                     }
                 },
                 colors = TextFieldDefaults.colors(
+                    unfocusedTextColor = AppTheme.colorScheme.onPrimaryContainer,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,

@@ -9,9 +9,11 @@ import androidx.navigation.toRoute
 import com.example.auth.ui.screens.email_sign_in.EmailSignInScreen
 import com.example.auth.ui.screens.email_sign_in.EmailSignInViewModel
 import com.example.auth.ui.screens.home.HomeScreen
+import com.example.auth.ui.screens.home.HomeViewModel
 import com.example.auth.ui.screens.verify_email.VerifyEmailScreen
 import com.example.auth.ui.screens.verify_email.VerifyEmailViewModel
 import com.example.auth.ui.screens.verify_phone.VerifyPhoneScreen
+import com.example.auth.ui.screens.verify_phone.VerifyPhoneViewModel
 import com.example.core.navigation.Feature
 import com.example.core.navigation.NavigationSubGraph
 import com.example.core.navigation.NavigationSubGraphDest
@@ -22,16 +24,15 @@ class AuthFeatureImpl : AuthFeature {
     override fun registerGraph(
         navHostController: NavHostController,
         navGraphBuilder: NavGraphBuilder,
+        startDestination: NavigationSubGraphDest?
     ) {
-        navGraphBuilder.navigation<NavigationSubGraph.Auth>(startDestination = NavigationSubGraphDest.AuthHome) {
+        navGraphBuilder.navigation<NavigationSubGraph.Auth>(
+            startDestination = startDestination ?: NavigationSubGraphDest.AuthHome
+        ) {
             composable<NavigationSubGraphDest.AuthHome> {
+                val homeViewModel = hiltViewModel<HomeViewModel>()
                 HomeScreen(
-                    onPhoneSignIn = {
-                        navHostController.navigate(NavigationSubGraphDest.AuthVerifyPhone)
-                    },
-                    onEmailSignIn = {
-                        navHostController.navigate(NavigationSubGraphDest.AuthEmailSignIn)
-                    }
+                    viewModel = homeViewModel
                 )
             }
 
@@ -52,10 +53,11 @@ class AuthFeatureImpl : AuthFeature {
             }
 
             composable<NavigationSubGraphDest.AuthVerifyPhone> {
+                val route = it.toRoute<NavigationSubGraphDest.AuthVerifyPhone>()
+                val verifyPhoneViewModel = hiltViewModel<VerifyPhoneViewModel>()
                 VerifyPhoneScreen(
-                    onGoBack = {
-                        navHostController.navigate(NavigationSubGraphDest.AuthHome)
-                    }
+                    phone = route.phone,
+                    viewModel = verifyPhoneViewModel
                 )
             }
         }

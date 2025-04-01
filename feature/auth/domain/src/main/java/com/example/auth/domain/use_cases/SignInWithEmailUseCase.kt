@@ -10,10 +10,14 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class SignInWithEmailUseCase @Inject constructor(private val authRepository: AuthRepository) {
-    operator fun invoke(email: String, authRole: AuthRole, otp: String? = null) = flow<NetworkResult<SignInResponse>> {
+    operator fun invoke(email: String, otp: String? = null) = flow<NetworkResult<SignInResponse>> {
         emit(NetworkResult.Loading())
 
-        authRepository.signInWithEmail(email,authRole, otp)
+        authRepository.signInWithEmail(
+            email = email,
+            authRole = AuthRole.CUSTOMER,
+            otp = otp
+        )
             .onSuccess { emit(NetworkResult.Success(it)) }
             .onFailure { emit(NetworkResult.Error(it.message ?: "Unknown Error occurred")) }
     }.flowOn(Dispatchers.IO)

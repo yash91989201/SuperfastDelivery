@@ -30,7 +30,7 @@ sealed class NavigationSubGraphDest {
     data class AuthVerifyEmail(val email: String) : NavigationSubGraphDest()
 
     @Serializable
-    data object AuthVerifyPhone : NavigationSubGraphDest()
+    data class AuthVerifyPhone(val phone: String) : NavigationSubGraphDest()
 
     @Serializable
     data object SearchHome : NavigationSubGraphDest()

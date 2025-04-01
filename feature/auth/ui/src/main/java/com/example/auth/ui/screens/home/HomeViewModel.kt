@@ -1,9 +1,9 @@
-package com.example.auth.ui.screens.email_sign_in
+package com.example.auth.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.auth.domain.model.SignInResponse
-import com.example.auth.domain.use_cases.SignInWithEmailUseCase
+import com.example.auth.domain.use_cases.SignInWithPhoneUseCase
 import com.example.core.navigation.NavigationSubGraphDest
 import com.example.core.navigation.Navigator
 import com.example.core.utils.NetworkResult
@@ -18,39 +18,39 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class EmailSignInViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val navigator: Navigator,
-    private val signInWithEmailUseCase: SignInWithEmailUseCase
+    private val signInWithPhoneUseCase: SignInWithPhoneUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(EmailSignIn.UiState())
-    val uiState: StateFlow<EmailSignIn.UiState> get() = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(HomeModel.UiState())
+    val uiState: StateFlow<HomeModel.UiState> get() = _uiState.asStateFlow()
 
-    private val _email = MutableStateFlow("")
-    val email: StateFlow<String> get() = _email.asStateFlow()
+    private val _phone = MutableStateFlow("")
+    val phone: StateFlow<String> get() = _phone.asStateFlow()
 
-    fun onEvent(event: EmailSignIn.Event) {
+    fun onEvent(event: HomeModel.Event) {
         when (event) {
-            EmailSignIn.Event.GoToVerifyEmailScreen -> {
-                navigator.navigateTo(NavigationSubGraphDest.AuthVerifyEmail(_email.value))
+            HomeModel.Event.GoToVerifyPhoneScreen -> {
+                navigator.navigateTo(NavigationSubGraphDest.AuthVerifyPhone(phone = _phone.value))
             }
 
-            is EmailSignIn.Event.SignInWithEmail -> {
-                signInWithEmail(event.email)
+            is HomeModel.Event.SignInWithPhone -> {
+                signInWithPhone(event.phone)
             }
 
-            is EmailSignIn.Event.UpdateEmail -> {
-                _email.update { event.email.trim() }
+            is HomeModel.Event.UpdatePhone -> {
+                _phone.update { event.phone.trim() }
             }
 
-            EmailSignIn.Event.GoBack -> {
-                navigator.navigateBack()
+            HomeModel.Event.GoToEmailSignInScreen -> {
+                navigator.navigateTo(NavigationSubGraphDest.AuthEmailSignIn)
             }
         }
     }
 
-    private fun signInWithEmail(email: String) {
-        signInWithEmailUseCase(email).onEach { result ->
+    private fun signInWithPhone(phone: String) {
+        signInWithPhoneUseCase(phone).onEach { result ->
             when (result) {
                 is NetworkResult.Loading -> {
                     _uiState.update { it.copy(isLoading = true) }
@@ -61,7 +61,7 @@ class EmailSignInViewModel @Inject constructor(
 
                     result.data?.let {
                         if (it.verifyOtp) {
-                            onEvent(EmailSignIn.Event.GoToVerifyEmailScreen)
+                            onEvent(HomeModel.Event.GoToVerifyPhoneScreen)
                         }
                     }
                 }
@@ -79,7 +79,7 @@ class EmailSignInViewModel @Inject constructor(
     }
 }
 
-object EmailSignIn {
+object HomeModel {
     data class UiState(
         val isLoading: Boolean = false,
         val error: UiText = UiText.Idle,
@@ -87,11 +87,11 @@ object EmailSignIn {
     )
 
     sealed interface Event {
-        data class SignInWithEmail(val email: String) : Event
-        data class UpdateEmail(val email: String) : Event
+        data class SignInWithPhone(val phone: String) : Event
+        data class UpdatePhone(val phone: String) : Event
 
         // navigation events
-        data object GoBack : Event
-        data object GoToVerifyEmailScreen : Event
+        data object GoToEmailSignInScreen : Event
+        data object GoToVerifyPhoneScreen : Event
     }
 }

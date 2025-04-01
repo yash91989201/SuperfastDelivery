@@ -1,4 +1,4 @@
-mutation CreateProfileMutation( $input: CreateProfileInput!){
+mutation CreateProfile( $input: CreateProfileInput!){
     CreateProfile(input: $input){
         id
         name
@@ -10,7 +10,7 @@ mutation CreateProfileMutation( $input: CreateProfileInput!){
     }
 }
 
-mutation UpdateProfileMutation( $input: UpdateProfileInput!){
+mutation UpdateProfile( $input: UpdateProfileInput!){
     UpdateProfile(input: $input){
         id
         name

@@ -10,7 +10,7 @@ fun SignInWithEmailMutation.SignInWithEmail.toDomain() = SignInResponse(
     auth = this.auth?.toDomain(),
     session = this.session?.toDomain(),
     profile = this.profile?.toDomain(),
-    verityOtp = this.verify_otp,
+    verifyOtp = this.verify_otp,
     createProfile = this.create_profile,
 )
 
@@ -18,7 +18,7 @@ fun SignInWithPhoneMutation.SignInWithPhone.toDomain() = SignInResponse(
     auth = this.auth?.toDomain(),
     profile = this.profile?.toDomain(),
     session = this.session?.toDomain(),
-    verityOtp = this.verify_otp,
+    verifyOtp = this.verify_otp,
     createProfile = this.create_profile,
 )
 
@@ -26,7 +26,7 @@ fun SignInWithGoogleMutation.SignInWithGoogle.toDomain() = SignInResponse(
     auth = this.auth?.toDomain(),
     session = this.session?.toDomain(),
     profile = this.profile?.toDomain(),
-    verityOtp = false,
+    verifyOtp = false,
     createProfile = false
 )
 
@@ -34,6 +34,6 @@ fun RefreshAccessTokenMutation.RefreshAccessToken.toDomain() = SignInResponse(
     auth = this.auth?.toDomain(),
     session = this.session?.toDomain(),
     profile = this.profile?.toDomain(),
-    verityOtp = false,
+    verifyOtp = false,
     createProfile = false
 )

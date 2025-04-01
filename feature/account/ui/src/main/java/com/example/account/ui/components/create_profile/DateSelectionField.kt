@@ -4,8 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.DateRange
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,11 +17,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.composables.icons.lucide.Calendar
+import com.composables.icons.lucide.Lucide
+import com.example.core.ui.theme.AppTheme
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import com.example.core.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,10 +36,7 @@ fun DateSelectionField(
     onDismiss: () -> Unit
 ) {
     val dateFormatter = remember { DateTimeFormatter.ofPattern("dd/MM/yyyy") }
-    val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = date?.atStartOfDay(ZoneId.systemDefault())?.toInstant()
-            ?.toEpochMilli()
-    )
+    val datePickerState = rememberDatePickerState()
 
     val text = date?.format(dateFormatter) ?: "Select $label"
 
@@ -49,21 +47,24 @@ fun DateSelectionField(
             color = AppTheme.colorScheme.outlineVariant,
             width = 1.25.dp
         ),
+        colors = ButtonDefaults.outlinedButtonColors(
+            containerColor = AppTheme.colorScheme.surfaceContainerHighest
+        ),
         modifier = Modifier
             .fillMaxWidth()
-            .height(56.dp),
+            .height(56.dp)
     ) {
         Text(
             text = text,
-            style = AppTheme.typography.bodyMedium,
-            color = AppTheme.colorScheme.tertiary,
+            style = AppTheme.typography.bodyLarge,
+            color = AppTheme.colorScheme.onPrimaryContainer,
             modifier = Modifier.weight(1f)
         )
 
         Icon(
-            imageVector = Icons.Rounded.DateRange,
-            tint = AppTheme.colorScheme.tertiary,
-            modifier = Modifier.size(20.dp),
+            imageVector = Lucide.Calendar,
+            tint = AppTheme.colorScheme.onPrimaryContainer,
+            modifier = Modifier.size(18.dp),
             contentDescription = "Open date picker"
         )
     }
@@ -73,22 +74,26 @@ fun DateSelectionField(
             onDismissRequest = onDismiss,
             confirmButton = {
                 TextButton(onClick = {
-                    datePickerState.selectedDateMillis?.let { millis ->
-                        val selectedDate = Instant.ofEpochMilli(millis)
+                    val selectedDateMillis = datePickerState.selectedDateMillis
+                    if (selectedDateMillis != null) {
+                        val selectedDate = Instant.ofEpochMilli(selectedDateMillis)
                             .atZone(ZoneId.systemDefault())
                             .toLocalDate()
                         onDateSelected(selectedDate)
                         onDismiss()
                     }
                 }) {
-                    Text(text = "OK")
+                    Text(
+                        text = "OK",
+                        style = AppTheme.typography.titleMedium
+                    )
                 }
             },
             dismissButton = {
                 TextButton(onClick = onDismiss) {
                     Text(
                         text = "Cancel",
-                        color = AppTheme.colorScheme.tertiary,
+                        style = AppTheme.typography.titleMedium
                     )
                 }
             },

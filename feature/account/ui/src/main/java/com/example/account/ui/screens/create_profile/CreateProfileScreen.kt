@@ -22,8 +22,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.account.domain.model.CreateProfileInput
 import com.example.account.domain.model.Gender
@@ -53,16 +53,18 @@ fun CreateProfileScreen(
     val anniversary by viewModel.anniversary.collectAsStateWithLifecycle()
     val imageUrl by viewModel.imageUrl.collectAsStateWithLifecycle()
 
+    val nameError by viewModel.nameError.collectAsStateWithLifecycle()
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
                         text = "Create Profile",
-                        color = AppTheme.colorScheme.onSurface,
-                        style = AppTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
+                        style = AppTheme.typography.titleLarge.copy(
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Medium,
+                        ),
                     )
                 }
             )
@@ -77,14 +79,18 @@ fun CreateProfileScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            Spacer(modifier = Modifier.height(16.dp))
+
             ProfileImagePicker(imageUrl) { viewModel.updateImageUrl(it) }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             TextInput(
                 value = name,
                 onValueChange = { viewModel.updateName(it) },
                 placeholderText = "Full Name",
+                isError = nameError != null,
+                errorMessage = nameError
             )
 
             DropdownInput(
@@ -111,7 +117,7 @@ fun CreateProfileScreen(
             DateSelectionField(
                 label = "Anniversary",
                 date = anniversary,
-                onDateSelected = viewModel::updateAnniversary,
+                onDateSelected = { viewModel.updateAnniversary(it) },
                 showPicker = showAnniversaryPicker,
                 onShowPicker = { showAnniversaryPicker = true },
                 onDismiss = { showAnniversaryPicker = false }
@@ -127,17 +133,21 @@ fun CreateProfileScreen(
                                     imageUrl = imageUrl,
                                     dob = dob,
                                     anniversary = anniversary,
-                                    gender = gender ?: Gender.OTHERS,
+                                    gender = gender,
                                     authId = it.id
                                 )
                             )
                         )
                     }
                 },
-                modifier = Modifier.fillMaxWidth(),
-                enabled = name.isNotBlank() && gender != null
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
             ) {
-                Text("Create Profile")
+                Text(
+                    text = "Create Profile",
+                    style = AppTheme.typography.titleMedium
+                )
             }
         }
 

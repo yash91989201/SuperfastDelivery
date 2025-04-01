@@ -27,12 +27,14 @@ composeFoundation = "1.7.8"
 lucide = "1.1.0"
 protobufJavalite = "4.30.2"
 protobuf = "0.9.4"
-mapsCompose = "6.5.2"
+mapsCompose = "6.5.0"
 accompanistPermissions = "0.37.2"
+playServicesAuth = "21.3.0"
 playServicesLocation = "21.3.0"
 playServicesMaps = "19.1.0"
 androidMapsUtils = "3.11.2"
 places = "4.2.0"
+libphonenumber = "9.0.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -94,7 +96,8 @@ maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = 
 # accompanist permission
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
 
-# location service
+# play services
+play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 play-services-location = { module = "com.google.android.gms:play-services-location ", version.ref = "playServicesLocation" }
 play-services-maps = { module = "com.google.android.gms:play-services-maps ", version.ref = "playServicesMaps" }
 
@@ -102,6 +105,8 @@ play-services-maps = { module = "com.google.android.gms:play-services-maps ", ve
 android-maps-utils = { module = "com.google.maps.android:android-maps-utils", version.ref = "androidMapsUtils" }
 
 places = { module = "com.google.android.libraries.places:places", version.ref = "places" }
+
+libphonenumber = { module = "com.googlecode.libphonenumber:libphonenumber", version.ref = "libphonenumber" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

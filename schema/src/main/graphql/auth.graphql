@@ -46,8 +46,6 @@ mutation SignInWithPhone( $input: SignInWithPhoneInput!){
             dob
             anniversary
             auth_id
-            created_at
-            updated_at
         }
         verify_otp
         create_profile
@@ -101,7 +99,5 @@ mutation RefreshAccessToken( $refreshToken: String!){
             anniversary
             auth_id
         }
-        verify_otp
-        create_profile
     }
 }

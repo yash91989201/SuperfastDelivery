@@ -11,13 +11,12 @@ import com.example.core.app_state.models.Profile as StoreProfile
 import com.example.schema.type.CreateProfileInput as SchemaCreateProfileInput
 import com.example.schema.type.UpdateProfileInput as SchemaUpdateProfileInput
 
-
 fun DomainCreateProfileInput.toSchema() = SchemaCreateProfileInput(
     name = this.name,
     image_url = Optional.presentIfNotNull(this.imageUrl),
     dob = Optional.presentIfNotNull(this.dob),
     anniversary = Optional.presentIfNotNull(this.anniversary),
-    gender = Optional.presentIfNotNull(this.gender.toSchema()),
+    gender = Optional.presentIfNotNull(this.gender?.toSchema()),
     auth_id = this.authId
 )
 

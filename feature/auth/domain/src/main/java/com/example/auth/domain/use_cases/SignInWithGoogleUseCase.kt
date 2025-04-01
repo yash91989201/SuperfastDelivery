@@ -10,11 +10,14 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class SignInWithGoogleUseCase @Inject constructor(private val authRepository: AuthRepository) {
-    operator fun invoke(idToken: String, authRole: AuthRole) =
+    operator fun invoke(idToken: String) =
         flow<NetworkResult<SignInResponse>> {
             emit(NetworkResult.Loading())
 
-            authRepository.signInWithGoogle(idToken, authRole)
+            authRepository.signInWithGoogle(
+                idToken = idToken,
+                authRole = AuthRole.CUSTOMER
+            )
                 .onSuccess { emit(NetworkResult.Success(it)) }
                 .onFailure { emit(NetworkResult.Error(it.message)) }
         }.flowOn(Dispatchers.IO)

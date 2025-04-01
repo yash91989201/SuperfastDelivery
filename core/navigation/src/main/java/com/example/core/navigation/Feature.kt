@@ -7,5 +7,6 @@ interface Feature {
     fun registerGraph(
         navHostController: NavHostController,
         navGraphBuilder: NavGraphBuilder,
+        startDestination: NavigationSubGraphDest? = null,
     )
 }

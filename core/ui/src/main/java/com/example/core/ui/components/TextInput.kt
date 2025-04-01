@@ -53,6 +53,7 @@ fun TextInput(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
+
     val borderColor by animateColorAsState(
         targetValue = when {
             isError -> AppTheme.colorScheme.error
@@ -133,7 +134,7 @@ fun TextInput(
             ),
             visualTransformation = visualTransformation,
             isError = isError,
-            interactionSource = interactionSource
+            interactionSource = interactionSource,
         )
 
         if (isError && !errorMessage.isNullOrEmpty()) {

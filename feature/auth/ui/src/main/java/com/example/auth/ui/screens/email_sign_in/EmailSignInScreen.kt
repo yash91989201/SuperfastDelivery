@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.composables.icons.lucide.Lucide
@@ -30,10 +31,8 @@ fun EmailSignInScreen(
     viewModel: EmailSignInViewModel,
     modifier: Modifier = Modifier
 ) {
-
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val emailValue by viewModel.email.collectAsStateWithLifecycle()
-
 
     Scaffold(
         topBar = {
@@ -65,6 +64,7 @@ fun EmailSignInScreen(
                         modifier = Modifier.size(18.dp)
                     )
                 },
+                keyboardType = KeyboardType.Email,
             )
 
             if (uiState.error !is UiText.Idle) {
@@ -85,7 +85,7 @@ fun EmailSignInScreen(
                     .fillMaxWidth()
                     .height(48.dp),
                 onClick = {
-                    viewModel.onEvent(EmailSignIn.Event.SignInWithEmail(emailValue))
+                    viewModel.onEvent(EmailSignIn.Event.SignInWithEmail(emailValue.trim()))
                 }
             ) {
                 Text(

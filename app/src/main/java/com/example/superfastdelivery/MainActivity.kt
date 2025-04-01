@@ -36,7 +36,10 @@ class MainActivity : ComponentActivity() {
 
         installSplashScreen().apply {
             setKeepOnScreenCondition {
-                !applicationStateHolder.sessionStateHolder.isSessionLoaded.value
+                val dataLoaded = applicationStateHolder.sessionStateHolder.isSessionLoaded.value &&
+                        applicationStateHolder.profileStateHolder.isProfileLoaded.value
+
+                !dataLoaded
             }
         }
 

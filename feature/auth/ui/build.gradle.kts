@@ -49,6 +49,11 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)
 
+    // Play Services
+    implementation(libs.play.services.auth)
+
+    implementation(libs.libphonenumber)
+
     // Navigation
     implementation(libs.navigation.compose)
 

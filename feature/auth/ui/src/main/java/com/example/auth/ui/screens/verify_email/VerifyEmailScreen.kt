@@ -139,10 +139,12 @@ fun VerifyEmailScreen(
 
 
                 TextButton(
-                    onClick = {}
+                    onClick = {
+                        viewModel.onEvent(VerifyEmail.Event.ResendOtp(email = email))
+                    }
                 ) {
                     Text(
-                        text = "Resend e-mail",
+                        text = "Resend OTP",
                         style = AppTheme.typography.titleMedium,
                     )
                 }

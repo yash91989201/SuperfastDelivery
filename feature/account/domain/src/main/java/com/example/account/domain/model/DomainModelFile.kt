@@ -45,7 +45,7 @@ data class CreateProfileInput(
     val imageUrl: String?,
     val dob: LocalDate?,
     val anniversary: LocalDate?,
-    val gender: Gender,
+    val gender: Gender?,
     val authId: String
 )
 

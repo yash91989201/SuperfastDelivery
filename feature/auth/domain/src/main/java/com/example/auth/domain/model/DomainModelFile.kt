@@ -38,5 +38,5 @@ data class SignInResponse(
     val profile: Profile?,
     val session: Session?,
     val createProfile: Boolean,
-    val verityOtp: Boolean,
+    val verifyOtp: Boolean,
 )

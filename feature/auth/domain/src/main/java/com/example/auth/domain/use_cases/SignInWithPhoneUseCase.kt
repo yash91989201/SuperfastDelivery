@@ -10,12 +10,16 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class SignInWithPhoneUseCase @Inject constructor(private val authRepository: AuthRepository) {
-    operator fun invoke(phone: String, authRole: AuthRole, otp: String? = null) =
+    operator fun invoke(phone: String, otp: String? = null) =
         flow<NetworkResult<SignInResponse>> {
             emit(NetworkResult.Loading())
 
-            authRepository.signInWithPhone(phone, authRole, otp)
+            authRepository.signInWithPhone(
+                phone = phone,
+                authRole = AuthRole.CUSTOMER,
+                otp = otp
+            )
                 .onSuccess { emit(NetworkResult.Success(it)) }
-                .onFailure { emit(NetworkResult.Error(it.message)) }
+                .onFailure { emit(NetworkResult.Error(it.message ?: "Unknown Error occurred")) }
         }.flowOn(Dispatchers.IO)
 }

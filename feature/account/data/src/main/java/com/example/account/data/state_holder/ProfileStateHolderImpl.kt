@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -21,12 +22,23 @@ class ProfileStateHolderImpl @Inject constructor(
         .getProfile()
         .stateIn(
             coroutineScope,
-            SharingStarted.Lazily,
+            SharingStarted.Eagerly,
             null
+        )
+
+    private val _isProfileLoaded = _profile
+        .map { true }
+        .stateIn(
+            coroutineScope,
+            SharingStarted.Eagerly,
+            false
         )
 
     override val profile: StateFlow<Profile?>
         get() = _profile
+
+    override val isProfileLoaded: StateFlow<Boolean>
+        get() = _isProfileLoaded
 
     override suspend fun updateProfile(profile: Profile) {
         profileDataStore.saveProfile(

@@ -41,8 +41,11 @@ class AccountFeatureImpl : AccountFeature {
     override fun registerGraph(
         navHostController: NavHostController,
         navGraphBuilder: NavGraphBuilder,
+        startDestination: NavigationSubGraphDest?,
     ) {
-        navGraphBuilder.navigation<NavigationSubGraph.Account>(startDestination = NavigationSubGraphDest.AccountHome) {
+        navGraphBuilder.navigation<NavigationSubGraph.Account>(
+            startDestination = startDestination ?: NavigationSubGraphDest.AccountHome
+        ) {
             composable<NavigationSubGraphDest.AccountHome> {
                 val homeViewModel = hiltViewModel<HomeViewModel>()
                 HomeScreen(

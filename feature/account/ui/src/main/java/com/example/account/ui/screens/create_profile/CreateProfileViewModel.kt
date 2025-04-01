@@ -7,11 +7,11 @@ import com.example.account.domain.model.Gender
 import com.example.account.domain.model.Profile
 import com.example.account.domain.use_cases.CreateProfileUseCase
 import com.example.core.app_state.models.Auth
-import com.example.core.navigation.Navigator
 import com.example.core.app_state.state_holder.ApplicationStateHolder
+import com.example.core.navigation.NavigationSubGraphDest
+import com.example.core.navigation.Navigator
 import com.example.core.utils.NetworkResult
 import com.example.core.utils.UiText
-import com.example.core.navigation.NavigationSubGraphDest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -47,6 +47,9 @@ class CreateProfileViewModel @Inject constructor(
     private val _imageUrl = MutableStateFlow<String?>(null)
     val imageUrl: StateFlow<String?> = _imageUrl.asStateFlow()
 
+    private val _nameError = MutableStateFlow<String?>(null)
+    val nameError: StateFlow<String?> = _nameError.asStateFlow()
+
     private val _uiState = MutableStateFlow(CreateProfile.UIState())
     val uiState: StateFlow<CreateProfile.UIState> = _uiState.asStateFlow()
 
@@ -74,13 +77,28 @@ class CreateProfileViewModel @Inject constructor(
     fun onEvent(event: CreateProfile.Event) {
         when (event) {
             is CreateProfile.Event.CreateProfile -> {
-                createProfile(event.newProfile)
+                if (validateForm()) {
+                    createProfile(event.newProfile)
+                }
             }
 
             CreateProfile.Event.GoToSearchHomeScreen -> {
                 navigator.navigateTo(NavigationSubGraphDest.SearchHome)
             }
         }
+    }
+
+    private fun validateForm(): Boolean {
+        var isValid = true
+
+        if (name.value.length < 6) {
+            _nameError.update { "Provide your full name." }
+            isValid = false
+        } else {
+            _nameError.update { null }
+        }
+
+        return isValid
     }
 
     private fun createProfile(newProfile: CreateProfileInput) {
@@ -115,9 +133,8 @@ object CreateProfile {
     )
 
     sealed interface Event {
-        data class CreateProfile(val newProfile: CreateProfileInput) : Event
-
-        // navigation events
         data object GoToSearchHomeScreen : Event
+
+        data class CreateProfile(val newProfile: CreateProfileInput) : Event
     }
 }

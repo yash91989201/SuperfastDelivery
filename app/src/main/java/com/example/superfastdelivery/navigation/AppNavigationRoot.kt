@@ -3,7 +3,9 @@ package com.example.superfastdelivery.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.core.app_state.state_holder.ApplicationStateHolder
@@ -20,12 +22,18 @@ fun AppNavigationRoot(
 ) {
     val navHost = rememberNavController()
     val session by applicationStateHolder.sessionStateHolder.session.collectAsStateWithLifecycle()
+    val profile by applicationStateHolder.profileStateHolder.profile.collectAsStateWithLifecycle()
     val isSessionLoaded by applicationStateHolder.sessionStateHolder.isSessionLoaded.collectAsStateWithLifecycle()
+    val isProfileLoaded by applicationStateHolder.profileStateHolder.isProfileLoaded.collectAsStateWithLifecycle()
 
-    if (isSessionLoaded) {
+    if (isSessionLoaded && isProfileLoaded) {
+        val startDestination = if (session != null) {
+            if (profile?.authId?.isEmpty() == true) NavigationSubGraph.Account else NavigationSubGraph.Search
+        } else NavigationSubGraph.Auth
+
         NavHost(
             navController = navHost,
-            startDestination = if (session == null) NavigationSubGraph.Auth else NavigationSubGraph.Search
+            startDestination = startDestination,
         ) {
             navigationRoutes.authFeature.registerGraph(
                 navHostController = navHost,
@@ -40,6 +48,7 @@ fun AppNavigationRoot(
             navigationRoutes.accountFeature.registerGraph(
                 navHostController = navHost,
                 navGraphBuilder = this,
+                startDestination = if (profile?.authId?.isEmpty() == true) NavigationSubGraphDest.AccountCreateProfile else null
             )
 
             navigationRoutes.restaurantFeature.registerGraph(
@@ -52,7 +61,9 @@ fun AppNavigationRoot(
             navigator.navigation.collectLatest { destination ->
                 when (destination) {
                     NavigationSubGraphDest.Back -> {
-                        navHost.popBackStack()
+                        if (navHost.canGoBack) {
+                            navHost.popBackStack()
+                        }
                     }
 
                     else -> {
@@ -66,3 +77,6 @@ fun AppNavigationRoot(
         }
     }
 }
+
+val NavHostController.canGoBack: Boolean
+    get() = this.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED

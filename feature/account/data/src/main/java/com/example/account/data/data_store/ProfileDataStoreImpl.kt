@@ -75,7 +75,6 @@ class ProfileDataStoreImpl @Inject constructor(
             it.toBuilder().clear().build()
         }
     }
-
 }
 
 object ProfileSerializer : Serializer<Profile> {
