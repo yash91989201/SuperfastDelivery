@@ -132,13 +132,8 @@ fun HomeScreen(
                     modifier = Modifier.padding(bottom = 24.dp)
                 )
 
-                Text(
-                    text = "Enter your Phone number",
-                    style = AppTheme.typography.titleSmall,
-                    modifier = Modifier.padding(bottom = 12.dp)
-                )
-
                 TextInput(
+                    label = "Phone Number",
                     placeholderText = "85479 621584",
                     value = phoneValue,
                     onValueChange = {

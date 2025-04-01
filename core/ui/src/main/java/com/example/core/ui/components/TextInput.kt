@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -36,6 +35,7 @@ import com.example.core.ui.theme.AppTheme
 fun TextInput(
     value: String?,
     onValueChange: (String) -> Unit,
+    label: String? = null,
     placeholderText: String,
     showPlaceholder: Boolean = true,
     modifier: Modifier = Modifier,
@@ -63,12 +63,14 @@ fun TextInput(
         label = "borderColor"
     )
 
-    Column(modifier = modifier.fillMaxWidth()) {
-        if (!showPlaceholder) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+        modifier = modifier.fillMaxWidth()
+    ) {
+        label?.let {
             Text(
-                text = placeholderText,
-                style = AppTheme.typography.bodyLarge,
-                modifier = Modifier.padding(start = 16.dp, bottom = 6.dp)
+                text = it,
+                style = AppTheme.typography.labelLarge,
             )
         }
 
@@ -141,17 +143,15 @@ fun TextInput(
             Text(
                 text = errorMessage,
                 color = AppTheme.colorScheme.error,
-                style = AppTheme.typography.labelLarge,
-                modifier = Modifier.padding(start = 16.dp, top = 6.dp)
+                style = AppTheme.typography.bodyLarge,
             )
         }
 
         if (maxLength != Int.MAX_VALUE) {
             Text(
                 text = "${value?.length}/$maxLength",
-                style = AppTheme.typography.labelMedium,
+                style = AppTheme.typography.bodyLarge,
                 color = AppTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-                modifier = Modifier.align(Alignment.End)
             )
         }
     }
