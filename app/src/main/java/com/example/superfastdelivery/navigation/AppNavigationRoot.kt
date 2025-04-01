@@ -87,10 +87,8 @@ fun AppNavigationRoot(
                                 }
                             }
 
-                            // TODO when going back from search home if create profile screen exists
-                            // then it shows up instead of closing the app, fix it later
                             if (isNavigatingFromCreateProfile) {
-                                popUpTo(NavigationSubGraph.Account.toString()) {
+                                popUpTo(NavigationSubGraphDest.SearchHome.toString()) {
                                     inclusive = true
                                 }
                             }

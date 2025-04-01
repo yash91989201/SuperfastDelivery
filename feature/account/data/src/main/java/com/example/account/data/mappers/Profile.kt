@@ -60,6 +60,15 @@ fun CreateProfileMutation.CreateProfile.toDomain() = DomainProfile(
     authId = this.auth_id
 )
 
+fun CreateProfileMutation.CreateProfile.toStore() = StoreProfile(
+    id = this.id,
+    name = this.name,
+    imageUrl = this.image_url,
+    dob = this.dob,
+    anniversary = this.anniversary,
+    gender = this.gender?.toStore(),
+    authId = this.auth_id
+)
 
 fun UpdateProfileMutation.UpdateProfile.toDomain() = DomainProfile(
     id = this.id,
@@ -71,3 +80,12 @@ fun UpdateProfileMutation.UpdateProfile.toDomain() = DomainProfile(
     authId = this.auth_id
 )
 
+fun UpdateProfileMutation.UpdateProfile.toStore() = StoreProfile(
+    id = this.id,
+    name = this.name,
+    imageUrl = this.image_url,
+    dob = this.dob,
+    anniversary = this.anniversary,
+    gender = this.gender?.toStore(),
+    authId = this.auth_id
+)

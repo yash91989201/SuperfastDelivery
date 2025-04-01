@@ -8,7 +8,6 @@ import com.example.account.domain.model.CreateProfileInput
 import com.example.account.domain.model.UpdateProfileInput
 import com.example.account.domain.repository.AccountRepository
 import com.example.core.app_state.state_holder.ApplicationStateHolder
-import com.example.core.app_state.models.Profile as StoreProfile
 
 class AccountRepositoryImpl(
     private val accountGraphQLService: AccountGraphQLService,
@@ -22,7 +21,13 @@ class AccountRepositoryImpl(
 
         response.errors?.firstOrNull()?.message?.also { throw Exception(it) }
 
-        response.data?.CreateProfile?.toDomain() ?: throw Exception("No data returned")
+        val createProfileRes = response.data?.CreateProfile
+
+        createProfileRes?.let {
+            applicationStateHolder.profileStateHolder.updateProfile(it.toStore())
+        }
+
+        createProfileRes?.toDomain() ?: throw Exception("No data returned")
     }
 
     override suspend fun updateProfile(updatedProfile: UpdateProfileInput) = runCatching {
@@ -35,20 +40,10 @@ class AccountRepositoryImpl(
         val updateProfileRes = response.data?.UpdateProfile
 
         updateProfileRes?.let {
-            applicationStateHolder.profileStateHolder.updateProfile(
-                StoreProfile(
-                    id = it.id,
-                    name = it.name,
-                    imageUrl = it.image_url,
-                    dob = it.dob,
-                    anniversary = it.anniversary,
-                    authId = it.auth_id,
-                    gender = it.gender?.toStore(),
-                )
-            )
+            applicationStateHolder.profileStateHolder.updateProfile(it.toStore())
         }
 
-        response.data?.UpdateProfile?.toDomain() ?: throw Exception("No data returned")
+        updateProfileRes?.toDomain() ?: throw Exception("No data returned")
     }
 
     override suspend fun createDeliveryAddress(newDeliveryAddress: CreateDeliveryAddressInput) =
