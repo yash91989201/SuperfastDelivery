@@ -67,9 +67,33 @@ fun AppNavigationRoot(
                     }
 
                     else -> {
+                        val currentRoute = navHost.currentBackStackEntry?.destination?.route ?: ""
+
+                        val isNavigatingFromAuth =
+                            currentRoute.startsWith(NavigationSubGraph.Auth.toString()) &&
+                                    !destination.toString()
+                                        .startsWith(NavigationSubGraph.Auth.toString())
+
+                        val isNavigatingFromCreateProfile =
+                            currentRoute.contains(NavigationSubGraphDest.AccountCreateProfile.toString())
+
                         navHost.navigate(destination) {
                             launchSingleTop = true
                             restoreState = true
+
+                            if (isNavigatingFromAuth) {
+                                popUpTo(NavigationSubGraph.Auth.toString()) {
+                                    inclusive = true
+                                }
+                            }
+
+                            // TODO when going back from search home if create profile screen exists
+                            // then it shows up instead of closing the app, fix it later
+                            if (isNavigatingFromCreateProfile) {
+                                popUpTo(NavigationSubGraph.Account.toString()) {
+                                    inclusive = true
+                                }
+                            }
                         }
                     }
                 }

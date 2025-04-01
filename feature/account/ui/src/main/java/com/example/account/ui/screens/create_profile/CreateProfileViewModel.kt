@@ -109,6 +109,7 @@ class CreateProfileViewModel @Inject constructor(
                 }
 
                 is NetworkResult.Success -> {
+                    _uiState.update { it.copy(isLoading = false) }
                     onEvent(CreateProfile.Event.GoToSearchHomeScreen)
                 }
 

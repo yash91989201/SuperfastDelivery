@@ -249,7 +249,7 @@ fun HomeScreen(
 
         if (uiState.isLoading) {
             FullScreenLoader(
-                text = "Verifying your E-mail"
+                text = "Verifying your Phone Number"
             )
         }
     }

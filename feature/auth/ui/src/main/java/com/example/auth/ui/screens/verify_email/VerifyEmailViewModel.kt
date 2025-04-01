@@ -63,8 +63,9 @@ class VerifyEmailViewModel @Inject constructor(
                     result.data?.let { signInRes ->
                         if (signInRes.createProfile) {
                             onEvent(VerifyEmail.Event.GoToAccountCreateProfileScreen)
+                        } else {
+                            onEvent(VerifyEmail.Event.GoToSearchHomeScreen)
                         }
-                        onEvent(VerifyEmail.Event.GoToSearchHomeScreen)
                     }
                 }
 

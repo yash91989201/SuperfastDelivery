@@ -62,9 +62,9 @@ class VerifyPhoneViewModel @Inject constructor(
                     result.data?.let { signInRes ->
                         if (signInRes.createProfile) {
                             onEvent(VerifyPhone.Event.GoToAccountCreateProfileScreen)
+                        } else {
+                            onEvent(VerifyPhone.Event.GoToSearchHomeScreen)
                         }
-
-                        onEvent(VerifyPhone.Event.GoToSearchHomeScreen)
                     }
                 }
 
