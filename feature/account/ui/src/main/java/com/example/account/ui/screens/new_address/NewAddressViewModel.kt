@@ -19,7 +19,6 @@ import com.google.android.libraries.places.api.net.PlacesClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -184,7 +183,6 @@ class NewAddressViewModel @Inject constructor(
 
                         is NetworkResult.Success -> {
                             _uiState.update { it.copy(isLoading = false) }
-                            delay(1000)
                             onEvent(NewAddress.Event.GoBack)
                         }
 

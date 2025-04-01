@@ -35,11 +35,10 @@ class HomeViewModel @Inject constructor(
     val nearbyRestaurants: StateFlow<HomeModel.NearbyRestaurantsState> = _nearbyRestaurants
 
     init {
-        fetchDefaultAddress()
         fetchNearbyRestaurants()
     }
 
-    private fun fetchDefaultAddress() {
+    fun fetchDefaultAddress() {
         viewModelScope.launch {
             getDefaultDeliveryAddressUseCase()
                 .collect { result ->

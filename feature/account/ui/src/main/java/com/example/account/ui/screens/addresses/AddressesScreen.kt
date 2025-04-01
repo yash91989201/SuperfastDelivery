@@ -120,7 +120,7 @@ fun AddressesScreen(
                     else -> {
                         Text(
                             text = "No delivery addresses found.",
-                            textAlign = TextAlign.Center,
+                            style = AppTheme.typography.titleMedium,
                             modifier = Modifier.align(Alignment.Center)
                         )
                     }

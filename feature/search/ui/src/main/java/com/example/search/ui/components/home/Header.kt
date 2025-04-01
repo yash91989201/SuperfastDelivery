@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -37,13 +38,13 @@ fun Header(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.spacedBy(24.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 16.dp),
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth(0.75f)
+            modifier = Modifier.weight(1f)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -71,7 +72,7 @@ fun Header(
             }
 
             TextButton(
-                modifier = Modifier.align(Alignment.Start),
+                modifier = Modifier.wrapContentWidth(),
                 onClick = onSelectDeliveryAddress
             ) {
                 Text(
@@ -79,7 +80,6 @@ fun Header(
                     style = AppTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.fillMaxWidth(0.85f)
                 )
 
                 Spacer(modifier = Modifier.width(6.dp))
